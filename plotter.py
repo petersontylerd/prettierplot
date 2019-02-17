@@ -13,7 +13,8 @@ from statsmodels.stats.weightstats import ztest
 from statsmodels.stats.proportion import proportions_ztest
 from scipy import stats
 
-from visualize import style, util
+import quickplot.style as style
+import quickplot.util as util
 
 
 class QuickPlot():
