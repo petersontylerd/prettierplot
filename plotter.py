@@ -562,7 +562,7 @@ class QuickPlot():
         plot.get_lines()[1].set_color(style.styleGrey)
     
     # Standard visualization, seaborn
-    def qpDist(self, x, color, yUnits = 'f', xUnits = 'f', fit = None, ax = None):
+    def qpDist(self, x, color, yUnits = 'f', xUnits = 'f', fit = None, xRotate = None, ax = None):
         """
         Info:
             Description:
@@ -579,6 +579,8 @@ class QuickPlot():
                 yUnits : string, default = 'f'
                     Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
                     '$' displays dollars. 'd' displays real numbers.
+                xRotate : boolean, default = None
+                    Rotates x-axis tick mark labels 45 degrees
                 fit : random variabe object, default = None
                     Allows for the addition of another curve. Utilizing 'norm' overlays a normal distribution
                     over the distribution bar chart. Useful for seeing how well, or not, distribution tracks
@@ -594,7 +596,7 @@ class QuickPlot():
                         ,ax = ax)
 
         # Axis tick label formatting.
-        util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
+        util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits, xRotate = xRotate)
         
     def qpKde(self, x, color, yUnits = 'f', xUnits = 'f', ax = None):
         """

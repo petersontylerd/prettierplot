@@ -19,7 +19,7 @@ def utilPlotBuffer(ax, x, y):
     ax.set_xlim(xLim[0] - xMargin, xLim[1] + xMargin)
     ax.set_ylim(yLim[0] - yMargin, yLim[1] + yMargin)
 
-def utilLabelFormatter(ax, xUnits = None, yUnits = None, xSize = None, ySize = None):
+def utilLabelFormatter(ax, xUnits = None, yUnits = None, xSize = None, ySize = None, xRotate = None, yRotate = None):
     """
     Info:
         Description:
@@ -59,10 +59,15 @@ def utilLabelFormatter(ax, xUnits = None, yUnits = None, xSize = None, ySize = N
         fmt = '{x:,.2f}'
     elif xUnits == 'ffff':
         fmt = '{x:,.3f}'
+    elif xUnits == 'fffff':
+        fmt = '{x:,.4f}'
     
     if xUnits is not None and xUnits != 's':
         tick = tkr.StrMethodFormatter(fmt)
         ax.xaxis.set_major_formatter(tick)
+
+    if xUnits is not None and xRotate is not None:
+        ax.tick_params(labelrotation = 45, axis = 'x')
 
     if xSize is not None:
         for tk in ax.get_xticklabels():
@@ -89,10 +94,15 @@ def utilLabelFormatter(ax, xUnits = None, yUnits = None, xSize = None, ySize = N
         fmt = '{x:,.2f}'
     elif yUnits == 'ffff':
         fmt = '{x:,.3f}'
+    elif yUnits == 'ffff':
+        fmt = '{x:,.4f}'
     
     if yUnits is not None and yUnits != 's':
         tick = tkr.StrMethodFormatter(fmt)
         ax.yaxis.set_major_formatter(tick)
+    
+    if yUnits is not None and yRotate is not None:
+        ax.tick_params(labelrotation = 45, axis = 'y')
     
     if ySize is not None:
         for tk in ax.get_yticklabels():
