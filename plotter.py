@@ -96,8 +96,7 @@ class QuickPlot():
                     ,color = style.styleGrey
                     ,loc = 'left'
                     ,pad = 1.667 * self.chartProp)
-        ax.tick_params(axis = 'both', colors = style.styleGrey, labelsize = 1.333 * self.chartProp)
-
+        
         # Remove grid line and right/top spines.
         ax.grid(False)
         ax.spines['right'].set_visible(False)
