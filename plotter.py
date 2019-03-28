@@ -1122,4 +1122,80 @@ class QuickPlot():
     def qpResidualPlot(self):
         pass
 
+    def qpTwoCatBar(self, df, x, hue, target, targetLabel, xUnits = None, yUnits = None, ax = None):
+        """
+        Info:
+            Description:
+                desc
+            Parameters:
+        """
+        df = pd.merge(df[[x, hue]]
+                            ,pd.DataFrame(target * 100
+                                         ,columns = [targetLabel])
+                        ,left_index = True
+                        ,right_index = True)
+        
+        g = sns.barplot(x = x
+                    ,y = targetLabel
+                    ,hue = hue
+                    ,data = df
+                    ,palette = style.styleHexMid
+                    ,ax = ax
+                    ,ci = None)
+                    # Format x and y-tick labels
+        g.set_yticklabels(g.get_yticklabels(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
+        g.set_xticklabels(g.get_xticklabels(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
+        g.set_ylabel(g.get_ylabel(), rotation = 90, fontsize = 1.75 * self.chartProp, color = style.styleGrey)
+        g.set_xlabel(g.get_xlabel(), rotation = 0, fontsize = 1.75 * self.chartProp, color = style.styleGrey)
+        
+        # Axis tick label formatting.
+        util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)            
 
+    def qpCatNumHistFacet(self, df, target, targetLabel, catRow, catCol, numCol, height, aspect):
+        df = pd.merge(df[[catRow, catCol, numCol]]
+                        ,pd.DataFrame(target
+                                        ,columns = [targetLabel])
+                    ,left_index = True
+                    ,right_index = True)
+        g = sns.FacetGrid(df
+                          ,row = catRow
+                          ,col = catCol
+                          ,hue = targetLabel
+                          ,palette = style.styleHexMid
+                          ,height = height
+                          ,aspect = aspect)
+        g.map(plt.hist, numCol, alpha = .75)
+        
+        for ax in g.axes.flat:
+            _ = ax.set_ylabel(ax.get_ylabel(), rotation = 0, fontsize = 1.75 * self.chartProp, color = style.styleGrey)
+            _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
+        #     _ = ax.set_yticklabels(ax.get_yticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
+        #     _ = ax.set_xticklabels(ax.get_xticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
+            _ = ax.set_title(ax.get_title(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
+            
+        g.add_legend()
+
+    def qpTwoCatPointFacet(self, df, target, targetLabel, catLine, catPoint, catGrid, order = None):
+        df = pd.merge(df[[catLine, catPoint, catGrid]]
+                        ,pd.DataFrame(target
+                                        ,columns = [targetLabel])
+                    ,left_index = True
+                    ,right_index = True)
+        g = sns.FacetGrid(df
+                         ,catGrid)
+        g.map(sns.pointplot
+             ,catPoint
+             ,targetLabel
+             ,catLine
+             ,order = df[catPoint].sort_values().drop_duplicates().values.tolist()
+             ,hue_order = df[catLine].sort_values().drop_duplicates().values.tolist()
+             ,palette = style.styleHexMid
+             ,alpha = .75)
+        
+        for ax in g.axes.flat:
+            _ = ax.set_ylabel(ax.get_ylabel(), rotation = 90, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
+            _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
+            _ = ax.set_yticklabels(ax.get_yticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
+            _ = ax.set_xticklabels(ax.get_xticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
+            _ = ax.set_title(ax.get_title(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
+        g.add_legend()
