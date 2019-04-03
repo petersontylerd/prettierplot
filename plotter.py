@@ -879,7 +879,7 @@ class QuickPlot():
                     ,xticklabels = True
                     ,yticklabels = True
                     ,cmap = LinearSegmentedColormap.from_list(name = ''
-                                                            ,colors = [style.styleRgb0Dark[2], 'white', style.styleRgb0Dark[0]])
+                                                            ,colors = [style.styleHexMid[2], 'white', style.styleHexMid[0]])
                     )
 
         # Format x and y-tick labels
@@ -931,13 +931,13 @@ class QuickPlot():
                     ,vmin = -1.0
                     ,vmax = 1.0
                     ,annot = annot
-                    ,annot_kws = {'size' : .65 * self.chartProp}
+                    ,annot_kws = {'size' : .95 * self.chartProp}
                     ,square = False
                     ,ax = ax
                     ,xticklabels = True
                     ,yticklabels = True
                     ,cmap = LinearSegmentedColormap.from_list(name = ''
-                                                            ,colors = [style.styleRgb0Dark[2], 'white', style.styleRgb0Dark[0]])
+                                                            ,colors = [style.styleHexMid[2], 'white', style.styleHexMid[0]])
                     )
 
         # Format x and y-tick labels
