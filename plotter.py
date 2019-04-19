@@ -731,7 +731,7 @@ class QuickPlot():
                 y : string
                     Name of continuous target variable. 
                 data : Pandas DataFrame
-                    Pandas DataFrame including both indpedent variable and target variable.
+                    Pandas DataFrame including both indepedent variable and target variable.
                 color : string
                     Determines color of dots and regression line.
                 labelRotate : float or int, default = 45
@@ -747,8 +747,10 @@ class QuickPlot():
                         ,y = y
                         ,data = data
                         ,x_jitter = x_jitter
-                        ,color = color
-                        ,scatter_kws = {'alpha' : 0.3}
+                        # ,color = color
+                        ,scatter_kws = {'alpha' : 0.3
+                                        ,'color' : style.styleHexMid[0]}
+                        ,line_kws = {'color' : style.styleHexMid[1]}
                         ,ax = ax).set(
                                     xlabel = None
                                     ,ylabel = None
