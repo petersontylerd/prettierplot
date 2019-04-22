@@ -842,7 +842,7 @@ class QuickPlot():
             #                 ,prop = {'size' : 2.5 * self.chartProp}
             #                 )
             
-    def qpCorrHeatmap(self, df, target = None, targetLabel = None, annot = True, cols = None, ax = None):
+    def qpCorrHeatmap(self, df, target = None, targetLabel = None, annot = True, cols = None, ax = None, vmin = -1.0, vmax = 1.0):
         """
         Info:
             Description:
@@ -872,8 +872,8 @@ class QuickPlot():
         
         # Create heatmap using correlation matrix
         g = sns.heatmap(corrMatrix
-                    ,vmin = -1.0
-                    ,vmax = 1.0
+                    ,vmin = vmin
+                    ,vmax = vmax
                     ,annot = annot
                     ,annot_kws = {'size' : .65 * self.chartProp}
                     ,square = False
