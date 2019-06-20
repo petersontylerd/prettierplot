@@ -19,7 +19,7 @@ import prettierplot.util as util
 
 class PrettierPlot():
     """
-    Info:
+    Documentation:
         Description:
             PrettierPlot is a class that contain methods for creating data visualization.
             Initialization of this class creates a plotting object of a chosen size and
@@ -31,7 +31,7 @@ class PrettierPlot():
     # Foundation
     def __init__(self, fig = plt.figure(), chartProp = 15, plotOrientation = None):
         """
-        Info:
+        Documentation:
             Description: 
                 Initialize PrettierPlot, create figure and determine chart proportions, orientation.        
             Parameters:
@@ -67,7 +67,7 @@ class PrettierPlot():
 
     def makeCanvas(self, title = '', xLabel = '', yLabel = '', yShift = 0.8, position = 111):
         """
-        Info:
+        Documentation:
             Description: 
                 Create Axes object. Add descriptive attributes such as titles and axis labels,
                 set font size and font color. Remove grid. Remove top and right spine. 
@@ -108,10 +108,10 @@ class PrettierPlot():
         return ax
 
     # Standard visualization, matplotlib
-    def qp2dScatter(self, x, y, df = None, xUnits = 'f', yUnits = 'f', plotBuffer = True, size = 10
+    def pretty2dScatter(self, x, y, df = None, xUnits = 'f', yUnits = 'f', plotBuffer = True, size = 10
                     , axisLimits = True, color = style.styleGrey, facecolor = 'w', ax = None):
         """
-        Info:
+        Documentation:
             Description: 
                 Create 2-dimensional scatter plot.
             Parameters:
@@ -175,11 +175,11 @@ class PrettierPlot():
         # Show figure with tight layout.
         plt.tight_layout()
     
-    def qp2dScatterHue(self, x, y, target, label, df = None, xUnits = 'd', yUnits = 'd', plotBuffer = True
+    def pretty2dScatterHue(self, x, y, target, label, df = None, xUnits = 'd', yUnits = 'd', plotBuffer = True
                         , size = 10, axisLimits = True, color = style.styleGrey, facecolor = 'w'
                         , bbox = (1.2, 0.9), ax = None):
         """
-        Info:
+        Documentation:
             Description: 
                 Create 2-dimensional scatter plot with a third dimension represented as a color hue in the
                 scatter dots.
@@ -266,11 +266,11 @@ class PrettierPlot():
         # Show figure with tight layout.
         plt.tight_layout()
 
-    def qpLine(self, x, y, label = None, df = None, linecolor = None, linestyle = None
+    def prettyLine(self, x, y, label = None, df = None, linecolor = None, linestyle = None
                 , bbox = (1.2, 0.9), yMultiVal = False, xUnits = 'f', yUnits = 'f', markerOn = False
                 , plotBuffer = False, axisLimits = False, ax = None):
         """
-        Info:
+        Documentation:
             Description: 
                 Create line plot. Capable of plotting multile lines on the same figure. Also capable of
                 adjusting which axis will have the same data for each line and which will have different
@@ -372,9 +372,9 @@ class PrettierPlot():
         # Show figure with tight layout.
         plt.tight_layout()    
     
-    def qpBarV(self, x, counts, color = style.styleHexMid[0], labelRotate = 0, yUnits = 'f', ax = None):
+    def prettyBarV(self, x, counts, color = style.styleHexMid[0], labelRotate = 0, yUnits = 'f', ax = None):
         """
-        Info:
+        Documentation:
             Description: 
                 Create vertical bar plot.
             Parameters:
@@ -412,9 +412,9 @@ class PrettierPlot():
         elif len(x) > 20:
             ax.tick_params(axis = 'x', colors = style.styleGrey, labelsize = 0.6 * self.chartProp)
         
-    def qpBarH(self, y, counts, color = style.styleHexMid[0], labelRotate = 45, xUnits = 'f', ax = None):
+    def prettyBarH(self, y, counts, color = style.styleHexMid[0], labelRotate = 45, xUnits = 'f', ax = None):
         """
-        Info:
+        Documentation:
             Description: 
                 Create vertical bar plot.
             Parameters:
@@ -446,9 +446,9 @@ class PrettierPlot():
         # Axis tick label formatting.
         util.utilLabelFormatter(ax = ax, xUnits = xUnits)
 
-    def qpFacetNum(self, x, color, label, alpha = 0.8):
+    def prettyFacetNum(self, x, color, label, alpha = 0.8):
         """
-        Info:
+        Documentation:
             Description:
                 Create histogram of continuous variable. Simple function capable of easy
                 iteration through several groupings of a continuous variable that is 
@@ -471,9 +471,9 @@ class PrettierPlot():
                 ,alpha = alpha
                 )
             
-    def qpFacetCat(self, df, feature, labelRotate = 0, yUnits = 'f', xUnits = 's', bbox = (1.2, 0.9), ax = None):       
+    def prettyFacetCat(self, df, feature, labelRotate = 0, yUnits = 'f', xUnits = 's', bbox = (1.2, 0.9), ax = None):       
         """
-        Info:
+        Documentation:
             Description:
                 Creates a count plot of a categorical feature and facets that feature by a categorical label.
             Parameters:
@@ -532,9 +532,9 @@ class PrettierPlot():
         elif len(featureDict[feature]) > 20:
             ax.tick_params(axis = 'x', colors = style.styleGrey, labelsize = 0.6 * self.chartProp)
 
-    def qpProbPlot(self, x, plot):
+    def prettyProbPlot(self, x, plot):
         """
-        Info:
+        Documentation:
             Description:
                 Create plot that visualizes how well a continuous feature's distribution
                 conforms to a normal distribution
@@ -561,9 +561,9 @@ class PrettierPlot():
         plot.get_lines()[1].set_color(style.styleGrey)
     
     # Standard visualization, seaborn
-    def qpDist(self, x, color, yUnits = 'f', xUnits = 'f', fit = None, xRotate = None, ax = None):
+    def prettyDist(self, x, color, yUnits = 'f', xUnits = 'f', fit = None, xRotate = None, ax = None):
         """
-        Info:
+        Documentation:
             Description:
                 Creates distribution plot for continuous variables, showing counts of a single
                 variable. Also overlays a kernel density estimation curve.
@@ -597,9 +597,9 @@ class PrettierPlot():
         # Axis tick label formatting.
         util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits, xRotate = xRotate)
         
-    def qpKde(self, x, color, yUnits = 'f', xUnits = 'f', ax = None):
+    def prettyKde(self, x, color, yUnits = 'f', xUnits = 'f', ax = None):
         """
-        Info:
+        Documentation:
             Description:
                 Create kernel density curve for a feature.
             Parameters:
@@ -626,9 +626,9 @@ class PrettierPlot():
         # Axis tick label formatting.
         util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
 
-    def qpBoxPlotV(self, x, y, data, color, labelRotate = 0, yUnits = 'f', ax = None):
+    def prettyBoxPlotV(self, x, y, data, color, labelRotate = 0, yUnits = 'f', ax = None):
         """
-        Info:
+        Documentation:
             Description:
                 Create vertical box plots. Useful for evaluated a continuous target on the y-axis
                 vs. several different category segments on the x-axis
@@ -678,9 +678,9 @@ class PrettierPlot():
         # Axis tick label formatting.
         util.utilLabelFormatter(ax = ax, yUnits = yUnits)
             
-    def qpBoxPlotH(self, x, y, data, color = style.styleHexMid, xUnits = 'f', ax = None):
+    def prettyBoxPlotH(self, x, y, data, color = style.styleHexMid, xUnits = 'f', ax = None):
         """
-        Info:
+        Documentation:
             Description:
                 Create horizontal box plots. Useful for evaluating a categorical target on the y-axis
                 vs. a continuous independent variable on the x-axis
@@ -720,9 +720,9 @@ class PrettierPlot():
         util.utilLabelFormatter(ax = ax, xUnits = xUnits)
         plt.legend(bbox_to_anchor = (1.05, 1), loc = 2, borderaxespad = 0.)
     
-    def qpRegPlot(self, x, y, data, color = style.styleHexMid[0], x_jitter = None, xUnits = 'f', yUnits = 'f', ax = None):
+    def prettyRegPlot(self, x, y, data, color = style.styleHexMid[0], x_jitter = None, xUnits = 'f', yUnits = 'f', ax = None):
         """
-        Info:
+        Documentation:
             Description:
 
             Parameters:
@@ -759,9 +759,9 @@ class PrettierPlot():
         # Axis tick label formatting.
         util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
     
-    def qpPairPlot(self, df, cols = None, hue = None, diag_kind = 'auto'):
+    def prettyPairPlot(self, df, cols = None, hue = None, diag_kind = 'auto'):
         """
-        Info:
+        Documentation:
             Description: 
                 Create pair plot that produces a grid of scatter plots for all unique pairs of
                 continuous features.
@@ -842,9 +842,9 @@ class PrettierPlot():
             #                 ,prop = {'size' : 2.5 * self.chartProp}
             #                 )
             
-    def qpCorrHeatmap(self, df, target = None, targetLabel = None, annot = True, cols = None, ax = None, vmin = -1.0, vmax = 1.0):
+    def prettyCorrHeatmap(self, df, target = None, targetLabel = None, annot = True, cols = None, ax = None, vmin = -1.0, vmax = 1.0):
         """
-        Info:
+        Documentation:
             Description:
                 Using continuous features, create correlation heatmap. Produces correlation
                 with all numerical features, and can be limited to certain features using 'cols'.
@@ -893,9 +893,9 @@ class PrettierPlot():
         cbar.ax.tick_params(labelsize = 1.2 * self.chartProp, colors = style.styleGrey, length = 0)
         cbar.set_ticks([1.0, 0.0, -1.0])
 
-    def qpCorrHeatmapRefine(self, df, target = None, targetLabel = None, annot = True, cols = None, thresh = 0.5, ax = None):
+    def prettyCorrHeatmapRefine(self, df, target = None, targetLabel = None, annot = True, cols = None, thresh = 0.5, ax = None):
         """
-        Info:
+        Documentation:
             Description:
                 Using continuous features, create correlation heatmap. Capable of dropping 
                 zeros in select features, where zeros potentially indicate a complete absence
@@ -954,9 +954,9 @@ class PrettierPlot():
         plt.show()          
 
     # Evaluation
-    def qpConfusionMatrix(self, yTest, yPred, ax = None):
+    def prettyConfusionMatrix(self, yTest, yPred, ax = None):
         """
-        Info:
+        Documentation:
             Description:
                 yTest : array
                     1-dimensional array containing true values
@@ -987,9 +987,9 @@ class PrettierPlot():
         plt.xlabel('predicted', size = 40)
         plt.ylabel('actual', size = 40)
         
-    def qpRocCurve(self, model, xTrain, yTrain, xTest, yTest, linecolor, ax = None):
+    def prettyRocCurve(self, model, xTrain, yTrain, xTest, yTest, linecolor, ax = None):
         """
-        Info:
+        Documentation:
             Description:
                 Plot ROC curve and report AUC
             Parameters:
@@ -1048,9 +1048,9 @@ class PrettierPlot():
                     ,ax = ax
                    )
 
-    def qpDecisionRegion(self, x, y, classifier, testIdx = None, resolution = 0.001, bbox = (1.2, 0.9), ax = None):
+    def prettyDecisionRegion(self, x, y, classifier, testIdx = None, resolution = 0.001, bbox = (1.2, 0.9), ax = None):
         """
-        Info:
+        Documentation:
             Description:
                 Create 2-dimensional chart with shading used to highlight decision regions.
             Parameters:
@@ -1121,12 +1121,12 @@ class PrettierPlot():
                     )
         plt.tight_layout()
 
-    def qpResidualPlot(self):
+    def prettyResidualPlot(self):
         pass
 
-    def qpTwoCatBar(self, df, x, hue, target, targetLabel, xUnits = None, yUnits = None, ax = None):
+    def prettyTwoCatBar(self, df, x, hue, target, targetLabel, xUnits = None, yUnits = None, ax = None):
         """
-        Info:
+        Documentation:
             Description:
                 desc
             Parameters:
@@ -1153,7 +1153,13 @@ class PrettierPlot():
         # Axis tick label formatting.
         util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)            
 
-    def qpCatNumHistFacet(self, df, target, targetLabel, catRow, catCol, numCol, height, aspect):
+    def prettyCatNumHistFacet(self, df, target, targetLabel, catRow, catCol, numCol, height, aspect):
+        """
+        Documentation:
+            Description:
+                desc
+            Parameters:
+        """
         df = pd.merge(df[[catRow, catCol, numCol]]
                         ,pd.DataFrame(target
                                         ,columns = [targetLabel])
@@ -1178,6 +1184,12 @@ class PrettierPlot():
         g.add_legend()
 
     def qpTwoCatPointFacet(self, df, target, targetLabel, catLine, catPoint, catGrid, order = None):
+        """
+        Documentation:
+            Description:
+                desc
+            Parameters:
+        """
         df = pd.merge(df[[catLine, catPoint, catGrid]]
                         ,pd.DataFrame(target
                                         ,columns = [targetLabel])
