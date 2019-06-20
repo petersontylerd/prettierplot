@@ -13,15 +13,15 @@ from statsmodels.stats.weightstats import ztest
 from statsmodels.stats.proportion import proportions_ztest
 from scipy import stats
 
-import quickplot.style as style
-import quickplot.util as util
+import prettierplot.style as style
+import prettierplot.util as util
 
 
-class QuickPlot():
+class PrettierPlot():
     """
     Info:
         Description:
-            QuickPlot is a class that contain methods for creating data visualization.
+            PrettierPlot is a class that contain methods for creating data visualization.
             Initialization of this class creates a plotting object of a chosen size and
             orientation. Once the figure is initialized, the method makeCanvas is called
             to create the figure axis or chosen number of axes. If multiple axes are 
@@ -33,7 +33,7 @@ class QuickPlot():
         """
         Info:
             Description: 
-                Initialize QuickPlot, create figure and determine chart proportions, orientation.        
+                Initialize PrettierPlot, create figure and determine chart proportions, orientation.        
             Parameters:
                 fig : figure object, default = plt.figure()
                     matplotlib.pyplot figure object is a top level container for all plot elements.
