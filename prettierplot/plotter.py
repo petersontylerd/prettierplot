@@ -372,7 +372,7 @@ class PrettierPlot():
         # Show figure with tight layout.
         plt.tight_layout()    
     
-    def prettyBarV(self, x, counts, color = style.styleHexMid[0], labelRotate = 0, yUnits = 'f', ax = None):
+    def prettyBarV(self, x, counts, color = style.styleHexMid[0], xLabels = None, labelRotate = 0, yUnits = 'f', ax = None):
         """
         Documentation:
             Description: 
@@ -384,6 +384,8 @@ class PrettierPlot():
                     1-dimensional array of value counts for categories.
                 color : string (some sort of color code), default = style.styleHexMid[0]
                     Bar color.
+                xLabels : list, default = None
+                    Custom x-axis test labels
                 labelRotate : float or int, default = 0
                     Degrees by which the xtick labels are rotated.
                 yUnits : string, default = 'd'
@@ -396,7 +398,8 @@ class PrettierPlot():
         plt.bar(x = x
                 ,height = counts
                 ,color = color
-                ,tick_label = x
+                # ,tick_label = x
+                ,tick_label = xLabels if xLabels is not None else x
                 ,alpha = 0.8
             )
 
