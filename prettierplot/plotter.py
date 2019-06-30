@@ -1021,37 +1021,37 @@ class PrettierPlot():
         roc_auc = metrics.auc(fpr, tpr)
         
         # Plot ROC curve.
-        self.qpLine(x = fpr
-                    ,y = tpr
-                    ,label = ['ROC AUC = {:.3f}'.format(roc_auc)]
-                    ,linecolor = linecolor
-                    ,xUnits = 'fff'
-                    ,yUnits = 'fff'
-                    ,bbox = (1.0, 0.8)
-                    ,ax = ax
-                   )
+        self.prettyLine(x = fpr
+                        ,y = tpr
+                        ,label = ['ROC AUC = {:.3f}'.format(roc_auc)]
+                        ,linecolor = linecolor
+                        ,xUnits = 'fff'
+                        ,yUnits = 'fff'
+                        ,bbox = (1.0, 0.8)
+                        ,ax = ax
+                    )
         
         # Plot 'random guess' line.
-        self.qpLine(x = np.array([0, 1])
-                    ,y = np.array([0, 1])
-                    ,linecolor = style.styleGrey
-                    ,linestyle = '--'
-                    ,xUnits = 'fff'
-                    ,yUnits = 'fff'
-                    ,ax = ax
-                   )
+        self.prettyLine(x = np.array([0, 1])
+                        ,y = np.array([0, 1])
+                        ,linecolor = style.styleGrey
+                        ,linestyle = '--'
+                        ,xUnits = 'fff'
+                        ,yUnits = 'fff'
+                        ,ax = ax
+                    )
         
         # Plot 'perfection' line.
-        self.qpLine(x = np.array([0, 0, 1])
-                    ,y = np.array([0, 1, 1])
-                    ,linecolor = style.styleGrey
-                    ,linestyle = ':'
-                    ,xUnits = 'fff'
-                    ,yUnits = 'fff'
-                    ,ax = ax
-                   )
+        self.prettyLine(x = np.array([0, 0, 1])
+                        ,y = np.array([0, 1, 1])
+                        ,linecolor = style.styleGrey
+                        ,linestyle = ':'
+                        ,xUnits = 'fff'
+                        ,yUnits = 'fff'
+                        ,ax = ax
+                    )
 
-    def prettyDecisionRegion(self, x, y, classifier, testIdx = None, resolution = 0.001, bbox = (1.2, 0.9), ax = None):
+    def prettyDecisionRegion(self, x, y, classifier, testIdx = None, resolution = 0.1, bbox = (1.2, 0.9), ax = None):
         """
         Documentation:
             Description:
@@ -1086,7 +1086,7 @@ class PrettierPlot():
         
         Z = classifier.predict(np.array([xx1.ravel(), xx2.ravel()]).T)
         Z = Z.reshape(xx1.shape)
-        plt.contourf(xx1, xx2, Z, slpha = 0.3, cmap = cmap)
+        plt.contourf(xx1, xx2, Z, alpha = 0.3, cmap = cmap)
         plt.xlim(xx1.min(), xx1.max())
         plt.ylim(xx2.min(), xx2.max())
         
@@ -1096,7 +1096,7 @@ class PrettierPlot():
                     ,y = x[y == cl, 1]
                     ,alpha = 1.0
                     ,c = style.styleHexMid[idx]
-                    ,marker = style.qpMarkers[1]
+                    ,marker = style.styleMarkers[1]
                     ,label = cl
                     ,s = 12.5 * self.chartProp
                     ,edgecolor = style.styleHexMidDark[idx]
