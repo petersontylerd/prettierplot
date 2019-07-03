@@ -38,7 +38,7 @@ def genCmap(nColors, colorList):
 # rc parameters
 rcGrey = {'axes.titlesize' : 50.0
             ,'axes.labelsize' : 40.0   # Axis title font size
-            ,'axes.facecolor': styleWhite
+            ,'axes.facecolor': 'white'
             ,'axes.edgecolor': styleWhite
             ,'axes.grid': False
             ,'axes.axisbelow': True
@@ -47,20 +47,22 @@ rcGrey = {'axes.titlesize' : 50.0
             ,'axes.spines.bottom': True
             ,'axes.spines.right': False
             ,'axes.spines.top': False
-            ,'xtick.labelsize' : 25.0
+            ,'grid.color': 'white'
+            ,'xtick.labelsize' : 15.0
             ,'xtick.color': styleGrey
             ,'xtick.direction': 'out'
             ,'xtick.bottom': True
             ,'xtick.top': False
-            ,'xtick.major.size' : 10.0
+            ,'xtick.major.size' : 6.0
             ,'xtick.major.width' : 3.0
-            ,'ytick.labelsize' : 25.0
+            ,'ytick.labelsize' : 15.0
             ,'ytick.color': styleGrey
             ,'ytick.direction': 'out'
             ,'ytick.left': True
             ,'ytick.right': False
-            ,'ytick.major.size' : 10.0
+            ,'ytick.major.size' : 6.0
             ,'ytick.major.width' : 3.0
-            ,'figure.facecolor' : styleWhite
-            ,'font.family': ['Arial']
+            ,'figure.facecolor' : 'white'
+            ,'font.family': ['DejaVu Sans']
+            # ,'font.family': ['Arial']
             }

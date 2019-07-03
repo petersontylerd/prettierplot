@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tkr
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
@@ -15,7 +16,6 @@ from scipy import stats
 
 import prettierplot.style as style
 import prettierplot.util as util
-
 
 class PrettierPlot():
     """
@@ -91,11 +91,20 @@ class PrettierPlot():
         ax = self.fig.add_subplot(position)
         
         # Add title.
+        if len(title) >= 45:
+            fontAdjust = 1.0
+        elif len(title) >= 30 and len(title) < 45:
+            fontAdjust = 1.25
+        elif len(title) >= 20 and len(title) < 30:
+            fontAdjust = 1.5
+        else:
+            fontAdjust = 1.75
+
         ax.set_title(title
-                    ,fontsize = 1.999 * self.chartProp if position == 111 else 1.499 * self.chartProp
+                    ,fontsize = 2.0 * self.chartProp if position == 111 else fontAdjust * self.chartProp
                     ,color = style.styleGrey
                     ,loc = 'left'
-                    ,pad = 1.667 * self.chartProp)
+                    ,pad = 0.4 * self.chartProp)
         
         # Remove grid line and right/top spines.
         ax.grid(False)
@@ -231,11 +240,11 @@ class PrettierPlot():
         targetIds =  np.unique(X[:, 2])
             
         # Loop through sets of target values, labels and colors to create 2-d scatter with hue.
-        for targetId, targetLabel, color in zip(targetIds, label, style.styleHexMid[:len(targetIds)]):
+        for targetId, targetName, color in zip(targetIds, label, style.styleHexMid[:len(targetIds)]):
             plt.scatter(x = X[X[:,2] == targetId][:,0]
                         ,y = X[X[:,2] == targetId][:,1]
                         ,color = color
-                        ,label = targetLabel
+                        ,label = targetName
                         ,s = size * self.chartProp
                         ,alpha = 0.7
                         ,facecolor = 'w'
@@ -677,6 +686,7 @@ class PrettierPlot():
         
         # Rotate x-tick labels.
         plt.xticks(rotation = labelRotate)
+        ax.yaxis.set_visible(False)
 
         # Axis tick label formatting.
         util.utilLabelFormatter(ax = ax, yUnits = yUnits)
@@ -718,6 +728,7 @@ class PrettierPlot():
         
         # Fade box plot figures by reducing alpha.
         plt.setp(ax.artists, alpha = 0.8)
+        ax.yaxis.set_visible(False)
         
         # Axis tick label formatting.
         util.utilLabelFormatter(ax = ax, xUnits = xUnits)
@@ -762,7 +773,7 @@ class PrettierPlot():
         # Axis tick label formatting.
         util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
     
-    def prettyPairPlot(self, df, cols = None, hue = None, diag_kind = 'auto'):
+    def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag_kind = 'auto', legendLabels = None, bbox_to_anchor = None):
         """
         Documentation:
             Description: 
@@ -798,10 +809,23 @@ class PrettierPlot():
                             ,'axes.grid': False
                             }):
             
+            # capture all predictor columns
+            if cols is None:
+                cols = df.select_dtypes(exclude = [object]).columns
+                # cols = df.columns.tolist()
+                # cols = [x for x in train.X_.columns if x is not targetName]
+            
+            if target is not None:
+                df = pd.merge(df[cols]
+                            ,pd.DataFrame(target
+                                            ,columns = [targetName])
+                        ,left_index = True
+                        ,right_index = True)
+
             # Create pair plot.
-            g = sns.pairplot(data = df
+            g = sns.pairplot(data = df.dropna()
                             ,vars = cols
-                            ,hue = hue 
+                            ,hue = targetName
                             ,diag_kind = diag_kind
                             ,height = 0.2 * self.chartProp
                             ,plot_kws = {'s' : 2.0 * self.chartProp
@@ -809,43 +833,57 @@ class PrettierPlot():
                                          ,'linewidth' : 1
                                          ,'alpha' : 0.7
                                          ,'marker' : 'o'
-                                         ,'facecolor' : style.styleHexMid[0] if hue is None else None
+                                         ,'facecolor' : style.styleHexMid[0] if target is None else None
                                         }
-                            ,diag_kws = {'facecolor' : style.styleHexMid[1] if hue is None else None
+                            ,diag_kws = {'facecolor' : style.styleHexMid[1] if target is None else None
                                         }
                             ,palette = style.styleHexMid
                             )
+            
+            g._legend.remove()
+
             for ax in g.axes.flat:
                 _ = ax.set_ylabel(ax.get_ylabel(), rotation = 55)
                 _ = ax.set_xlabel(ax.get_xlabel(), rotation = 55)
                 _ = ax.xaxis.labelpad = 20
                 _ = ax.yaxis.labelpad = 75
                 _ = ax.xaxis.label.set_color(style.styleGrey)
-                _ = ax.yaxis.label.set_color(style.styleGrey)
-            
+                _ = ax.yaxis.label.set_color(style.styleGrey)            
             
             plt.subplots_adjust(hspace = 0.0, wspace = 0.0)
             
             # Add custom legend describing hue labels
-            # if hue is not None:
+            if target is not None:
                 
-            #     # Turn off standard legend
-            #     g.fig.legend()
-            #     g.fig.legends = []
+                ## create custom legend
+                # create labels
+                if legendLabels is None:
+                    legendLabels = np.unique(df[df[targetName].notnull()][targetName])
+                else:
+                    legendLabels = np.array(legendLabels)
 
-            #     # Add custom legend
-            #     handles = g._legend_data.values()
-            #     labels = g._legend_data.keys()
-            #     g.fig.legend(handles = handles
-            #                 ,labels = labels
-            #                 ,loc = 'upper center'
-            #                 ,markerscale = 0.15 * self.chartProp
-            #                 ,ncol = len(df[hue].unique())
-            #                 ,bbox_to_anchor = (0.5, 0.085 * self.chartProp)
-            #                 ,prop = {'size' : 2.5 * self.chartProp}
-            #                 )
-            
-    def prettyCorrHeatmap(self, df, target = None, targetLabel = None, annot = True, cols = None, ax = None, vmin = -1.0, vmax = 1.0):
+                labelColor = {}
+                for ix, i in enumerate(legendLabels):
+                    labelColor[i] = style.styleHexMid[ix]
+
+                # create patches
+                patches = [matplotlib.patches.Patch(color = v, label = k) for k, v in labelColor.items()]
+                
+                # draw legend
+                leg = plt.legend(handles = patches
+                            ,fontsize = 1.0 * self.chartProp
+                            ,loc = 'upper right'
+                            ,markerscale = 0.5 * self.chartProp
+                            ,ncol = 1
+                            ,bbox_to_anchor = bbox_to_anchor
+                )
+
+                # label font color
+                for text in leg.get_texts():
+                    plt.setp(text, color = 'Grey')
+
+                
+    def prettyCorrHeatmap(self, df, target = None, targetName = None, annot = True, cols = None, ax = None, vmin = -1.0, vmax = 1.0):
         """
         Documentation:
             Description:
@@ -868,17 +906,33 @@ class PrettierPlot():
                     features and target.
         """
         if target is not None:
-            df = pd.merge(df, pd.DataFrame(target, columns = [targetLabel]), left_index = True, right_index = True)
+            df = pd.merge(df, pd.DataFrame(target, columns = [targetName]), left_index = True, right_index = True)
+        
+        if cols is None:
+            cols = df.columns
         
         # Create correlation matrix
         corrMatrix = df[cols].corr() if cols is not None else df.corr() 
         
+        if len(cols) <= 5:
+            fontAdjust = 1.25
+        elif len(cols) > 5 and len(cols) <= 10:
+            fontAdjust = 0.95
+        elif len(cols) > 10 and len(cols) <= 20:
+            fontAdjust = 0.85
+        elif len(cols) > 20 and len(cols) <= 30:
+            fontAdjust = 0.75
+        elif len(cols) > 30 and len(cols) <= 40:
+            fontAdjust = 0.65
+        else:
+            fontAdjust = 0.45
+
         # Create heatmap using correlation matrix
         g = sns.heatmap(corrMatrix
                     ,vmin = vmin
                     ,vmax = vmax
                     ,annot = annot
-                    ,annot_kws = {'size' : .65 * self.chartProp}
+                    ,annot_kws = {'size' : fontAdjust * self.chartProp}
                     ,square = False
                     ,ax = ax
                     ,xticklabels = True
@@ -888,15 +942,15 @@ class PrettierPlot():
                     )
 
         # Format x and y-tick labels
-        g.set_yticklabels(g.get_yticklabels(), rotation = 0, fontsize = .5 * self.chartProp)
-        g.set_xticklabels(g.get_xticklabels(), rotation = 90, fontsize = .5 * self.chartProp)
+        g.set_yticklabels(g.get_yticklabels(), rotation = 0, fontsize = 1.0 * self.chartProp)
+        g.set_xticklabels(g.get_xticklabels(), rotation = 90, fontsize = 1.0 * self.chartProp)
 
         # Customize color bar formatting
         cbar = g.collections[0].colorbar
-        cbar.ax.tick_params(labelsize = 1.2 * self.chartProp, colors = style.styleGrey, length = 0)
+        cbar.ax.tick_params(labelsize = fontAdjust * self.chartProp, colors = style.styleGrey, length = 0)
         cbar.set_ticks([1.0, 0.0, -1.0])
 
-    def prettyCorrHeatmapRefine(self, df, target = None, targetLabel = None, annot = True, cols = None, thresh = 0.5, ax = None):
+    def prettyCorrHeatmapRefine(self, df, target = None, targetName = None, annot = True, cols = None, thresh = 0.5, ax = None):
         """
         Documentation:
             Description:
@@ -923,20 +977,35 @@ class PrettierPlot():
                     Pandas DataFrame summarizing highest correlation coefficients between 
                     features and target.
         """
-        df = pd.merge(df, pd.DataFrame(target, columns = [targetLabel]), left_index = True, right_index = True)
+        df = pd.merge(df, pd.DataFrame(target, columns = [targetName]), left_index = True, right_index = True)
                 
-        # Limit to top correlated features relative to targetLabel
+
+        # Limit to top correlated features relative to targetName
         corrMatrix = df[cols].corr() if cols is not None else df.corr() 
-        corrTop = corrMatrix[targetLabel]#[:-1]
+        corrTop = corrMatrix[targetName]#[:-1]
         corrTop = corrTop[abs(corrTop) > thresh].sort_values(ascending = False)
         display(pd.DataFrame(corrTop))        
         
+        if len(corrTop) <= 5:
+            fontAdjust = 1.25
+        elif len(corrTop) > 5 and len(corrTop) <= 10:
+            fontAdjust = 1.15
+        elif len(corrTop) > 10 and len(corrTop) <= 20:
+            fontAdjust = 1.05
+        elif len(corrTop) > 20 and len(corrTop) <= 30:
+            fontAdjust = 0.95
+        elif len(corrTop) > 30 and len(corrTop) <= 40:
+            fontAdjust = 0.85
+        else:
+            fontAdjust = 0.65
+
+
         # Create heatmap using correlation matrix
         g = sns.heatmap(df[corrTop.index].corr()
                     ,vmin = -1.0
                     ,vmax = 1.0
                     ,annot = annot
-                    ,annot_kws = {'size' : .95 * self.chartProp}
+                    ,annot_kws = {'size' : fontAdjust * self.chartProp}
                     ,square = False
                     ,ax = ax
                     ,xticklabels = True
@@ -946,12 +1015,12 @@ class PrettierPlot():
                     )
 
         # Format x and y-tick labels
-        g.set_yticklabels(g.get_yticklabels(), rotation = 0, fontsize = .75 * self.chartProp)
-        g.set_xticklabels(g.get_xticklabels(), rotation = 90, fontsize = .75 * self.chartProp)
+        g.set_yticklabels(g.get_yticklabels(), rotation = 0, fontsize = fontAdjust * self.chartProp)
+        g.set_xticklabels(g.get_xticklabels(), rotation = 90, fontsize = fontAdjust * self.chartProp)
 
         # Customize color bar formatting
         cbar = g.collections[0].colorbar
-        cbar.ax.tick_params(labelsize = 1.2 * self.chartProp, colors = style.styleGrey, length = 0)
+        cbar.ax.tick_params(labelsize = fontAdjust * self.chartProp, colors = style.styleGrey, length = 0)
         cbar.set_ticks([1.0, 0.0, -1.0])
 
         plt.show()          
@@ -1127,7 +1196,7 @@ class PrettierPlot():
     def prettyResidualPlot(self):
         pass
 
-    def prettyTwoCatBar(self, df, x, hue, target, targetLabel, xUnits = None, yUnits = None, ax = None):
+    def prettyTwoCatBar(self, df, x, hue, target, targetName, xUnits = None, yUnits = None, bbox_to_anchor = None, legendLabels = None, ax = None):
         """
         Documentation:
             Description:
@@ -1136,43 +1205,94 @@ class PrettierPlot():
         """
         df = pd.merge(df[[x, hue]]
                             ,pd.DataFrame(target * 100
-                                         ,columns = [targetLabel])
+                                         ,columns = [targetName])
                         ,left_index = True
                         ,right_index = True)
         
         g = sns.barplot(x = x
-                    ,y = targetLabel
-                    ,hue = hue
-                    ,data = df
-                    ,palette = style.styleHexMid
-                    ,ax = ax
-                    ,ci = None)
-                    # Format x and y-tick labels
+                        ,y = targetName
+                        ,hue = hue
+                        ,data = df
+                        ,palette = style.styleHexMid
+                        ,ax = ax
+                        ,ci = None)
+        
+        # Format x and y-tick labels
         g.set_yticklabels(g.get_yticklabels(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
         g.set_xticklabels(g.get_xticklabels(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
         g.set_ylabel(g.get_ylabel(), rotation = 90, fontsize = 1.75 * self.chartProp, color = style.styleGrey)
         g.set_xlabel(g.get_xlabel(), rotation = 0, fontsize = 1.75 * self.chartProp, color = style.styleGrey)
         
+
+        ## create custom legend
+        # create labels
+        if legendLabels is None:
+            legendLabels = np.unique(df[df[hue].notnull()][hue])
+        else:
+            legendLabels = np.array(legendLabels)
+
+        labelColor = {}
+        for ix, i in enumerate(legendLabels):
+            labelColor[i] = style.styleHexMid[ix]
+
+        # create patches
+        patches = [matplotlib.patches.Patch(color = v, label = k) for k, v in labelColor.items()]
+        
+        # draw legend
+        leg = plt.legend(handles = patches
+                    ,fontsize = 1.0 * self.chartProp
+                    ,loc = 'upper right'
+                    ,markerscale = 0.5 * self.chartProp
+                    ,ncol = 1
+                    ,bbox_to_anchor = bbox_to_anchor
+        )
+
+        # label font color
+        for text in leg.get_texts():
+            plt.setp(text, color = 'Grey')
+        
         # Axis tick label formatting.
         util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)            
 
-    def prettyCatNumHistFacet(self, df, target, targetLabel, catRow, catCol, numCol, height, aspect):
+    def prettyCatNumHistFacet(self, df, target, targetName, catRow, catCol, numCol, bbox_to_anchor = None, aspect = 1, height = 4, legendLabels = None):
         """
         Documentation:
             Description:
                 desc
             Parameters:
+                df : Pandas DataFrame
+                    desc
+                target : 
+                    desc
+                targetName : 
+                    desc
+                catRow : 
+                    desc
+                catCol : 
+                    desc
+                numCol : 
+                    desc
+                bbox_to_anchor : 
+                    desc
+                aspect : float, default = 1 
+                    desc
+                height : float, default = 4
+                    desc
+                legendLabels : list, default = None
+                    desc
         """
         df = pd.merge(df[[catRow, catCol, numCol]]
                         ,pd.DataFrame(target
-                                        ,columns = [targetLabel])
+                                        ,columns = [targetName])
                     ,left_index = True
                     ,right_index = True)
+        
         g = sns.FacetGrid(df
                           ,row = catRow
                           ,col = catCol
-                          ,hue = targetLabel
+                          ,hue = targetName
                           ,palette = style.styleHexMid
+                          ,despine = True
                           ,height = height
                           ,aspect = aspect)
         g.map(plt.hist, numCol, alpha = .75)
@@ -1180,13 +1300,38 @@ class PrettierPlot():
         for ax in g.axes.flat:
             _ = ax.set_ylabel(ax.get_ylabel(), rotation = 0, fontsize = 1.75 * self.chartProp, color = style.styleGrey)
             _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
-        #     _ = ax.set_yticklabels(ax.get_yticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
-        #     _ = ax.set_xticklabels(ax.get_xticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
+            # _ = ax.set_yticklabels(ax.get_yticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
+            # _ = ax.set_xticklabels(ax.get_xticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
             _ = ax.set_title(ax.get_title(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
-            
-        g.add_legend()
+        
+        ## create custom legend
+        # create labels
+        if legendLabels is None:
+            legendLabels = np.unique(target)
+        else:
+            legendLabels = np.array(legendLabels)
 
-    def qpTwoCatPointFacet(self, df, target, targetLabel, catLine, catPoint, catGrid, order = None):
+        labelColor = {}
+        for ix, i in enumerate(legendLabels):
+            labelColor[i] = style.styleHexMid[ix]
+
+        # create patches
+        patches = [matplotlib.patches.Patch(color = v, label = k) for k, v in labelColor.items()]
+        
+        # draw legend
+        leg = plt.legend(handles = patches
+                    ,fontsize = 1.0 * self.chartProp
+                    ,loc = 'upper right'
+                    ,markerscale = 0.5 * self.chartProp
+                    ,ncol = 1
+                    ,bbox_to_anchor = bbox_to_anchor
+        )
+
+        # label font color
+        for text in leg.get_texts():
+            plt.setp(text, color = 'Grey')
+        
+    def prettyTwoCatPointFacet(self, df, target, targetName, catLine, catPoint, catGrid, bbox_to_anchor = None, aspect = 1, height = 4, legendLabels = None):
         """
         Documentation:
             Description:
@@ -1195,24 +1340,54 @@ class PrettierPlot():
         """
         df = pd.merge(df[[catLine, catPoint, catGrid]]
                         ,pd.DataFrame(target
-                                        ,columns = [targetLabel])
+                                        ,columns = [targetName])
                     ,left_index = True
                     ,right_index = True)
         g = sns.FacetGrid(df
-                         ,catGrid)
+                         ,catGrid
+                         ,aspect = aspect
+                         ,height = height
+                         )
         g.map(sns.pointplot
              ,catPoint
-             ,targetLabel
+             ,targetName
              ,catLine
              ,order = df[catPoint].sort_values().drop_duplicates().values.tolist()
              ,hue_order = df[catLine].sort_values().drop_duplicates().values.tolist()
              ,palette = style.styleHexMid
-             ,alpha = .75)
+             ,alpha = .75
+             )
         
         for ax in g.axes.flat:
-            _ = ax.set_ylabel(ax.get_ylabel(), rotation = 90, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
-            _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
-            _ = ax.set_yticklabels(ax.get_yticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
-            _ = ax.set_xticklabels(ax.get_xticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
+            _ = ax.set_ylabel(ax.get_ylabel(), rotation = 90, fontsize = 0.95 * self.chartProp, color = style.styleGrey)
+            _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0, fontsize = 0.95 * self.chartProp, color = style.styleGrey)
+            # _ = ax.set_yticklabels(ax.get_yticklabels(), rotation = 0, fontsize = 0.85 * self.chartProp, color = style.styleGrey)
+            # _ = ax.set_xticklabels(ax.get_xticklabels(), rotation = 0, fontsize = 0.85 * self.chartProp, color = style.styleGrey)
             _ = ax.set_title(ax.get_title(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
-        g.add_legend()
+        
+        ## create custom legend
+        # create labels
+        if legendLabels is None:
+            legendLabels = np.unique(df[df[catLine].notnull()][catLine])
+        else:
+            legendLabels = np.array(legendLabels)
+
+        labelColor = {}
+        for ix, i in enumerate(legendLabels):
+            labelColor[i] = style.styleHexMid[ix]
+
+        # create patches
+        patches = [matplotlib.patches.Patch(color = v, label = k) for k, v in labelColor.items()]
+        
+        # draw legend
+        leg = plt.legend(handles = patches
+                    ,fontsize = 1.0 * self.chartProp
+                    ,loc = 'upper right'
+                    ,markerscale = 0.5 * self.chartProp
+                    ,ncol = 1
+                    ,bbox_to_anchor = bbox_to_anchor
+        )
+
+        # label font color
+        for text in leg.get_texts():
+            plt.setp(text, color = 'Grey')
