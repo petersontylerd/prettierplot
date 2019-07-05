@@ -16,6 +16,8 @@ from scipy import stats
 
 import prettierplot.style as style
 import prettierplot.util as util
+# import prettierplot.style as style
+# import prettierplot.util as util
 
 
 def pretty2dScatter(self, x, y, df = None, xUnits = 'f', yUnits = 'f', plotBuffer = True, size = 10
@@ -176,6 +178,7 @@ def pretty2dScatterHue(self, x, y, target, label, df = None, xUnits = 'd', yUnit
 
     # Show figure with tight layout.
     plt.tight_layout()
+    plt.show()
 
 
 def prettyDistPlot(self, x, color, yUnits = 'f', xUnits = 'f', fit = None, xRotate = None, ax = None):
