@@ -195,7 +195,6 @@ def pretty2dScatterHue(self, x, y, target, label, df = None, xUnits = 'f', xTick
 
     # Show figure with tight layout.
     plt.tight_layout()
-    plt.show()
 
 
 def prettyDistPlot(self, x, color, yUnits = 'f', xUnits = 'f', fit = None, xRotate = None, ax = None):

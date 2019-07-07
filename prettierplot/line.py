@@ -124,8 +124,8 @@ def prettyLine(self, x, y, label = None, df = None, linecolor = None, linestyle 
     plt.tight_layout()
 
 def prettyMultiLine(self, x, y, label = None, df = None, linecolor = None, linestyle = None, bbox = (1.2, 0.9)
-                ,yMultiVal = True, xUnits = 'f', xTicks = None, yUnits = 'f', yTicks = None
-                ,markerOn = False, plotBuffer = False, axisLimits = False, ax = None):
+                ,xUnits = 'f', xTicks = None, yUnits = 'f', yTicks = None, markerOn = False, plotBuffer = False
+                ,axisLimits = False, ax = None):
     """
     Documentation:
         Description: 
@@ -150,8 +150,6 @@ def prettyMultiLine(self, x, y, label = None, df = None, linecolor = None, lines
                 Determine style of line.
             bbox : tuple, default = (1.2, 0.9)
                 Override bbox value for legend
-            yMultiVal : boolean : default = False
-                If a single x value is paired with multiple y values, set to True.
             xUnits : string, default = 'd'
                 Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
                 '$' displays dollars. 'd' displays real numbers.

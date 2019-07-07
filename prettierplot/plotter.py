@@ -40,7 +40,7 @@ class PrettierPlot():
     
 
     # Foundation
-    def __init__(self, fig = plt.figure(), chartProp = 15, plotOrientation = None):
+    def __init__(self, chartProp = 15, plotOrientation = None):
         """
         Documentation:
             Description: 
@@ -52,7 +52,11 @@ class PrettierPlot():
         """
         self.chartProp = chartProp
         self.plotOrientation = plotOrientation
-        self.fig = fig
+        self.fig = plt.figure(facecolor = 'white')
+
+        # set graphic style
+        # plt.rcParams['figure.facecolor'] = 'white'
+        sns.set(rc = style.rcGrey)
         
         # Dynamically set chart width and height parameters
         if plotOrientation == 'tall':
@@ -70,7 +74,7 @@ class PrettierPlot():
         self.fig.set_figheight(chartHeight)
         self.fig.set_figwidth(chartWidth)
         
-    def makeCanvas(self, title = '', xLabel = '', xShift = 0.8, yLabel = '', yShift = 0.8, position = 111):
+    def makeCanvas(self, title = '', xLabel = '', xShift = 0.0, yLabel = '', yShift = 0.8, position = 111):
         """
         Documentation:
             Description: 
@@ -101,12 +105,13 @@ class PrettierPlot():
                 ax : Axes object
                     Contain figure elements
         """        
-        # add subplot
-        ax = self.fig.add_subplot(position)
-        # set graphic style
+        # # set graphic style
         # plt.rcParams['figure.facecolor'] = 'white'
         # sns.set(rc = style.rcGrey)
-                
+        
+        # add subplot
+        ax = self.fig.add_subplot(position)
+                        
         ## Add title
         # dynamically determine font size based on string length
         if len(title) >= 45:
@@ -132,7 +137,9 @@ class PrettierPlot():
         ax.spines['top'].set_visible(False)
         
         # Add axis labels.
-        plt.xlabel(xLabel, fontsize = 1.667 * self.chartProp, labelpad = 1.667 * self.chartProp, position = (xShift, 0.5))
-        plt.ylabel(yLabel, fontsize = 1.667 * self.chartProp, labelpad = 1.667 * self.chartProp, position = (1.0, yShift))
+        plt.xlabel(xLabel, fontsize = 1.667 * self.chartProp, labelpad = 1.667 * self.chartProp
+                  ,position = (xShift, 0.5), horizontalalignment = 'left')
+        plt.ylabel(yLabel, fontsize = 1.667 * self.chartProp, labelpad = 1.667 * self.chartProp
+                  ,position = (1.0, yShift), horizontalalignment = 'left')
         
         return ax
