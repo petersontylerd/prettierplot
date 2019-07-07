@@ -225,7 +225,8 @@ def prettyConfusionMatrix(self, yTest, yPred, ax = None):
     plt.ylabel('actual', size = 40)
 
 
-def prettyRocCurve(self, model, xTrain, yTrain, xTest, yTest, linecolor, ax = None):
+def prettyRocCurve(self, model, xTrain, yTrain, xTest = None, yTest = None, linecolor = style.styleHexMid[0]
+                  ,ax = None):
     """
     Documentation:
         Description:
@@ -247,44 +248,47 @@ def prettyRocCurve(self, model, xTrain, yTrain, xTest, yTest, linecolor, ax = No
                 Axes object containing figure elements to be adjusted within `function.
     """
     # Return prediction probabilities.
-    probas = model.fit(xTrain, yTrain).predict_proba(xTest)
-    
-    # Return false positive rate, true positive rate and thresholds.
-    fpr, tpr, thresholds = metrics.roc_curve(y_true = yTest, y_score = probas[:, 1], pos_label = 1)
+    if xTest is None:
+        probas = model.fit(xTrain, yTrain).predict_proba(xTrain)
+        fpr, tpr, thresholds = metrics.roc_curve(y_true = yTrain, y_score = probas[:, 1], pos_label = 1)
+    else:
+        probas = model.fit(xTrain, yTrain).predict_proba(xTest)
+        fpr, tpr, thresholds = metrics.roc_curve(y_true = yTest, y_score = probas[:, 1], pos_label = 1)
+
     
     # Calculate area under the curve using FPR and TPR.
     roc_auc = metrics.auc(fpr, tpr)
     
     # Plot ROC curve.
     self.prettyLine(x = fpr
-                    ,y = tpr
-                    ,label = ['ROC AUC = {:.3f}'.format(roc_auc)]
-                    ,linecolor = linecolor
-                    ,xUnits = 'fff'
-                    ,yUnits = 'fff'
-                    ,bbox = (1.0, 0.8)
-                    ,ax = ax
-                )
+                   ,y = tpr
+                   ,label = 'ROC AUC: {:.4f}'.format(roc_auc)
+                   ,linecolor = linecolor
+                   ,xUnits = 'fff'
+                   ,yUnits = 'fff'
+                   ,bbox = (1.2, 0.8)
+                   ,ax = ax
+        )
     
     # Plot 'random guess' line.
     self.prettyLine(x = np.array([0, 1])
-                    ,y = np.array([0, 1])
-                    ,linecolor = style.styleGrey
-                    ,linestyle = '--'
-                    ,xUnits = 'fff'
-                    ,yUnits = 'fff'
-                    ,ax = ax
-                )
+                   ,y = np.array([0, 1])
+                   ,linecolor = style.styleGrey
+                   ,linestyle = '--'
+                   ,xUnits = 'fff'
+                   ,yUnits = 'fff'
+                   ,ax = ax
+        )
     
     # Plot 'perfection' line.
     self.prettyLine(x = np.array([0, 0, 1])
-                    ,y = np.array([0, 1, 1])
-                    ,linecolor = style.styleGrey
-                    ,linestyle = ':'
-                    ,xUnits = 'fff'
-                    ,yUnits = 'fff'
-                    ,ax = ax
-                )
+                   ,y = np.array([0, 1, 1])
+                   ,linecolor = style.styleGrey
+                   ,linestyle = ':'
+                   ,xUnits = 'fff'
+                   ,yUnits = 'fff'
+                   ,ax = ax
+        )
 
 
 def prettyDecisionRegion(self, x, y, classifier, testIdx = None, resolution = 0.1, bbox = (1.2, 0.9), ax = None):
@@ -353,11 +357,12 @@ def prettyDecisionRegion(self, x, y, classifier, testIdx = None, resolution = 0.
                 )
     # Add legend to figure
     plt.legend(loc = 'upper right'
-                ,bbox_to_anchor = bbox
-                ,ncol = 1
-                ,frameon = True
-                ,fontsize = 1.1 * self.chartProp
-                )
+               ,bbox_to_anchor = bbox
+               ,ncol = 1
+               ,frameon = True
+               ,fontsize = 1.1 * self.chartProp
+        )
+    
     plt.tight_layout()
 
 

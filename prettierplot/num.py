@@ -20,8 +20,9 @@ import prettierplot.util as util
 # import prettierplot.util as util
 
 
-def pretty2dScatter(self, x, y, df = None, xUnits = 'f', yUnits = 'f', plotBuffer = True, size = 10
-                , axisLimits = True, color = style.styleGrey, facecolor = 'w', ax = None):
+def pretty2dScatter(self, x, y, df = None, xUnits = 'f', xTicks = None, yUnits = 'f', yTicks = None
+                   ,plotBuffer = True, size = 10, axisLimits = True, color = style.styleGrey
+                   ,facecolor = 'w', ax = None):
     """
     Documentation:
         Description: 
@@ -84,13 +85,21 @@ def pretty2dScatter(self, x, y, df = None, xUnits = 'f', yUnits = 'f', plotBuffe
     if plotBuffer:
         util.utilPlotBuffer(ax = ax, x = 0.02, y = 0.02)
 
+    # x-axis tick label control
+    if xTicks is not None:
+        ax.set_xticks(xTicks)
+    
+    # y-axis tick label control
+    if yTicks is not None:
+        ax.set_yticks(yTicks)
+
     # Show figure with tight layout.
     plt.tight_layout()
 
 
-def pretty2dScatterHue(self, x, y, target, label, df = None, xUnits = 'd', yUnits = 'd', plotBuffer = True
-                    , size = 10, axisLimits = True, color = style.styleGrey, facecolor = 'w'
-                    , bbox = (1.2, 0.9), ax = None):
+def pretty2dScatterHue(self, x, y, target, label, df = None, xUnits = 'f', xTicks = None, yUnits = 'f', yTicks = None
+                      ,plotBuffer = True, size = 10, axisLimits = True, color = style.styleGrey, facecolor = 'w'
+                      ,bbox = (1.2, 0.9), ax = None):
     """
     Documentation:
         Description: 
@@ -175,6 +184,14 @@ def pretty2dScatterHue(self, x, y, target, label, df = None, xUnits = 'd', yUnit
     # Create smaller buffer around plot area to prevent cutting off elements.
     if plotBuffer:
         util.utilPlotBuffer(ax = ax, x = 0.02, y = 0.02)
+
+    # x-axis tick label control
+    if xTicks is not None:
+        ax.set_xticks(xTicks)
+    
+    # y-axis tick label control
+    if yTicks is not None:
+        ax.set_yticks(yTicks)
 
     # Show figure with tight layout.
     plt.tight_layout()
@@ -322,20 +339,19 @@ def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag
                         ,'axes.spines.bottom': False
                         ,'axes.edgecolor': style.styleGrey
                         ,'axes.grid': False
-                        }):
+        }):
         
         # capture all predictor columns
         if cols is None:
             cols = df.select_dtypes(exclude = [object]).columns
-            # cols = df.columns.tolist()
-            # cols = [x for x in train.X_.columns if x is not targetName]
-        
+            
         if target is not None:
             df = pd.merge(df[cols]
                         ,pd.DataFrame(target
                                         ,columns = [targetName])
                     ,left_index = True
-                    ,right_index = True)
+                    ,right_index = True
+                )
 
         # Create pair plot.
         g = sns.pairplot(data = df.dropna()
@@ -344,18 +360,17 @@ def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag
                         ,diag_kind = diag_kind
                         ,height = 0.2 * self.chartProp
                         ,plot_kws = {'s' : 2.0 * self.chartProp
-                                        ,'edgecolor' : None
-                                        ,'linewidth' : 1
-                                        ,'alpha' : 0.7
-                                        ,'marker' : 'o'
-                                        ,'facecolor' : style.styleHexMid[0] if target is None else None
-                                    }
+                                    ,'edgecolor' : None
+                                    ,'linewidth' : 1
+                                    ,'alpha' : 0.7
+                                    ,'marker' : 'o'
+                                    ,'facecolor' : style.styleHexMid[0] if target is None else None
+                            }
                         ,diag_kws = {'facecolor' : style.styleHexMid[1] if target is None else None
-                                    }
+                            }
                         ,palette = style.styleHexMid
-                        )
+            )
         
-        g._legend.remove()
 
         for ax in g.axes.flat:
             _ = ax.set_ylabel(ax.get_ylabel(), rotation = 55)
@@ -369,6 +384,7 @@ def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag
         
         # Add custom legend describing hue labels
         if target is not None:
+            g._legend.remove()
             
             ## create custom legend
             # create labels
@@ -386,12 +402,12 @@ def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag
             
             # draw legend
             leg = plt.legend(handles = patches
-                        ,fontsize = 1.0 * self.chartProp
+                        ,fontsize = 1.3 * self.chartProp
                         ,loc = 'upper right'
                         ,markerscale = 0.5 * self.chartProp
                         ,ncol = 1
                         ,bbox_to_anchor = bbox_to_anchor
-            )
+                )
 
             # label font color
             for text in leg.get_texts():
