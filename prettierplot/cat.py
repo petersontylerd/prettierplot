@@ -44,7 +44,6 @@ def prettyBarV(self, x, counts, color = style.styleHexMid[0], xLabels = None, la
     plt.bar(x = x
             ,height = counts
             ,color = color
-            # ,tick_label = x
             ,tick_label = xLabels if xLabels is not None else x
             ,alpha = 0.8
         )
@@ -145,7 +144,7 @@ def prettyBoxPlotV(self, x, y, data, color, labelRotate = 0, yUnits = 'f', ax = 
     
     # Rotate x-tick labels.
     plt.xticks(rotation = labelRotate)
-    ax.yaxis.set_visible(False)
+    ax.yaxis.set_visible(True)
 
     # Axis tick label formatting.
     util.utilLabelFormatter(ax = ax, yUnits = yUnits)

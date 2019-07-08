@@ -214,8 +214,8 @@ def prettyDistPlot(self, x, color, yUnits = 'f', xUnits = 'f', fit = None, xRota
             yUnits : string, default = 'f'
                 Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
                 '$' displays dollars. 'd' displays real numbers.
-            xRotate : boolean, default = None
-                Rotates x-axis tick mark labels 45 degrees
+            xRotate : int, default = None
+                Rotates x-axis tick mark labels X degrees
             fit : random variabe object, default = None
                 Allows for the addition of another curve. Utilizing 'norm' overlays a normal distribution
                 over the distribution bar chart. Useful for seeing how well, or not, distribution tracks
@@ -264,7 +264,8 @@ def prettyKdePlot(self, x, color, yUnits = 'f', xUnits = 'f', ax = None):
     util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
 
 
-def prettyRegPlot(self, x, y, data, color = style.styleHexMid[0], x_jitter = None, xUnits = 'f', yUnits = 'f', ax = None):
+def prettyRegPlot(self, x, y, data, color = style.styleHexMid[0], x_jitter = None, xUnits = 'f', xRotate = None
+                 ,yUnits = 'f', ax = None):
     """
     Documentation:
         Description:
@@ -283,6 +284,8 @@ def prettyRegPlot(self, x, y, data, color = style.styleHexMid[0], x_jitter = Non
             yUnits : string, default = 'f'
                 Determines units of y-axis tick labels. 'f' displays float. '%' displays percentages, 
                 '$' displays dollars. 'd' displays real numbers.
+            xRotate : int, default = None
+                Rotates x-axis tick mark labels X degrees
             ax : Axes object, default = None
                 Axes object containing figure elements to be adjusted within function.
     """
@@ -301,7 +304,7 @@ def prettyRegPlot(self, x, y, data, color = style.styleHexMid[0], x_jitter = Non
                             )        
     
     # Axis tick label formatting.
-    util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
+    util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits, xRotate = xRotate)
 
 
 def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag_kind = 'auto', legendLabels = None, bbox_to_anchor = None):
