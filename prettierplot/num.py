@@ -356,7 +356,7 @@ def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag
                 )
 
         # Create pair plot.
-        g = sns.pairplot(data = df.dropna()
+        g = sns.pairplot(data = df if target is None else df.dropna()
                         ,vars = cols
                         ,hue = targetName
                         ,diag_kind = diag_kind
@@ -364,7 +364,7 @@ def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag
                         ,plot_kws = {'s' : 2.0 * self.chartProp
                                     ,'edgecolor' : None
                                     ,'linewidth' : 1
-                                    ,'alpha' : 0.7
+                                    ,'alpha' : 0.4
                                     ,'marker' : 'o'
                                     ,'facecolor' : style.styleHexMid[0] if target is None else None
                             }
@@ -375,8 +375,8 @@ def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag
         
 
         for ax in g.axes.flat:
-            _ = ax.set_ylabel(ax.get_ylabel(), rotation = 55)
-            _ = ax.set_xlabel(ax.get_xlabel(), rotation = 55)
+            _ = ax.set_ylabel(ax.get_ylabel(), rotation = 0)
+            _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0)
             _ = ax.xaxis.labelpad = 20
             _ = ax.yaxis.labelpad = 75
             _ = ax.xaxis.label.set_color(style.styleGrey)

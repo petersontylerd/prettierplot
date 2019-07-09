@@ -168,18 +168,20 @@ def prettyFacetCatNumHist(self, df, target, targetName, catRow, catCol, numCol, 
     """
     df = pd.merge(df[[catRow, catCol, numCol]]
                     ,pd.DataFrame(target
-                                    ,columns = [targetName])
+                                 ,columns = [targetName])
                 ,left_index = True
-                ,right_index = True)
+                ,right_index = True
+        )
     
     g = sns.FacetGrid(df
-                        ,row = catRow
-                        ,col = catCol
-                        ,hue = targetName
-                        ,palette = style.styleHexMid
-                        ,despine = True
-                        ,height = height
-                        ,aspect = aspect)
+                     ,row = catRow
+                     ,col = catCol
+                     ,hue = targetName
+                     ,palette = style.styleHexMid
+                     ,despine = True
+                     ,height = height
+                     ,aspect = aspect
+        )
     g.map(plt.hist, numCol, alpha = .75)
     
     for ax in g.axes.flat:
@@ -226,27 +228,30 @@ def prettyFacetTwoCatPoint(self, df, target, targetName, catLine, catPoint, catG
     """
     df = pd.merge(df[[catLine, catPoint, catGrid]]
                     ,pd.DataFrame(target
-                                    ,columns = [targetName])
+                                 ,columns = [targetName])
                 ,left_index = True
-                ,right_index = True)
+                ,right_index = True
+        )
     g = sns.FacetGrid(df
-                        ,catGrid
-                        ,aspect = aspect
-                        ,height = height
-                        )
+                     ,catGrid
+                     ,aspect = aspect
+                     ,height = height
+        )
     g.map(sns.pointplot
-            ,catPoint
-            ,targetName
-            ,catLine
-            ,order = df[catPoint].sort_values().drop_duplicates().values.tolist()
-            ,hue_order = df[catLine].sort_values().drop_duplicates().values.tolist()
-            ,palette = style.styleHexMid
-            ,alpha = .75
-            )
+         ,catPoint
+         ,targetName
+         ,catLine
+         ,order = df[catPoint].sort_values().drop_duplicates().values.tolist()
+         ,hue_order = df[catLine].sort_values().drop_duplicates().values.tolist()
+         ,palette = style.styleHexMid
+         ,alpha = .75
+        )
     
     for ax in g.axes.flat:
         _ = ax.set_ylabel(ax.get_ylabel(), rotation = 90, fontsize = 0.95 * self.chartProp, color = style.styleGrey)
         _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0, fontsize = 0.95 * self.chartProp, color = style.styleGrey)
+        _ = ax.xaxis.labelpad = 5
+        _ = ax.yaxis.labelpad = 5
         # _ = ax.set_yticklabels(ax.get_yticklabels(), rotation = 0, fontsize = 0.85 * self.chartProp, color = style.styleGrey)
         # _ = ax.set_xticklabels(ax.get_xticklabels(), rotation = 0, fontsize = 0.85 * self.chartProp, color = style.styleGrey)
         _ = ax.set_title(ax.get_title(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
