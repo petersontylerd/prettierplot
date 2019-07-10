@@ -47,7 +47,7 @@ def prettyProbPlot(self, x, plot):
         plot.get_lines()[1].set_color(style.styleGrey)
 
 
-def prettyCorrHeatmap(self, df, target = None, targetName = None, annot = True, cols = None, ax = None, vmin = -1.0, vmax = 1.0):
+def prettyCorrHeatmap(self, df, annot = True, cols = None, ax = None, vmin = -1.0, vmax = 1.0):
     """
     Documentation:
         Description:
@@ -69,14 +69,9 @@ def prettyCorrHeatmap(self, df, target = None, targetName = None, annot = True, 
                 Pandas DataFrame summarizing highest correlation coefficients between 
                 features and target.
     """
-    if target is not None:
-        df = pd.merge(df, pd.DataFrame(target, columns = [targetName]), left_index = True, right_index = True)
-    
-    if cols is None:
-        cols = df.columns
-    
     # Create correlation matrix
     corrMatrix = df[cols].corr() if cols is not None else df.corr() 
+    cols = corrMatrix.columns
     
     if len(cols) <= 5:
         fontAdjust = 1.25
@@ -115,7 +110,7 @@ def prettyCorrHeatmap(self, df, target = None, targetName = None, annot = True, 
     cbar.set_ticks([1.0, 0.0, -1.0])
 
 
-def prettyCorrHeatmapRefine(self, df, target = None, targetName = None, annot = True, cols = None, thresh = 0.5, ax = None):
+def prettyCorrHeatmapTarget(self, df, target = None, annot = False, thresh = 0.5, ax = None):
     """
     Documentation:
         Description:
@@ -142,12 +137,11 @@ def prettyCorrHeatmapRefine(self, df, target = None, targetName = None, annot = 
                 Pandas DataFrame summarizing highest correlation coefficients between 
                 features and target.
     """
-    df = pd.merge(df, pd.DataFrame(target, columns = [targetName]), left_index = True, right_index = True)
-            
+    df = df.merge(target, left_index = True, right_index = True)
 
     # Limit to top correlated features relative to targetName
-    corrMatrix = df[cols].corr() if cols is not None else df.corr() 
-    corrTop = corrMatrix[targetName]#[:-1]
+    corrMatrix = df.corr() 
+    corrTop = corrMatrix[target.name]#[:-1]
     corrTop = corrTop[abs(corrTop) > thresh].sort_values(ascending = False)
     display(pd.DataFrame(corrTop))        
     

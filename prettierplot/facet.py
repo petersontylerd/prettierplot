@@ -80,24 +80,23 @@ def prettyFacetCat(self, df, feature, labelRotate = 0, yUnits = 'f', xUnits = 's
         ax.tick_params(axis = 'x', colors = style.styleGrey, labelsize = 0.6 * self.chartProp)
 
 
-def prettyFacetTwoCatBar(self, df, x, hue, target, targetName, xUnits = None, yUnits = None, bbox_to_anchor = None, legendLabels = None, ax = None):
+def prettyFacetTwoCatBar(self, df, x, y, split, xUnits = None, yUnits = None, bbox_to_anchor = None, legendLabels = None, filterNaN = True, ax = None):
     """
     Documentation:
         Description:
             desc
         Parameters:
     """
-    df = pd.merge(df[[x, hue]]
-                        ,pd.DataFrame(target * 100
-                                        ,columns = [targetName])
-                    ,left_index = True
-                    ,right_index = True)
+    if filterNaN:
+        df = df.dropna(subset = [x])
     
     g = sns.barplot(x = x
-                    ,y = targetName
-                    ,hue = hue
+                    ,y = y
+                    ,hue = split
                     ,data = df
                     ,palette = style.styleHexMid
+                    ,order = df[x].sort_values().drop_duplicates().values.tolist()
+                    ,hue_order = df[split].sort_values().drop_duplicates().values.tolist() if split is not None else None
                     ,ax = ax
                     ,ci = None)
     
@@ -110,36 +109,38 @@ def prettyFacetTwoCatBar(self, df, x, hue, target, targetName, xUnits = None, yU
 
     ## create custom legend
     # create labels
-    if legendLabels is None:
-        legendLabels = np.unique(df[df[hue].notnull()][hue])
-    else:
-        legendLabels = np.array(legendLabels)
+    if split is not None:
+        if legendLabels is None:
+            legendLabels = df[df[split].notnull()][split].sort_values().drop_duplicates().values.tolist()
+        else:
+            legendLabels = np.array(legendLabels)
 
-    labelColor = {}
-    for ix, i in enumerate(legendLabels):
-        labelColor[i] = style.styleHexMid[ix]
+        labelColor = {}
+        for ix, i in enumerate(legendLabels):
+            labelColor[i] = style.styleHexMid[ix]
 
-    # create patches
-    patches = [matplotlib.patches.Patch(color = v, label = k) for k, v in labelColor.items()]
-    
-    # draw legend
-    leg = plt.legend(handles = patches
-                ,fontsize = 1.0 * self.chartProp
-                ,loc = 'upper right'
-                ,markerscale = 0.5 * self.chartProp
-                ,ncol = 1
-                ,bbox_to_anchor = bbox_to_anchor
-    )
+        # create patches
+        patches = [matplotlib.patches.Patch(color = v, label = k) for k, v in labelColor.items()]
+        
+        # draw legend
+        leg = plt.legend(handles = patches
+                    ,fontsize = 1.25 * self.chartProp
+                    ,loc = 'upper right'
+                    ,markerscale = 0.5 * self.chartProp
+                    ,ncol = 1
+                    ,bbox_to_anchor = bbox_to_anchor
+        )
 
-    # label font color
-    for text in leg.get_texts():
-        plt.setp(text, color = 'Grey')
-    
-    # Axis tick label formatting.
-    util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)            
+        # label font color
+        for text in leg.get_texts():
+            plt.setp(text, color = 'Grey')
+        
+        # Axis tick label formatting.
+        util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)            
 
 
-def prettyFacetCatNumHist(self, df, target, targetName, catRow, catCol, numCol, bbox_to_anchor = None, aspect = 1, height = 4, legendLabels = None):
+def prettyFacetCatNumScatter(self, df, xNum, yNum, catRow = None, catCol = None, split = None, bbox_to_anchor = None
+                            ,aspect = 1, height = 4, legendLabels = None):
     """
     Documentation:
         Description:
@@ -147,13 +148,11 @@ def prettyFacetCatNumHist(self, df, target, targetName, catRow, catCol, numCol, 
         Parameters:
             df : Pandas DataFrame
                 desc
-            target : 
-                desc
-            targetName : 
-                desc
             catRow : 
                 desc
             catCol : 
+                desc
+            split : 
                 desc
             numCol : 
                 desc
@@ -166,57 +165,136 @@ def prettyFacetCatNumHist(self, df, target, targetName, catRow, catCol, numCol, 
             legendLabels : list, default = None
                 desc
     """
-    df = pd.merge(df[[catRow, catCol, numCol]]
-                    ,pd.DataFrame(target
-                                 ,columns = [targetName])
-                ,left_index = True
-                ,right_index = True
+    g = sns.FacetGrid(df
+                    ,col = catCol
+                    ,row = catRow
+                    ,hue = split
+                    ,palette = style.styleHexMid
+                    ,hue_order = df[split].sort_values().drop_duplicates().values.tolist() if split is not None else None
+                    )
+    g = (g.map(plt.scatter
+              ,xNum
+              ,yNum
+            #   ,**kws
+            )
         )
+    
+    for ax in g.axes.flat:
+        _ = ax.set_ylabel(ax.get_ylabel(), rotation = 90, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
+        _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
+        # _ = ax.xaxis.labelpad = 5
+        # _ = ax.yaxis.labelpad = 5
+        # _ = ax.set_yticklabels(ax.get_yticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
+        # _ = ax.set_xticklabels(ax.get_xticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
+        _ = ax.set_title(ax.get_title(), rotation = 0, fontsize = 0.65 * self.chartProp, color = style.styleGrey)
+    
+    ## create custom legend
+    # create labels
+    if split is not None:
+        if legendLabels is None:
+            legendLabels = df[df[split].notnull()][split].sort_values().drop_duplicates().values.tolist()
+        else:
+            legendLabels = np.array(legendLabels)
+
+        labelColor = {}
+        for ix, i in enumerate(legendLabels):
+            labelColor[i] = style.styleHexMid[ix]
+
+        # create patches
+        patches = [matplotlib.patches.Patch(color = v, label = k) for k, v in labelColor.items()]
+        
+        # draw legend
+        leg = plt.legend(handles = patches
+                    ,fontsize = 1.0 * self.chartProp
+                    ,loc = 'upper right'
+                    ,markerscale = 0.5 * self.chartProp
+                    ,ncol = 1
+                    ,bbox_to_anchor = bbox_to_anchor
+        )
+
+        # label font color
+        for text in leg.get_texts():
+            plt.setp(text, color = 'Grey')
+
+
+def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox_to_anchor = None, aspect = 1, height = 4, legendLabels = None):
+    """
+    Documentation:
+        Description:
+            desc
+        Parameters:
+            df : Pandas DataFrame
+                desc
+            catRow : 
+                desc
+            catCol : 
+                desc
+            split : 
+                desc
+            numCol : 
+                desc
+            bbox_to_anchor : 
+                desc
+            aspect : float, default = 1 
+                desc
+            height : float, default = 4
+                desc
+            legendLabels : list, default = None
+                desc
+    """
     
     g = sns.FacetGrid(df
                      ,row = catRow
                      ,col = catCol
-                     ,hue = targetName
+                     ,hue = split
+                     ,hue_order = df[split].sort_values().drop_duplicates().values.tolist() if split is not None else None
                      ,palette = style.styleHexMid
                      ,despine = True
                      ,height = height
                      ,aspect = aspect
         )
-    g.map(plt.hist, numCol, alpha = .75)
+    g.map(plt.hist
+         ,numCol
+        #  ,bins = np.arange(0, 20)
+         ,alpha = .5
+        )
     
     for ax in g.axes.flat:
-        _ = ax.set_ylabel(ax.get_ylabel(), rotation = 0, fontsize = 1.75 * self.chartProp, color = style.styleGrey)
+        # _ = ax.set_ylabel(ax.get_ylabel(), rotation = 90, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
         _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
+        # _ = ax.xaxis.labelpad = 25
+        # _ = ax.yaxis.labelpad = 25
         # _ = ax.set_yticklabels(ax.get_yticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
         # _ = ax.set_xticklabels(ax.get_xticklabels(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
         _ = ax.set_title(ax.get_title(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
     
     ## create custom legend
     # create labels
-    if legendLabels is None:
-        legendLabels = np.unique(target)
-    else:
-        legendLabels = np.array(legendLabels)
+    if split is not None:
+        if legendLabels is None:
+            legendLabels = df[df[split].notnull()][split].sort_values().drop_duplicates().values.tolist()
+        else:
+            legendLabels = np.array(legendLabels)
 
-    labelColor = {}
-    for ix, i in enumerate(legendLabels):
-        labelColor[i] = style.styleHexMid[ix]
+        labelColor = {}
+        for ix, i in enumerate(legendLabels):
+            labelColor[i] = style.styleHexMid[ix]
 
-    # create patches
-    patches = [matplotlib.patches.Patch(color = v, label = k) for k, v in labelColor.items()]
-    
-    # draw legend
-    leg = plt.legend(handles = patches
-                ,fontsize = 1.0 * self.chartProp
-                ,loc = 'upper right'
-                ,markerscale = 0.5 * self.chartProp
-                ,ncol = 1
-                ,bbox_to_anchor = bbox_to_anchor
-    )
+        # create patches
+        patches = [matplotlib.patches.Patch(color = v, label = k) for k, v in labelColor.items()]
+        
+        # draw legend
+        leg = plt.legend(handles = patches
+                    ,fontsize = 1.0 * self.chartProp
+                    ,loc = 'upper right'
+                    ,markerscale = 0.5 * self.chartProp
+                    ,ncol = 1
+                    ,bbox_to_anchor = bbox_to_anchor
+        )
 
-    # label font color
-    for text in leg.get_texts():
-        plt.setp(text, color = 'Grey')
+        # label font color
+        for text in leg.get_texts():
+            plt.setp(text, color = 'Grey')
 
     
 def prettyFacetTwoCatPoint(self, df, target, targetName, catLine, catPoint, catGrid, bbox_to_anchor = None, aspect = 1, height = 4, legendLabels = None):

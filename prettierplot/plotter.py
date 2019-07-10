@@ -31,9 +31,10 @@ class PrettierPlot():
     """        
     
     from .cat import prettyBarV, prettyBarH, prettyBoxPlotV, prettyBoxPlotH
-    from .eval import prettyProbPlot, prettyCorrHeatmap, prettyCorrHeatmapRefine, prettyConfusionMatrix, \
+    from .eval import prettyProbPlot, prettyCorrHeatmap, prettyCorrHeatmapTarget, prettyConfusionMatrix, \
                     prettyRocCurve, prettyDecisionRegion, prettyResidualPlot
-    from .facet import prettyFacetCat, prettyFacetTwoCatBar, prettyFacetCatNumHist, prettyFacetTwoCatPoint
+    from .facet import prettyFacetCat, prettyFacetTwoCatBar, prettyFacetCatNumHist, prettyFacetTwoCatPoint, \
+                    prettyFacetCatNumScatter
     from .line import prettyLine, prettyMultiLine
     from .num import pretty2dScatter, pretty2dScatterHue, prettyDistPlot, prettyKdePlot, prettyRegPlot, \
                     prettyPairPlot, prettyHist

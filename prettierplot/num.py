@@ -307,7 +307,7 @@ def prettyRegPlot(self, x, y, data, color = style.styleHexMid[0], x_jitter = Non
     util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits, xRotate = xRotate)
 
 
-def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag_kind = 'auto', legendLabels = None, bbox_to_anchor = None):
+def prettyPairPlot(self, df, cols = None, target = None, diag_kind = 'auto', legendLabels = None, bbox_to_anchor = None):
     """
     Documentation:
         Description: 
@@ -342,23 +342,22 @@ def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag
                         ,'axes.edgecolor': style.styleGrey
                         ,'axes.grid': False
         }):
+        # remove object columns
+        df = df.select_dtypes(exclude = [object])
         
-        # capture all predictor columns
-        if cols is None:
-            cols = df.select_dtypes(exclude = [object]).columns
-            
+        # limit to columns of interest if provided
+        if cols is not None:
+            df = df[cols]
+
+        # merge df with target if target is provided
         if target is not None:
-            df = pd.merge(df[cols]
-                        ,pd.DataFrame(target
-                                        ,columns = [targetName])
-                    ,left_index = True
-                    ,right_index = True
-                )
+            df = df.merge(target, left_index = True, right_index = True)
 
         # Create pair plot.
         g = sns.pairplot(data = df if target is None else df.dropna()
-                        ,vars = cols
-                        ,hue = targetName
+                        # ,vars = df.columns
+                        ,vars = df.columns if target is None else [x for x in df.columns if x is not target.name] 
+                        ,hue = target if target is None else target.name
                         ,diag_kind = diag_kind
                         ,height = 0.2 * self.chartProp
                         ,plot_kws = {'s' : 2.0 * self.chartProp
@@ -371,9 +370,9 @@ def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag
                         ,diag_kws = {'facecolor' : style.styleHexMid[1] if target is None else None
                             }
                         ,palette = style.styleHexMid
-            )
-        
+            )        
 
+        # plot formatting
         for ax in g.axes.flat:
             _ = ax.set_ylabel(ax.get_ylabel(), rotation = 0)
             _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0)
@@ -391,7 +390,7 @@ def prettyPairPlot(self, df, cols = None, target = None, targetName = None, diag
             ## create custom legend
             # create labels
             if legendLabels is None:
-                legendLabels = np.unique(df[df[targetName].notnull()][targetName])
+                legendLabels = np.unique(df[df[target.name].notnull()][target.name])
             else:
                 legendLabels = np.array(legendLabels)
 
