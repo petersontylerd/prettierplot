@@ -47,7 +47,7 @@ def prettyProbPlot(self, x, plot):
         plot.get_lines()[1].set_color(style.styleGrey)
 
 
-def prettyCorrHeatmap(self, df, annot = True, cols = None, ax = None, vmin = -1.0, vmax = 1.0):
+def prettyCorrHeatmap(self, df, annot = False, cols = None, ax = None, vmin = -1.0, vmax = 1.0):
     """
     Documentation:
         Description:
