@@ -26,17 +26,17 @@ def utilLabelFormatter(ax, xUnits = None, yUnits = None, xSize = None, ySize = N
             Formats tick labels as dolloars, percentages, or decimals.
         Parameters:
             ax : Axes object, default = None
-                Axes object containing figure elements to be adjusted within function.
+                Axis on which to place visual..
             xUnits : str, default = None
-                Determines units of x-axis tick labels. None displays float. '%' displays percentages, 
+                Determines units of x-axis tick labels. None displays float. 'p' displays percentages, 
                 '$' displays dollars.
             xSize : int or float, default = None
-                x-axis label size
+                x-axis label size.
             yUnits : str, default = None
-                Determines units of y-axis tick labels. None displays float. '%' displays percentages, 
+                Determines units of y-axis tick labels. None displays float. 'p' displays percentages, 
                 '$' displays dollars.
             ySize : int or float, default = None
-                y-axis label size
+                y-axis label size.
     """
     # x-axis
     if xUnits == 'd':

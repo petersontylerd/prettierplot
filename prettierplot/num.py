@@ -2,22 +2,11 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import matplotlib
 import matplotlib.pyplot as plt
-import matplotlib.ticker as tkr
-from matplotlib.colors import ListedColormap, LinearSegmentedColormap
-
-import sklearn.metrics as metrics
-import sklearn.preprocessing as prepocessing
-
-from statsmodels.stats.weightstats import ztest
-from statsmodels.stats.proportion import proportions_ztest
-from scipy import stats
+from matplotlib.patches import Patch
 
 import prettierplot.style as style
 import prettierplot.util as util
-# import prettierplot.style as style
-# import prettierplot.util as util
 
 
 def pretty2dScatter(self, x, y, df = None, xUnits = 'f', xTicks = None, yUnits = 'f', yTicks = None
@@ -36,64 +25,66 @@ def pretty2dScatter(self, x, y, df = None, xUnits = 'f', xTicks = None, yUnits =
                 Dataset containing data to be plotted. Can be any size - plotted columns will be 
                 chosen by columns names specified in x, y. 
             xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            xTicks : array, default = None
+                Specify custom x-tick labels. 
             yUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            yTicks : array, default = None
+                Specify custom y-tick labels. 
             plotBuffer : boolean, default = True
                 Switch for determining whether dynamic plot buffer function is executed.
             size : int or float, default = 10
-                Determines scatter dot size
+                Determines scatter dot size.
             axisLimits : boolean, default = True
                 Switch for determining whether dynamic axis limit setting function is executed.
             color : string (color code of some sort), default = style.styleGrey
                 Determine color of scatter dots
             facecolor : string (color code of some sort), default = 'w'
-                Determine face color of scatter dots
+                Determine face color of scatter dots.
             ax : Axes object, default = None
-                Axes object containing figure elements to be adjusted within function.
+                Axis on which to place visual.
     """
-    # If a Pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
+    # if a Pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
     if df is not None:
         x = df[x].values.reshape(-1,1)
         y = df[y].values.reshape(-1,1)
-    # Else reshape arrays.
+    # else reshape arrays.
     else:
         x = x.reshape(-1,1)
         y = y.reshape(-1,1)
     
-    # Plot 2-d scatter.
+    # plot 2-d scatter.
     plt.scatter(x = x
-                ,y = y
-                ,color = color
-                ,s = size * self.chartProp
-                ,alpha = 0.7
-                ,facecolor = facecolor
-                ,linewidth = 0.167 * self.chartProp
-                )
+               ,y = y
+               ,color = color
+               ,s = size * self.chartProp
+               ,alpha = 0.7
+               ,facecolor = facecolor
+               ,linewidth = 0.167 * self.chartProp
+        )
     
-    # Axis tick label formatting.
+    # use label formatter utility function to customize chart labels
     util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)        
 
-    # Dynamically set axis lower / upper limits.
+    # dynamically set axis lower / upper limits.
     if axisLimits:
         xMin, xMax, yMin, yMax = util.utilSetAxes(x = x, y = y)        
         plt.axis([xMin, xMax, yMin, yMax])   
 
-    # Create smaller buffer around plot area to prevent cutting off elements.
+    # vreate smaller buffer around plot area to prevent cutting off elements.
     if plotBuffer:
         util.utilPlotBuffer(ax = ax, x = 0.02, y = 0.02)
 
-    # x-axis tick label control
+    # tick label control
     if xTicks is not None:
         ax.set_xticks(xTicks)
     
-    # y-axis tick label control
     if yTicks is not None:
         ax.set_yticks(yTicks)
 
-    # Show figure with tight layout.
     plt.tight_layout()
 
 
@@ -118,86 +109,88 @@ def pretty2dScatterHue(self, x, y, target, label, df = None, xUnits = 'f', xTick
                 Dataset containing data to be plotted. Can be any size - plotted columns will be 
                 chosen by columns names specified in x, y. 
             xUnits : string, default = 'd'
-                Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            xTicks : array, default = None
+                Specify custom x-tick labels. 
             yUnits : string, default = 'd'
-                Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            yTicks : array, default = None
+                Specify custom y-tick labels. 
             plotBuffer : boolean, default = True
                 Switch for determining whether dynamic plot buffer function is executed.
             size : int or float, default = 10
-                Determines scatter dot size
+                Determines scatter dot size.
             axisLimits : boolean, default = True
                 Switch for determining whether dynamic axis limit setting function is executed.
             color : string (color code of some sort), default = style.styleGrey
-                Determine color of scatter dots
+                Determine color of scatter dots.
             facecolor : string (color code of some sort), default = 'w'
-                Determine face color of scatter dots
+                Determine face color of scatter dots.
             bbox : tuple of floats, default = (1.2, 0.9)
-                Coordinates for determining legend position
+                Coordinates for determining legend position.
             ax : Axes object, default = None
-                Axes object containing figure elements to be adjusted within function.
+                Axis on which to place visual.
     """
-    # If a Pandas DataFrame is passed to function, create x, y and target arrays using columns names 
+    # if a Pandas DataFrame is passed to function, create x, y and target arrays using columns names 
     # passed into function. Also create X, which is a matrix containing the x, y and target columns.
     if df is not None:
         X = df[[x, y, target]].values
         x = df[x].values
         y = df[y].values
         target = df[target].values
-    # Concatenate the x, y and target arrays.
+    # concatenate the x, y and target arrays.
     else:
         X = np.c_[x, y, target]
 
-    # Unique target values.
+    # unique target values.
     targetIds =  np.unique(X[:, 2])
         
-    # Loop through sets of target values, labels and colors to create 2-d scatter with hue.
+    # loop through sets of target values, labels and colors to create 2-d scatter with hue.
     for targetId, targetName, color in zip(targetIds, label, style.styleHexMid[:len(targetIds)]):
         plt.scatter(x = X[X[:,2] == targetId][:,0]
-                    ,y = X[X[:,2] == targetId][:,1]
-                    ,color = color
-                    ,label = targetName
-                    ,s = size * self.chartProp
-                    ,alpha = 0.7
-                    ,facecolor = 'w'
-                    ,linewidth = 0.234 * self.chartProp
-                )
+                   ,y = X[X[:,2] == targetId][:,1]
+                   ,color = color
+                   ,label = targetName
+                   ,s = size * self.chartProp
+                   ,alpha = 0.7
+                   ,facecolor = 'w'
+                   ,linewidth = 0.234 * self.chartProp
+            )
     
-    # Add legend to figure.
+    # add legend to figure.
     if label is not None:
         plt.legend(loc = 'upper right'
-                    ,bbox_to_anchor = bbox
-                    ,ncol = 1
-                    ,frameon = True
-                    ,fontsize = 1.1 * self.chartProp
-                    )
+                  ,bbox_to_anchor = bbox
+                  ,ncol = 1
+                  ,frameon = True
+                  ,fontsize = 1.1 * self.chartProp
+        )
         
-    # Axis tick label formatting.
+    # use label formatter utility function to customize chart labels
     util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
 
-    # Dynamically set axis lower / upper limits.
+    # dynamically set axis lower / upper limits.
     if axisLimits:
         xMin, xMax, yMin, yMax = util.utilSetAxes(x = x, y = y)
         plt.axis([xMin, xMax, yMin, yMax])   
     
-    # Create smaller buffer around plot area to prevent cutting off elements.
+    # create smaller buffer around plot area to prevent cutting off elements.
     if plotBuffer:
         util.utilPlotBuffer(ax = ax, x = 0.02, y = 0.02)
 
-    # x-axis tick label control
+    # tick label control
     if xTicks is not None:
         ax.set_xticks(xTicks)
     
-    # y-axis tick label control
     if yTicks is not None:
         ax.set_yticks(yTicks)
 
-    # Show figure with tight layout.
     plt.tight_layout()
 
 
-def prettyDistPlot(self, x, color, yUnits = 'f', xUnits = 'f', fit = None, xRotate = None, ax = None):
+def prettyDistPlot(self, x, color, xUnits = 'f', yUnits = 'f', fit = None, xRotate = None, ax = None):
     """
     Documentation:
         Description:
@@ -209,28 +202,30 @@ def prettyDistPlot(self, x, color, yUnits = 'f', xUnits = 'f', fit = None, xRota
             color : string (some sort of color code)
                 Determines color of bars, KDE lines.
             xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             yUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
-            xRotate : int, default = None
-                Rotates x-axis tick mark labels X degrees
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             fit : random variabe object, default = None
                 Allows for the addition of another curve. Utilizing 'norm' overlays a normal distribution
-                over the distribution bar chart. Useful for seeing how well, or not, distribution tracks
+                over the distribution bar chart. Useful for seeing how well, or not, the distribution tracks
                 with a normal distrbution.
+            xRotate : int, default = None
+                Rotates x-axis tick mark labels X degrees.
             ax : Axes object, default = None
-                Axes object containing figure elements to be adjusted within function.
+                Axis on which to place visual.
     """
+    # create distribution plot with an optional fit curve
     g = sns.distplot(a = x
                     ,kde = True
                     ,color = color
                     ,axlabel = False
                     ,fit = fit
-                    ,ax = ax)
+                    ,ax = ax
+        )
 
-    # Axis tick label formatting.
+    # use label formatter utility function to customize chart labels
     util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits, xRotate = xRotate)
 
 
@@ -245,31 +240,32 @@ def prettyKdePlot(self, x, color, yUnits = 'f', xUnits = 'f', ax = None):
             color : string (some sort of color code)
                 Determines color of KDE lines.
             xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             yUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             ax : Axes object, default = None
-                Axes object containing figure elements to be adjusted within function.
+                Axis on which to place visual.
     """
-    # Create kernel density estimation line
+    # create kernel density estimation line
     g = sns.kdeplot(data = x
-                    ,shade = True
-                    ,color = color
-                    ,legend = None
-                    ,ax = ax)
+                   ,shade = True
+                   ,color = color
+                   ,legend = None
+                   ,ax = ax
+        )
     
-    # Axis tick label formatting.
+    # use label formatter utility function to customize chart labels
     util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
 
 
-def prettyRegPlot(self, x, y, data, color = style.styleHexMid[0], x_jitter = None, xUnits = 'f', xRotate = None
-                 ,yUnits = 'f', ax = None):
+def prettyRegPlot(self, x, y, data, color = style.styleHexMid[0], x_jitter = None, xUnits = 'f', yUnits = 'f'
+                 ,xRotate = None, ax = None):
     """
     Documentation:
         Description:
-
+            Create scatter plot with regression line.
         Parameters:
             x : string
                 Name of independent variable in dataframe. Represents a category
@@ -279,48 +275,54 @@ def prettyRegPlot(self, x, y, data, color = style.styleHexMid[0], x_jitter = Non
                 Pandas DataFrame including both indepedent variable and target variable.
             color : string
                 Determines color of dots and regression line.
+            x_jitter : float, default = None
+                Optional paramter for randomly displacing dots along the x-axis to enable easier visibility
+                of dots.
             labelRotate : float or int, default = 45
                 Degrees by which the xtick labels are rotated.
+            xUnits : string, default = 'f'
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             yUnits : string, default = 'f'
-                Determines units of y-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
+                Determines units of y-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             xRotate : int, default = None
-                Rotates x-axis tick mark labels X degrees
+                Rotates x-axis tick mark labels X degrees.
             ax : Axes object, default = None
-                Axes object containing figure elements to be adjusted within function.
+                Axis on which to place visual.
     """
-    # Create vertical box plot.
+    # create regression plot.
     g = sns.regplot(x = x
-                    ,y = y
-                    ,data = data
-                    ,x_jitter = x_jitter
-                    # ,color = color
-                    ,scatter_kws = {'alpha' : 0.3
-                                    ,'color' : style.styleHexMid[0]}
+                   ,y = y
+                   ,data = data
+                   ,x_jitter = x_jitter
+                   ,scatter_kws = {'alpha' : 0.3
+                                  ,'color' : style.styleHexMid[0]
+                                }
                     ,line_kws = {'color' : style.styleHexMid[1]}
-                    ,ax = ax).set(
-                                xlabel = None
-                                ,ylabel = None
-                            )        
+                    ,ax = ax
+            ).set(xlabel = None
+                 ,ylabel = None
+        )
     
-    # Axis tick label formatting.
+    # use label formatter utility function to customize chart labels
     util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits, xRotate = xRotate)
 
 
-def prettyPairPlot(self, df, cols = None, target = None, diag_kind = 'auto', legendLabels = None, bbox_to_anchor = None):
+def prettyPairPlot(self, df, cols = None, target = None, diag_kind = 'auto', legendLabels = None, bbox = None):
     """
     Documentation:
         Description: 
             Create pair plot that produces a grid of scatter plots for all unique pairs of
-            continuous features.
+            continuous features and a series of KDE or histogram plots along the diagonal.
         Parameters:
             df : Pandas DataFrame
                 Pandas DataFrame containing data of interest.
-            vars : list, default = None
+            cols : list, default = None
                 List of strings describing columns in Pandas DataFrame to be visualized.
-            hue : string, default = None
-                Variable name to be used to introduce third dimension to scatter plots through
-                a color hue.
+            target : Pandas Series, default = None
+                Introduce third dimension to scatter plots through a color hue that differentiates 
+                dots based on the target's value.
             diag_kind : string, default = 'auto.
                 Type of plot created along diagonal.
     """
@@ -353,9 +355,8 @@ def prettyPairPlot(self, df, cols = None, target = None, diag_kind = 'auto', leg
         if target is not None:
             df = df.merge(target, left_index = True, right_index = True)
 
-        # Create pair plot.
+        # create pair plot.
         g = sns.pairplot(data = df if target is None else df.dropna()
-                        # ,vars = df.columns
                         ,vars = df.columns if target is None else [x for x in df.columns if x is not target.name] 
                         ,hue = target if target is None else target.name
                         ,diag_kind = diag_kind
@@ -383,7 +384,7 @@ def prettyPairPlot(self, df, cols = None, target = None, diag_kind = 'auto', leg
         
         plt.subplots_adjust(hspace = 0.0, wspace = 0.0)
         
-        # Add custom legend describing hue labels
+        # add custom legend describing hue labels
         if target is not None:
             g._legend.remove()
             
@@ -399,15 +400,15 @@ def prettyPairPlot(self, df, cols = None, target = None, diag_kind = 'auto', leg
                 labelColor[i] = style.styleHexMid[ix]
 
             # create patches
-            patches = [matplotlib.patches.Patch(color = v, label = k) for k, v in labelColor.items()]
+            patches = [Patch(color = v, label = k) for k, v in labelColor.items()]
             
             # draw legend
             leg = plt.legend(handles = patches
-                        ,fontsize = 1.3 * self.chartProp
-                        ,loc = 'upper right'
-                        ,markerscale = 0.5 * self.chartProp
-                        ,ncol = 1
-                        ,bbox_to_anchor = bbox_to_anchor
+                            ,fontsize = 1.3 * self.chartProp
+                            ,loc = 'upper right'
+                            ,markerscale = 0.5 * self.chartProp
+                            ,ncol = 1
+                            ,bbox_to_anchor = bbox
                 )
 
             # label font color
@@ -427,15 +428,15 @@ def prettyHist(self, x, color, label, alpha = 0.8):
             x : array
                 1-dimensional array of values to be plotted on x-axis.
             color : string (some sort of color code)
-                Determines color of histogram
+                Determines color of histogram.
             label : string
-                Category value label
+                Category value label.
             alpha : float, default = 0.8
-                Fades histogram bars to create transparent bars            
+                Fades histogram bars to create transparent bars.
     """
     # Create histogram.
     plt.hist(x = x
             ,color = color
             ,label = label
             ,alpha = alpha
-            )
+        )

@@ -1,18 +1,7 @@
 
 import numpy as np
-import pandas as pd
 import seaborn as sns
-import matplotlib
 import matplotlib.pyplot as plt
-import matplotlib.ticker as tkr
-from matplotlib.colors import ListedColormap, LinearSegmentedColormap
-
-import sklearn.metrics as metrics
-import sklearn.preprocessing as prepocessing
-
-from statsmodels.stats.weightstats import ztest
-from statsmodels.stats.proportion import proportions_ztest
-from scipy import stats
 
 import prettierplot.style as style
 import prettierplot.util as util
@@ -31,30 +20,31 @@ def prettyBarV(self, x, counts, color = style.styleHexMid[0], xLabels = None, la
             color : string (some sort of color code), default = style.styleHexMid[0]
                 Bar color.
             xLabels : list, default = None
-                Custom x-axis test labels
+                Custom x-axis test labels.
             labelRotate : float or int, default = 0
                 Degrees by which the xtick labels are rotated.
-            yUnits : string, default = 'd'
-                Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
+            yUnits : string, default = 'f'
+                Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                decimal places.
             ax : Axes object, default = None
-                Axes object containing figure elements to be adjusted within function.
+                Axis on which to place visual.
     """
-    # Create vertical bar plot.
+    # create vertical bar plot.
     plt.bar(x = x
-            ,height = counts
-            ,color = color
-            ,tick_label = xLabels if xLabels is not None else x
-            ,alpha = 0.8
+           ,height = counts
+           ,color = color
+           ,tick_label = xLabels if xLabels is not None else x
+           ,alpha = 0.8
         )
 
-    # Rotate x-tick labels.
+    # rotate x-tick labels.
     plt.xticks(rotation = labelRotate)
     
-    # Axis tick label formatting.
+    # use label formatter utility function to customize chart labels.
     util.utilLabelFormatter(ax = ax, yUnits = yUnits)
 
-    # Resize x-axis labels as needed
+    # tesize x-axis labels as needed.
     if len(x) > 10 and len(x) <= 20:
         ax.tick_params(axis = 'x', colors = style.styleGrey, labelsize = 1.2 * self.chartProp)
     elif len(x) > 20:
@@ -75,13 +65,14 @@ def prettyBarH(self, y, counts, color = style.styleHexMid[0], labelRotate = 45, 
                 Bar color.
             labelRotate : float or int, default = 45
                 Degrees by which the xtick labels are rotated.
-            xUnits : string, default = 'd'
-                Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
+            xUnits : string, default = 'f'
+                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                decimal places.
             ax : Axes object, default = None
-                Axes object containing figure elements to be adjusted within `function.
+                Axis on which to place visual.
     """
-    # Plot horizontal bar plot.
+    # plot horizontal bar plot.
     plt.barh(y = y
             ,width = counts
             ,color = color
@@ -89,10 +80,10 @@ def prettyBarH(self, y, counts, color = style.styleHexMid[0], labelRotate = 45, 
             ,alpha = 0.8
         )
     
-    # Rotate x-tick labels.
+    # rotate x-tick labels.
     plt.xticks(rotation = labelRotate)
     
-    # Axis tick label formatting.
+    # use label formatter utility function to customize chart labels.
     util.utilLabelFormatter(ax = ax, xUnits = xUnits)
 
 
@@ -104,7 +95,7 @@ def prettyBoxPlotV(self, x, y, data, color, labelRotate = 0, yUnits = 'f', ax = 
             vs. several different category segments on the x-axis
         Parameters:
             x : string
-                Name of independent variable in dataframe. Represents a category
+                Name of independent variable in dataframe. Represents a category.
             y : string
                 Name of continuous target variable. 
             data : Pandas DataFrame
@@ -116,49 +107,50 @@ def prettyBoxPlotV(self, x, y, data, color, labelRotate = 0, yUnits = 'f', ax = 
             labelRotate : float or int, default = 45
                 Degrees by which the xtick labels are rotated.
             yUnits : string, default = 'f'
-                Determines units of y-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
+                Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                decimal places.
             ax : Axes object, default = None
-                Axes object containing figure elements to be adjusted within function.
+                Axis on which to place visual.
     """
-    # Create vertical box plot.
+    # create vertical box plot.
     g = sns.boxplot(x = x
-                    ,y = y
-                    ,data = data
-                    ,orient = 'v'
-                    ,palette = color
-                    ,ax = ax).set(
-                                xlabel = None
-                                ,ylabel = None
-                            )
+                   ,y = y
+                   ,data = data
+                   ,orient = 'v'
+                   ,palette = color
+                   ,ax = ax
+        ).set(xlabel = None
+             ,ylabel = None
+    )
     
-    # Resize x-axis labels as needed.
+    # resize x-axis labels as needed.
     unique = np.unique(data[x])
     if len(unique) > 10 and len(unique) <= 20:
         ax.tick_params(axis = 'x', labelsize = 1.2 * self.chartProp)
     elif len(unique) > 20:
         ax.tick_params(axis = 'x', labelsize = 0.6 * self.chartProp)
     
-    # Fade box plot figures by reducing alpha.
+    # fade box plot figures by reducing alpha.
     plt.setp(ax.artists, alpha = 0.8)
     
-    # Rotate x-tick labels.
+    # rotate x-tick labels.
     plt.xticks(rotation = labelRotate)
     ax.yaxis.set_visible(True)
 
-    # Axis tick label formatting.
+    # use label formatter utility function to customize chart labels.
     util.utilLabelFormatter(ax = ax, yUnits = yUnits)
 
         
-def prettyBoxPlotH(self, x, y, data, color = style.styleHexMid, xUnits = 'f', ax = None):
+def prettyBoxPlotH(self, x, y, data, color = style.styleHexMid, xUnits = 'f', bbox = (1.05, 1), ax = None):
     """
     Documentation:
         Description:
             Create horizontal box plots. Useful for evaluating a categorical target on the y-axis
-            vs. a continuous independent variable on the x-axis
+            vs. a continuous independent variable on the x-axis.
         Parameters:
             x : string
-                Name of independent variable in dataframe. Represents a category
+                Name of independent variable in dataframe. Represents a category.
             y : string
                 Name of continuous target variable. 
             data : Pandas DataFrame
@@ -168,27 +160,32 @@ def prettyBoxPlotH(self, x, y, data, color = style.styleHexMid, xUnits = 'f', ax
                 which can be a default seaborn palette, a custom seaborn palette, or a custom
                 matplotlib cmap.
             xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. '%' displays percentages, 
-                '$' displays dollars. 'd' displays real numbers.
+                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                decimal places.
+            bbox : tuple of floats, default = (1.05, 1.0)
+                Coordinates for determining legend position.
             ax : Axes object, default = None
-                Axes object containing figure elements to be adjusted within function.
+                Axis on which to place visual.
     """
-    # Create horizontal box plot.
+    # create horizontal box plot.
     g = sns.boxplot(x = x
-                    ,y = y
-                    ,hue = y
-                    ,data = data
-                    ,orient = 'h'
-                    ,palette = color
-                    ,ax = ax).set(
-                                xlabel = None
-                                ,ylabel = None
-                            )
+                   ,y = y
+                   ,hue = y
+                   ,data = data
+                   ,orient = 'h'
+                   ,palette = color
+                   ,ax = ax
+        ).set(xlabel = None
+             ,ylabel = None
+    )
     
-    # Fade box plot figures by reducing alpha.
+    # fade box plot figures by reducing alpha.
     plt.setp(ax.artists, alpha = 0.8)
     ax.yaxis.set_visible(False)
     
-    # Axis tick label formatting.
+    # use label formatter utility function to customize chart labels.
     util.utilLabelFormatter(ax = ax, xUnits = xUnits)
-    plt.legend(bbox_to_anchor = (1.05, 1), loc = 2, borderaxespad = 0.)
+    
+    # legend placement.
+    plt.legend(bbox_to_anchor = bbox, loc = 2, borderaxespad = 0.)
