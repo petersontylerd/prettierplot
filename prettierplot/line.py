@@ -1,4 +1,3 @@
-
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -7,9 +6,24 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def prettyLine(self, x, y, label = None, df = None, linecolor = None, linestyle = None
-                ,bbox = (1.2, 0.9), xUnits = 'f', xTicks = None, yUnits = 'f', yTicks = None
-                ,markerOn = False, plotBuffer = False, axisLimits = False, ax = None):
+def prettyLine(
+    self,
+    x,
+    y,
+    label=None,
+    df=None,
+    linecolor=None,
+    linestyle=None,
+    bbox=(1.2, 0.9),
+    xUnits="f",
+    xTicks=None,
+    yUnits="f",
+    yTicks=None,
+    markerOn=False,
+    plotBuffer=False,
+    axisLimits=False,
+    ax=None,
+):
     """
     Documentation:
         Description: 
@@ -65,56 +79,74 @@ def prettyLine(self, x, y, label = None, df = None, linecolor = None, linestyle 
         y = np.array(y) if type(y) == list else y
 
         # reshape arrays if necessar
-        x = x.reshape(-1,1) if len(x.shape) == 1 else x
-        y = y.reshape(-1,1) if len(y.shape) == 1 else y
-    
+        x = x.reshape(-1, 1) if len(x.shape) == 1 else x
+        y = y.reshape(-1, 1) if len(y.shape) == 1 else y
+
     # add line to plot
-    plt.plot(x
-            ,y
-            ,color = linecolor if linecolor is not None else style.styleHexMid[0]
-            ,linestyle = linestyle if linestyle is not None else style.styleLineStyle[0]
-            ,linewidth = 0.247 * self.chartProp
-            ,label = label
-            ,marker = '.' if markerOn else None
-            ,markersize = 25 if markerOn else None
-            ,markerfacecolor = 'w' if markerOn else None
-            ,markeredgewidth = 2.5 if markerOn else None
-        )                
-    
+    plt.plot(
+        x,
+        y,
+        color=linecolor if linecolor is not None else style.styleHexMid[0],
+        linestyle=linestyle if linestyle is not None else style.styleLineStyle[0],
+        linewidth=0.247 * self.chartProp,
+        label=label,
+        marker="." if markerOn else None,
+        markersize=25 if markerOn else None,
+        markerfacecolor="w" if markerOn else None,
+        markeredgewidth=2.5 if markerOn else None,
+    )
+
     # add legend to figure
     if label is not None:
-        plt.legend(loc = 'upper right'
-                  ,bbox_to_anchor = bbox
-                  ,ncol = 1
-                  ,frameon = True
-                  ,fontsize = 1.1 * self.chartProp
-            )
-        
+        plt.legend(
+            loc="upper right",
+            bbox_to_anchor=bbox,
+            ncol=1,
+            frameon=True,
+            fontsize=1.1 * self.chartProp,
+        )
+
     # axis tick label formatting
-    util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
     # dynamically set axis lower / upper limits
     if axisLimits:
-        xMin, xMax, yMin, yMax = util.utilSetAxes(x = x, y = y)
-        plt.axis([xMin, xMax, yMin, yMax])   
-    
+        xMin, xMax, yMin, yMax = util.utilSetAxes(x=x, y=y)
+        plt.axis([xMin, xMax, yMin, yMax])
+
     # create smaller buffer around plot area to prevent cutting off elements
     if plotBuffer:
-        util.utilPlotBuffer(ax = ax, x = 0.02, y = 0.02)
+        util.utilPlotBuffer(ax=ax, x=0.02, y=0.02)
 
     # tick label control
     if xTicks is not None:
         ax.set_xticks(xTicks)
-    
+
     if yTicks is not None:
         ax.set_yticks(yTicks)
-    
+
     # show figure with tight layout
     plt.tight_layout()
 
-def prettyMultiLine(self, x, y, label = None, df = None, linecolor = None, linestyle = None, bbox = (1.2, 0.9)
-                ,xUnits = 'f', xTicks = None, yUnits = 'f', yTicks = None, markerOn = False, plotBuffer = False
-                ,axisLimits = False, ax = None):
+
+def prettyMultiLine(
+    self,
+    x,
+    y,
+    label=None,
+    df=None,
+    linecolor=None,
+    linestyle=None,
+    bbox=(1.2, 0.9),
+    xUnits="f",
+    xTicks=None,
+    yUnits="f",
+    yTicks=None,
+    markerOn=False,
+    plotBuffer=False,
+    axisLimits=False,
+    ax=None,
+):
     """
     Documentation:
         Description: 
@@ -168,50 +200,52 @@ def prettyMultiLine(self, x, y, label = None, df = None, linecolor = None, lines
         # convert input list to array
         x = np.array(x) if type(x) == list else x
         y = np.array(y) if type(y) == list else y
-        
-        x = x.reshape(-1,1) if len(x.shape) == 1 else x
-        y = y.reshape(-1,1) if len(y.shape) == 1 else y
-    
+
+        x = x.reshape(-1, 1) if len(x.shape) == 1 else x
+        y = y.reshape(-1, 1) if len(y.shape) == 1 else y
+
     # add multiple lines
     for ix in np.arange(y.shape[1]):
         yCol = y[:, ix]
-        plt.plot(x
-                ,yCol
-                ,color = linecolor if linecolor is not None else style.styleHexMid[ix]
-                ,linestyle = linestyle if linestyle is not None else style.styleLineStyle[0]
-                ,linewidth = 0.247 * self.chartProp
-                ,label = label[ix] if label is not None else None
-                ,marker = '.' if markerOn else None
-                ,markersize = 25 if markerOn else None
-                ,markerfacecolor = 'w' if markerOn else None
-                ,markeredgewidth = 2.5 if markerOn else None
-            )
+        plt.plot(
+            x,
+            yCol,
+            color=linecolor if linecolor is not None else style.styleHexMid[ix],
+            linestyle=linestyle if linestyle is not None else style.styleLineStyle[0],
+            linewidth=0.247 * self.chartProp,
+            label=label[ix] if label is not None else None,
+            marker="." if markerOn else None,
+            markersize=25 if markerOn else None,
+            markerfacecolor="w" if markerOn else None,
+            markeredgewidth=2.5 if markerOn else None,
+        )
 
     # add legend to figure
     if label is not None:
-        plt.legend(loc = 'upper right'
-                  ,bbox_to_anchor = bbox
-                  ,ncol = 1
-                  ,frameon = True
-                  ,fontsize = 1.1 * self.chartProp
-            )
-        
+        plt.legend(
+            loc="upper right",
+            bbox_to_anchor=bbox,
+            ncol=1,
+            frameon=True,
+            fontsize=1.1 * self.chartProp,
+        )
+
     # axis tick label formatting
-    util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
     # dynamically set axis lower / upper limits
     if axisLimits:
-        xMin, xMax, yMin, yMax = util.utilSetAxes(x = x, y = y)
-        plt.axis([xMin, xMax, yMin, yMax])   
-    
+        xMin, xMax, yMin, yMax = util.utilSetAxes(x=x, y=y)
+        plt.axis([xMin, xMax, yMin, yMax])
+
     # create smaller buffer around plot area to prevent cutting off elements
     if plotBuffer:
-        util.utilPlotBuffer(ax = ax, x = 0.02, y = 0.02)
+        util.utilPlotBuffer(ax=ax, x=0.02, y=0.02)
 
     # tick label control
     if xTicks is not None:
         ax.set_xticks(xTicks)
-    
+
     if yTicks is not None:
         ax.set_yticks(yTicks)
 

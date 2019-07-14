@@ -1,4 +1,3 @@
-
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -9,9 +8,22 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def pretty2dScatter(self, x, y, df = None, xUnits = 'f', xTicks = None, yUnits = 'f', yTicks = None
-                   ,plotBuffer = True, size = 10, axisLimits = True, color = style.styleGrey
-                   ,facecolor = 'w', ax = None):
+def pretty2dScatter(
+    self,
+    x,
+    y,
+    df=None,
+    xUnits="f",
+    xTicks=None,
+    yUnits="f",
+    yTicks=None,
+    plotBuffer=True,
+    size=10,
+    axisLimits=True,
+    color=style.styleGrey,
+    facecolor="w",
+    ax=None,
+):
     """
     Documentation:
         Description: 
@@ -49,48 +61,65 @@ def pretty2dScatter(self, x, y, df = None, xUnits = 'f', xTicks = None, yUnits =
     """
     # if a Pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
     if df is not None:
-        x = df[x].values.reshape(-1,1)
-        y = df[y].values.reshape(-1,1)
+        x = df[x].values.reshape(-1, 1)
+        y = df[y].values.reshape(-1, 1)
     # else reshape arrays.
     else:
-        x = x.reshape(-1,1)
-        y = y.reshape(-1,1)
-    
+        x = x.reshape(-1, 1)
+        y = y.reshape(-1, 1)
+
     # plot 2-d scatter.
-    plt.scatter(x = x
-               ,y = y
-               ,color = color
-               ,s = size * self.chartProp
-               ,alpha = 0.7
-               ,facecolor = facecolor
-               ,linewidth = 0.167 * self.chartProp
-        )
-    
+    plt.scatter(
+        x=x,
+        y=y,
+        color=color,
+        s=size * self.chartProp,
+        alpha=0.7,
+        facecolor=facecolor,
+        linewidth=0.167 * self.chartProp,
+    )
+
     # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)        
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
     # dynamically set axis lower / upper limits.
     if axisLimits:
-        xMin, xMax, yMin, yMax = util.utilSetAxes(x = x, y = y)        
-        plt.axis([xMin, xMax, yMin, yMax])   
+        xMin, xMax, yMin, yMax = util.utilSetAxes(x=x, y=y)
+        plt.axis([xMin, xMax, yMin, yMax])
 
     # vreate smaller buffer around plot area to prevent cutting off elements.
     if plotBuffer:
-        util.utilPlotBuffer(ax = ax, x = 0.02, y = 0.02)
+        util.utilPlotBuffer(ax=ax, x=0.02, y=0.02)
 
     # tick label control
     if xTicks is not None:
         ax.set_xticks(xTicks)
-    
+
     if yTicks is not None:
         ax.set_yticks(yTicks)
 
     plt.tight_layout()
 
 
-def pretty2dScatterHue(self, x, y, target, label, df = None, xUnits = 'f', xTicks = None, yUnits = 'f', yTicks = None
-                      ,plotBuffer = True, size = 10, axisLimits = True, color = style.styleGrey, facecolor = 'w'
-                      ,bbox = (1.2, 0.9), ax = None):
+def pretty2dScatterHue(
+    self,
+    x,
+    y,
+    target,
+    label,
+    df=None,
+    xUnits="f",
+    xTicks=None,
+    yUnits="f",
+    yTicks=None,
+    plotBuffer=True,
+    size=10,
+    axisLimits=True,
+    color=style.styleGrey,
+    facecolor="w",
+    bbox=(1.2, 0.9),
+    ax=None,
+):
     """
     Documentation:
         Description: 
@@ -133,7 +162,7 @@ def pretty2dScatterHue(self, x, y, target, label, df = None, xUnits = 'f', xTick
             ax : Axes object, default = None
                 Axis on which to place visual.
     """
-    # if a Pandas DataFrame is passed to function, create x, y and target arrays using columns names 
+    # if a Pandas DataFrame is passed to function, create x, y and target arrays using columns names
     # passed into function. Also create X, which is a matrix containing the x, y and target columns.
     if df is not None:
         X = df[[x, y, target]].values
@@ -145,52 +174,58 @@ def pretty2dScatterHue(self, x, y, target, label, df = None, xUnits = 'f', xTick
         X = np.c_[x, y, target]
 
     # unique target values.
-    targetIds =  np.unique(X[:, 2])
-        
+    targetIds = np.unique(X[:, 2])
+
     # loop through sets of target values, labels and colors to create 2-d scatter with hue.
-    for targetId, targetName, color in zip(targetIds, label, style.styleHexMid[:len(targetIds)]):
-        plt.scatter(x = X[X[:,2] == targetId][:,0]
-                   ,y = X[X[:,2] == targetId][:,1]
-                   ,color = color
-                   ,label = targetName
-                   ,s = size * self.chartProp
-                   ,alpha = 0.7
-                   ,facecolor = 'w'
-                   ,linewidth = 0.234 * self.chartProp
-            )
-    
+    for targetId, targetName, color in zip(
+        targetIds, label, style.styleHexMid[: len(targetIds)]
+    ):
+        plt.scatter(
+            x=X[X[:, 2] == targetId][:, 0],
+            y=X[X[:, 2] == targetId][:, 1],
+            color=color,
+            label=targetName,
+            s=size * self.chartProp,
+            alpha=0.7,
+            facecolor="w",
+            linewidth=0.234 * self.chartProp,
+        )
+
     # add legend to figure.
     if label is not None:
-        plt.legend(loc = 'upper right'
-                  ,bbox_to_anchor = bbox
-                  ,ncol = 1
-                  ,frameon = True
-                  ,fontsize = 1.1 * self.chartProp
+        plt.legend(
+            loc="upper right",
+            bbox_to_anchor=bbox,
+            ncol=1,
+            frameon=True,
+            fontsize=1.1 * self.chartProp,
         )
-        
+
     # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
     # dynamically set axis lower / upper limits.
     if axisLimits:
-        xMin, xMax, yMin, yMax = util.utilSetAxes(x = x, y = y)
-        plt.axis([xMin, xMax, yMin, yMax])   
-    
+        xMin, xMax, yMin, yMax = util.utilSetAxes(x=x, y=y)
+        plt.axis([xMin, xMax, yMin, yMax])
+
     # create smaller buffer around plot area to prevent cutting off elements.
     if plotBuffer:
-        util.utilPlotBuffer(ax = ax, x = 0.02, y = 0.02)
+        util.utilPlotBuffer(ax=ax, x=0.02, y=0.02)
 
     # tick label control
     if xTicks is not None:
         ax.set_xticks(xTicks)
-    
+
     if yTicks is not None:
         ax.set_yticks(yTicks)
 
     plt.tight_layout()
 
 
-def prettyDistPlot(self, x, color, xUnits = 'f', yUnits = 'f', fit = None, xRotate = None, ax = None):
+def prettyDistPlot(
+    self, x, color, xUnits="f", yUnits="f", fit=None, xRotate=None, ax=None
+):
     """
     Documentation:
         Description:
@@ -217,19 +252,13 @@ def prettyDistPlot(self, x, color, xUnits = 'f', yUnits = 'f', fit = None, xRota
                 Axis on which to place visual.
     """
     # create distribution plot with an optional fit curve
-    g = sns.distplot(a = x
-                    ,kde = True
-                    ,color = color
-                    ,axlabel = False
-                    ,fit = fit
-                    ,ax = ax
-        )
+    g = sns.distplot(a=x, kde=True, color=color, axlabel=False, fit=fit, ax=ax)
 
     # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits, xRotate = xRotate)
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits, xRotate=xRotate)
 
 
-def prettyKdePlot(self, x, color, yUnits = 'f', xUnits = 'f', ax = None):
+def prettyKdePlot(self, x, color, yUnits="f", xUnits="f", ax=None):
     """
     Documentation:
         Description:
@@ -249,19 +278,24 @@ def prettyKdePlot(self, x, color, yUnits = 'f', xUnits = 'f', ax = None):
                 Axis on which to place visual.
     """
     # create kernel density estimation line
-    g = sns.kdeplot(data = x
-                   ,shade = True
-                   ,color = color
-                   ,legend = None
-                   ,ax = ax
-        )
-    
+    g = sns.kdeplot(data=x, shade=True, color=color, legend=None, ax=ax)
+
     # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
 
-def prettyRegPlot(self, x, y, data, color = style.styleHexMid[0], x_jitter = None, xUnits = 'f', yUnits = 'f'
-                 ,xRotate = None, ax = None):
+def prettyRegPlot(
+    self,
+    x,
+    y,
+    data,
+    color=style.styleHexMid[0],
+    x_jitter=None,
+    xUnits="f",
+    yUnits="f",
+    xRotate=None,
+    ax=None,
+):
     """
     Documentation:
         Description:
@@ -292,24 +326,23 @@ def prettyRegPlot(self, x, y, data, color = style.styleHexMid[0], x_jitter = Non
                 Axis on which to place visual.
     """
     # create regression plot.
-    g = sns.regplot(x = x
-                   ,y = y
-                   ,data = data
-                   ,x_jitter = x_jitter
-                   ,scatter_kws = {'alpha' : 0.3
-                                  ,'color' : style.styleHexMid[0]
-                                }
-                    ,line_kws = {'color' : style.styleHexMid[1]}
-                    ,ax = ax
-            ).set(xlabel = None
-                 ,ylabel = None
-        )
-    
+    g = sns.regplot(
+        x=x,
+        y=y,
+        data=data,
+        x_jitter=x_jitter,
+        scatter_kws={"alpha": 0.3, "color": style.styleHexMid[0]},
+        line_kws={"color": style.styleHexMid[1]},
+        ax=ax,
+    ).set(xlabel=None, ylabel=None)
+
     # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits, xRotate = xRotate)
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits, xRotate=xRotate)
 
 
-def prettyPairPlot(self, df, cols = None, target = None, diag_kind = 'auto', legendLabels = None, bbox = None):
+def prettyPairPlot(
+    self, df, cols=None, target=None, diag_kind="auto", legendLabels=None, bbox=None
+):
     """
     Documentation:
         Description: 
@@ -327,67 +360,73 @@ def prettyPairPlot(self, df, cols = None, target = None, diag_kind = 'auto', leg
                 Type of plot created along diagonal.
     """
     # Custom plot formatting settings for this particular chart.
-    with plt.rc_context({'axes.titlesize' : 3.5 * self.chartProp
-                        ,'axes.labelsize' : 1.5 * self.chartProp  # Axis title font size
-                        ,'xtick.labelsize' : 1.2 * self.chartProp
-                        ,'xtick.major.size' : 0.5 * self.chartProp
-                        ,'xtick.major.width' : 0.05 * self.chartProp
-                        ,'xtick.color' : style.styleGrey
-                        ,'ytick.labelsize' : 1.2 * self.chartProp
-                        ,'ytick.major.size' : 0.5 * self.chartProp
-                        ,'ytick.major.width' : 0.05 * self.chartProp
-                        ,'ytick.color' : style.styleGrey
-                        ,'figure.facecolor' : style.styleWhite
-                        ,'axes.facecolor': style.styleWhite
-                        ,'axes.spines.left': False
-                        ,'axes.spines.bottom': False
-                        ,'axes.edgecolor': style.styleGrey
-                        ,'axes.grid': False
-        }):
+    with plt.rc_context(
+        {
+            "axes.titlesize": 3.5 * self.chartProp,
+            "axes.labelsize": 1.5 * self.chartProp,  # Axis title font size
+            "xtick.labelsize": 1.2 * self.chartProp,
+            "xtick.major.size": 0.5 * self.chartProp,
+            "xtick.major.width": 0.05 * self.chartProp,
+            "xtick.color": style.styleGrey,
+            "ytick.labelsize": 1.2 * self.chartProp,
+            "ytick.major.size": 0.5 * self.chartProp,
+            "ytick.major.width": 0.05 * self.chartProp,
+            "ytick.color": style.styleGrey,
+            "figure.facecolor": style.styleWhite,
+            "axes.facecolor": style.styleWhite,
+            "axes.spines.left": False,
+            "axes.spines.bottom": False,
+            "axes.edgecolor": style.styleGrey,
+            "axes.grid": False,
+        }
+    ):
         # remove object columns
-        df = df.select_dtypes(exclude = [object])
-        
+        df = df.select_dtypes(exclude=[object])
+
         # limit to columns of interest if provided
         if cols is not None:
             df = df[cols]
 
         # merge df with target if target is provided
         if target is not None:
-            df = df.merge(target, left_index = True, right_index = True)
+            df = df.merge(target, left_index=True, right_index=True)
 
         # create pair plot.
-        g = sns.pairplot(data = df if target is None else df.dropna()
-                        ,vars = df.columns if target is None else [x for x in df.columns if x is not target.name] 
-                        ,hue = target if target is None else target.name
-                        ,diag_kind = diag_kind
-                        ,height = 0.2 * self.chartProp
-                        ,plot_kws = {'s' : 2.0 * self.chartProp
-                                    ,'edgecolor' : None
-                                    ,'linewidth' : 1
-                                    ,'alpha' : 0.4
-                                    ,'marker' : 'o'
-                                    ,'facecolor' : style.styleHexMid[0] if target is None else None
-                            }
-                        ,diag_kws = {'facecolor' : style.styleHexMid[1] if target is None else None
-                            }
-                        ,palette = style.styleHexMid
-            )        
+        g = sns.pairplot(
+            data=df if target is None else df.dropna(),
+            vars=df.columns
+            if target is None
+            else [x for x in df.columns if x is not target.name],
+            hue=target if target is None else target.name,
+            diag_kind=diag_kind,
+            height=0.2 * self.chartProp,
+            plot_kws={
+                "s": 2.0 * self.chartProp,
+                "edgecolor": None,
+                "linewidth": 1,
+                "alpha": 0.4,
+                "marker": "o",
+                "facecolor": style.styleHexMid[0] if target is None else None,
+            },
+            diag_kws={"facecolor": style.styleHexMid[1] if target is None else None},
+            palette=style.styleHexMid,
+        )
 
         # plot formatting
         for ax in g.axes.flat:
-            _ = ax.set_ylabel(ax.get_ylabel(), rotation = 0)
-            _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0)
+            _ = ax.set_ylabel(ax.get_ylabel(), rotation=0)
+            _ = ax.set_xlabel(ax.get_xlabel(), rotation=0)
             _ = ax.xaxis.labelpad = 20
             _ = ax.yaxis.labelpad = 75
             _ = ax.xaxis.label.set_color(style.styleGrey)
-            _ = ax.yaxis.label.set_color(style.styleGrey)            
-        
-        plt.subplots_adjust(hspace = 0.0, wspace = 0.0)
-        
+            _ = ax.yaxis.label.set_color(style.styleGrey)
+
+        plt.subplots_adjust(hspace=0.0, wspace=0.0)
+
         # add custom legend describing hue labels
         if target is not None:
             g._legend.remove()
-            
+
             ## create custom legend
             # create labels
             if legendLabels is None:
@@ -400,23 +439,24 @@ def prettyPairPlot(self, df, cols = None, target = None, diag_kind = 'auto', leg
                 labelColor[i] = style.styleHexMid[ix]
 
             # create patches
-            patches = [Patch(color = v, label = k) for k, v in labelColor.items()]
-            
+            patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
+
             # draw legend
-            leg = plt.legend(handles = patches
-                            ,fontsize = 1.3 * self.chartProp
-                            ,loc = 'upper right'
-                            ,markerscale = 0.5 * self.chartProp
-                            ,ncol = 1
-                            ,bbox_to_anchor = bbox
-                )
+            leg = plt.legend(
+                handles=patches,
+                fontsize=1.3 * self.chartProp,
+                loc="upper right",
+                markerscale=0.5 * self.chartProp,
+                ncol=1,
+                bbox_to_anchor=bbox,
+            )
 
             # label font color
             for text in leg.get_texts():
-                plt.setp(text, color = 'Grey')
+                plt.setp(text, color="Grey")
 
 
-def prettyHist(self, x, color, label, alpha = 0.8):
+def prettyHist(self, x, color, label, alpha=0.8):
     """
     Documentation:
         Description:
@@ -435,8 +475,5 @@ def prettyHist(self, x, color, label, alpha = 0.8):
                 Fades histogram bars to create transparent bars.
     """
     # Create histogram.
-    plt.hist(x = x
-            ,color = color
-            ,label = label
-            ,alpha = alpha
-        )
+    plt.hist(x=x, color=color, label=label, alpha=alpha)
+

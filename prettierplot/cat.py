@@ -1,4 +1,3 @@
-
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -7,7 +6,16 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def prettyBarV(self, x, counts, color = style.styleHexMid[0], xLabels = None, labelRotate = 0, yUnits = 'f', ax = None):
+def prettyBarV(
+    self,
+    x,
+    counts,
+    color=style.styleHexMid[0],
+    xLabels=None,
+    labelRotate=0,
+    yUnits="f",
+    ax=None,
+):
     """
     Documentation:
         Description: 
@@ -31,27 +39,30 @@ def prettyBarV(self, x, counts, color = style.styleHexMid[0], xLabels = None, la
                 Axis on which to place visual.
     """
     # create vertical bar plot.
-    plt.bar(x = x
-           ,height = counts
-           ,color = color
-           ,tick_label = xLabels if xLabels is not None else x
-           ,alpha = 0.8
-        )
+    plt.bar(
+        x=x,
+        height=counts,
+        color=color,
+        tick_label=xLabels if xLabels is not None else x,
+        alpha=0.8,
+    )
 
     # rotate x-tick labels.
-    plt.xticks(rotation = labelRotate)
-    
+    plt.xticks(rotation=labelRotate)
+
     # use label formatter utility function to customize chart labels.
-    util.utilLabelFormatter(ax = ax, yUnits = yUnits)
+    util.utilLabelFormatter(ax=ax, yUnits=yUnits)
 
     # tesize x-axis labels as needed.
     if len(x) > 10 and len(x) <= 20:
-        ax.tick_params(axis = 'x', colors = style.styleGrey, labelsize = 1.2 * self.chartProp)
+        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=1.2 * self.chartProp)
     elif len(x) > 20:
-        ax.tick_params(axis = 'x', colors = style.styleGrey, labelsize = 0.6 * self.chartProp)
-    
+        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=0.6 * self.chartProp)
 
-def prettyBarH(self, y, counts, color = style.styleHexMid[0], labelRotate = 45, xUnits = 'f', ax = None):
+
+def prettyBarH(
+    self, y, counts, color=style.styleHexMid[0], labelRotate=45, xUnits="f", ax=None
+):
     """
     Documentation:
         Description: 
@@ -73,21 +84,16 @@ def prettyBarH(self, y, counts, color = style.styleHexMid[0], labelRotate = 45, 
                 Axis on which to place visual.
     """
     # plot horizontal bar plot.
-    plt.barh(y = y
-            ,width = counts
-            ,color = color
-            ,tick_label = y
-            ,alpha = 0.8
-        )
-    
+    plt.barh(y=y, width=counts, color=color, tick_label=y, alpha=0.8)
+
     # rotate x-tick labels.
-    plt.xticks(rotation = labelRotate)
-    
+    plt.xticks(rotation=labelRotate)
+
     # use label formatter utility function to customize chart labels.
-    util.utilLabelFormatter(ax = ax, xUnits = xUnits)
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits)
 
 
-def prettyBoxPlotV(self, x, y, data, color, labelRotate = 0, yUnits = 'f', ax = None):
+def prettyBoxPlotV(self, x, y, data, color, labelRotate=0, yUnits="f", ax=None):
     """
     Documentation:
         Description:
@@ -114,35 +120,31 @@ def prettyBoxPlotV(self, x, y, data, color, labelRotate = 0, yUnits = 'f', ax = 
                 Axis on which to place visual.
     """
     # create vertical box plot.
-    g = sns.boxplot(x = x
-                   ,y = y
-                   ,data = data
-                   ,orient = 'v'
-                   ,palette = color
-                   ,ax = ax
-        ).set(xlabel = None
-             ,ylabel = None
+    g = sns.boxplot(x=x, y=y, data=data, orient="v", palette=color, ax=ax).set(
+        xlabel=None, ylabel=None
     )
-    
+
     # resize x-axis labels as needed.
     unique = np.unique(data[x])
     if len(unique) > 10 and len(unique) <= 20:
-        ax.tick_params(axis = 'x', labelsize = 1.2 * self.chartProp)
+        ax.tick_params(axis="x", labelsize=1.2 * self.chartProp)
     elif len(unique) > 20:
-        ax.tick_params(axis = 'x', labelsize = 0.6 * self.chartProp)
-    
+        ax.tick_params(axis="x", labelsize=0.6 * self.chartProp)
+
     # fade box plot figures by reducing alpha.
-    plt.setp(ax.artists, alpha = 0.8)
-    
+    plt.setp(ax.artists, alpha=0.8)
+
     # rotate x-tick labels.
-    plt.xticks(rotation = labelRotate)
+    plt.xticks(rotation=labelRotate)
     ax.yaxis.set_visible(True)
 
     # use label formatter utility function to customize chart labels.
-    util.utilLabelFormatter(ax = ax, yUnits = yUnits)
+    util.utilLabelFormatter(ax=ax, yUnits=yUnits)
 
-        
-def prettyBoxPlotH(self, x, y, data, color = style.styleHexMid, xUnits = 'f', bbox = (1.05, 1), ax = None):
+
+def prettyBoxPlotH(
+    self, x, y, data, color=style.styleHexMid, xUnits="f", bbox=(1.05, 1), ax=None
+):
     """
     Documentation:
         Description:
@@ -169,23 +171,17 @@ def prettyBoxPlotH(self, x, y, data, color = style.styleHexMid, xUnits = 'f', bb
                 Axis on which to place visual.
     """
     # create horizontal box plot.
-    g = sns.boxplot(x = x
-                   ,y = y
-                   ,hue = y
-                   ,data = data
-                   ,orient = 'h'
-                   ,palette = color
-                   ,ax = ax
-        ).set(xlabel = None
-             ,ylabel = None
+    g = sns.boxplot(x=x, y=y, hue=y, data=data, orient="h", palette=color, ax=ax).set(
+        xlabel=None, ylabel=None
     )
-    
+
     # fade box plot figures by reducing alpha.
-    plt.setp(ax.artists, alpha = 0.8)
+    plt.setp(ax.artists, alpha=0.8)
     ax.yaxis.set_visible(False)
-    
+
     # use label formatter utility function to customize chart labels.
-    util.utilLabelFormatter(ax = ax, xUnits = xUnits)
-    
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits)
+
     # legend placement.
-    plt.legend(bbox_to_anchor = bbox, loc = 2, borderaxespad = 0.)
+    plt.legend(bbox_to_anchor=bbox, loc=2, borderaxespad=0.0)
+

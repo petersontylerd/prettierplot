@@ -1,4 +1,3 @@
-
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -8,7 +7,7 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-class PrettierPlot():
+class PrettierPlot:
     """
     Documentation:
         Description:
@@ -18,20 +17,46 @@ class PrettierPlot():
             called to create the figure axis or chosen number of axes. Multiple axes can 
             be plotted on a single figure, or the position variable can be utilized to 
             create a subplot arrangement.        
-    """        
-    
-    from .cat import prettyBarV, prettyBarH, prettyBoxPlotV, prettyBoxPlotH
-    from .eval import prettyProbPlot, prettyCorrHeatmap, prettyCorrHeatmapTarget, prettyConfusionMatrix, \
-                    prettyRocCurve, prettyDecisionRegion, prettyResidualPlot
-    from .facet import prettyFacetCat, prettyFacetTwoCatBar, prettyFacetCatNumHist, prettyFacetTwoCatPoint, \
-                    prettyFacetCatNumScatter
-    from .line import prettyLine, prettyMultiLine
-    from .num import pretty2dScatter, pretty2dScatterHue, prettyDistPlot, prettyKdePlot, prettyRegPlot, \
-                    prettyPairPlot, prettyHist
-    
+    """
+
+    from .cat import (
+        prettyBarV,
+        prettyBarH,
+        prettyBoxPlotV,
+        prettyBoxPlotH
+    )
+    from .eval import (
+        prettyProbPlot,
+        prettyCorrHeatmap,
+        prettyCorrHeatmapTarget,
+        prettyConfusionMatrix,
+        prettyRocCurve,
+        prettyDecisionRegion,
+        prettyResidualPlot,
+    )
+    from .facet import (
+        prettyFacetCat,
+        prettyFacetTwoCatBar,
+        prettyFacetCatNumHist,
+        prettyFacetTwoCatPoint,
+        prettyFacetCatNumScatter,
+    )
+    from .line import (
+        prettyLine,
+        prettyMultiLine
+    )
+    from .num import (
+        pretty2dScatter,
+        pretty2dScatterHue,
+        prettyDistPlot,
+        prettyKdePlot,
+        prettyRegPlot,
+        prettyPairPlot,
+        prettyHist,
+    )
 
     # Foundation
-    def __init__(self, chartProp = 15, plotOrientation = None):
+    def __init__(self, chartProp=15, plotOrientation=None):
         """
         Documentation:
             Description: 
@@ -47,29 +72,31 @@ class PrettierPlot():
         """
         self.chartProp = chartProp
         self.plotOrientation = plotOrientation
-        self.fig = plt.figure(facecolor = 'white')
+        self.fig = plt.figure(facecolor="white")
 
         # set graphic style
         # plt.rcParams['figure.facecolor'] = 'white'
-        sns.set(rc = style.rcGrey)
-        
+        sns.set(rc=style.rcGrey)
+
         # Dynamically set chart width and height parameters
-        if plotOrientation == 'tall':
-            chartWidth = self.chartProp * .7
-            chartHeight = self.chartProp * .8
-        elif plotOrientation == 'square':
+        if plotOrientation == "tall":
+            chartWidth = self.chartProp * 0.7
+            chartHeight = self.chartProp * 0.8
+        elif plotOrientation == "square":
             chartWidth = self.chartProp
-            chartHeight = self.chartProp * .8
-        elif plotOrientation == 'wide':
+            chartHeight = self.chartProp * 0.8
+        elif plotOrientation == "wide":
             chartWidth = self.chartProp * 1.7
-            chartHeight = self.chartProp * .32
-        else:            
+            chartHeight = self.chartProp * 0.32
+        else:
             chartWidth = self.chartProp
-            chartHeight = self.chartProp * .5
+            chartHeight = self.chartProp * 0.5
         self.fig.set_figheight(chartHeight)
         self.fig.set_figwidth(chartWidth)
-        
-    def makeCanvas(self, title = '', xLabel = '', xShift = 0.0, yLabel = '', yShift = 0.8, position = 111):
+
+    def makeCanvas(
+        self, title="", xLabel="", xShift=0.0, yLabel="", yShift=0.8, position=111
+    ):
         """
         Documentation:
             Description: 
@@ -93,14 +120,14 @@ class PrettierPlot():
             Returns 
                 ax : Axes object
                     Contain figure elements
-        """        
+        """
         # # set graphic style
         # plt.rcParams['figure.facecolor'] = 'white'
         # sns.set(rc = style.rcGrey)
-        
+
         # add subplot
         ax = self.fig.add_subplot(position)
-                        
+
         ## Add title
         # dynamically determine font size based on string length
         if len(title) >= 45:
@@ -113,22 +140,35 @@ class PrettierPlot():
             fontAdjust = 1.75
 
         # set title
-        ax.set_title(title
-                    ,fontsize = 2.0 * self.chartProp if position == 111 else fontAdjust * self.chartProp
-                    ,color = style.styleGrey
-                    ,loc = 'left'
-                    ,pad = 0.4 * self.chartProp
-            )
-        
+        ax.set_title(
+            title,
+            fontsize=2.0 * self.chartProp
+            if position == 111
+            else fontAdjust * self.chartProp,
+            color=style.styleGrey,
+            loc="left",
+            pad=0.4 * self.chartProp,
+        )
+
         # Remove grid line and right/top spines.
         ax.grid(False)
-        ax.spines['right'].set_visible(False)
-        ax.spines['top'].set_visible(False)
-        
+        ax.spines["right"].set_visible(False)
+        ax.spines["top"].set_visible(False)
+
         # Add axis labels.
-        plt.xlabel(xLabel, fontsize = 1.667 * self.chartProp, labelpad = 1.667 * self.chartProp
-                  ,position = (xShift, 0.5), horizontalalignment = 'left')
-        plt.ylabel(yLabel, fontsize = 1.667 * self.chartProp, labelpad = 1.667 * self.chartProp
-                  ,position = (1.0, yShift), horizontalalignment = 'left')
-        
+        plt.xlabel(
+            xLabel,
+            fontsize=1.667 * self.chartProp,
+            labelpad=1.667 * self.chartProp,
+            position=(xShift, 0.5),
+            horizontalalignment="left",
+        )
+        plt.ylabel(
+            yLabel,
+            fontsize=1.667 * self.chartProp,
+            labelpad=1.667 * self.chartProp,
+            position=(1.0, yShift),
+            horizontalalignment="left",
+        )
+
         return ax

@@ -1,4 +1,3 @@
-
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -7,8 +6,10 @@ from matplotlib.patches import Patch
 import prettierplot.style as style
 import prettierplot.util as util
 
-            
-def prettyFacetCat(self, df, feature, labelRotate = 0, yUnits = 'f', xUnits = 's', bbox = (1.2, 0.9), ax = None):       
+
+def prettyFacetCat(
+    self, df, feature, labelRotate=0, yUnits="f", xUnits="s", bbox=(1.2, 0.9), ax=None
+):
     """
     Documentation:
         Description:
@@ -36,45 +37,58 @@ def prettyFacetCat(self, df, feature, labelRotate = 0, yUnits = 'f', xUnits = 's
     """
     ixs = np.arange(df.shape[0])
     bar_width = 0.35
-    
+
     featureDict = {}
     for feature in df.columns[1:]:
         featureDict[feature] = df[feature].values.tolist()
     for featureIx, (k, v) in enumerate(featureDict.items()):
-        plt.bar(ixs + (bar_width * featureIx)
-               ,featureDict[k]
-               ,bar_width
-               ,alpha = 0.75
-               ,color = style.styleHexMid[featureIx]
-               ,label = str(k)
-            )
-    
-    # custom x-tick labels.
-    plt.xticks(ixs[:df.shape[0]] + bar_width / 2, df.iloc[:,0].values)
-    plt.xticks(rotation = labelRotate)
-            
-    # add legend to figure.
-    plt.legend(loc = 'upper right'
-              ,bbox_to_anchor = bbox
-              ,ncol = 1
-              ,frameon = True
-              ,fontsize = 1.1 * self.chartProp
+        plt.bar(
+            ixs + (bar_width * featureIx),
+            featureDict[k],
+            bar_width,
+            alpha=0.75,
+            color=style.styleHexMid[featureIx],
+            label=str(k),
         )
-    
+
+    # custom x-tick labels.
+    plt.xticks(ixs[: df.shape[0]] + bar_width / 2, df.iloc[:, 0].values)
+    plt.xticks(rotation=labelRotate)
+
+    # add legend to figure.
+    plt.legend(
+        loc="upper right",
+        bbox_to_anchor=bbox,
+        ncol=1,
+        frameon=True,
+        fontsize=1.1 * self.chartProp,
+    )
+
     # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)
-    
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
+
     # resize x-axis labels as needed.
     if len(featureDict[feature]) > 10 and len(featureDict[feature]) <= 20:
-        ax.tick_params(axis = 'x', colors = style.styleGrey, labelsize = 1.2 * self.chartProp)
+        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=1.2 * self.chartProp)
     elif len(featureDict[feature]) > 20:
-        ax.tick_params(axis = 'x', colors = style.styleGrey, labelsize = 0.6 * self.chartProp)
-    
+        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=0.6 * self.chartProp)
+
     plt.show()
 
 
-def prettyFacetTwoCatBar(self, df, x, y, split, xUnits = None, yUnits = None, bbox = None
-                        ,legendLabels = None, filterNaN = True, ax = None):
+def prettyFacetTwoCatBar(
+    self,
+    df,
+    x,
+    y,
+    split,
+    xUnits=None,
+    yUnits=None,
+    bbox=None,
+    legendLabels=None,
+    filterNaN=True,
+    ax=None,
+):
     """
     Documentation:
         Description:
@@ -107,30 +121,58 @@ def prettyFacetTwoCatBar(self, df, x, y, split, xUnits = None, yUnits = None, bb
                 Axis on which to place visual.
     """
     if filterNaN:
-        df = df.dropna(subset = [x])
-    
-    g = sns.barplot(x = x
-                    ,y = y
-                    ,hue = split
-                    ,data = df
-                    ,palette = style.styleHexMid
-                    ,order = df[x].sort_values().drop_duplicates().values.tolist()
-                    ,hue_order = df[split].sort_values().drop_duplicates().values.tolist() if split is not None else None
-                    ,ax = ax
-                    ,ci = None)
-    
+        df = df.dropna(subset=[x])
+
+    g = sns.barplot(
+        x=x,
+        y=y,
+        hue=split,
+        data=df,
+        palette=style.styleHexMid,
+        order=df[x].sort_values().drop_duplicates().values.tolist(),
+        hue_order=df[split].sort_values().drop_duplicates().values.tolist()
+        if split is not None
+        else None,
+        ax=ax,
+        ci=None,
+    )
+
     # Format x and y-tick labels
-    g.set_yticklabels(g.get_yticklabels(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
-    g.set_xticklabels(g.get_xticklabels(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
-    g.set_ylabel(g.get_ylabel(), rotation = 90, fontsize = 1.75 * self.chartProp, color = style.styleGrey)
-    g.set_xlabel(g.get_xlabel(), rotation = 0, fontsize = 1.75 * self.chartProp, color = style.styleGrey)
-    
+    g.set_yticklabels(
+        g.get_yticklabels(),
+        rotation=0,
+        fontsize=1.25 * self.chartProp,
+        color=style.styleGrey,
+    )
+    g.set_xticklabels(
+        g.get_xticklabels(),
+        rotation=0,
+        fontsize=1.25 * self.chartProp,
+        color=style.styleGrey,
+    )
+    g.set_ylabel(
+        g.get_ylabel(),
+        rotation=90,
+        fontsize=1.75 * self.chartProp,
+        color=style.styleGrey,
+    )
+    g.set_xlabel(
+        g.get_xlabel(),
+        rotation=0,
+        fontsize=1.75 * self.chartProp,
+        color=style.styleGrey,
+    )
 
     ## create custom legend
     # create labels
     if split is not None:
         if legendLabels is None:
-            legendLabels = df[df[split].notnull()][split].sort_values().drop_duplicates().values.tolist()
+            legendLabels = (
+                df[df[split].notnull()][split]
+                .sort_values()
+                .drop_duplicates()
+                .values.tolist()
+            )
         else:
             legendLabels = np.array(legendLabels)
 
@@ -139,28 +181,41 @@ def prettyFacetTwoCatBar(self, df, x, y, split, xUnits = None, yUnits = None, bb
             labelColor[i] = style.styleHexMid[ix]
 
         # create patches
-        patches = [Patch(color = v, label = k) for k, v in labelColor.items()]
-        
+        patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
+
         # draw legend
-        leg = plt.legend(handles = patches
-                    ,fontsize = 1.25 * self.chartProp
-                    ,loc = 'upper right'
-                    ,markerscale = 0.5 * self.chartProp
-                    ,ncol = 1
-                    ,bbox_to_anchor = bbox
+        leg = plt.legend(
+            handles=patches,
+            fontsize=1.25 * self.chartProp,
+            loc="upper right",
+            markerscale=0.5 * self.chartProp,
+            ncol=1,
+            bbox_to_anchor=bbox,
         )
 
         # label font color
         for text in leg.get_texts():
-            plt.setp(text, color = 'Grey')
-        
+            plt.setp(text, color="Grey")
+
         # use label formatter utility function to customize chart labels
-        util.utilLabelFormatter(ax = ax, xUnits = xUnits, yUnits = yUnits)            
-    
+        util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
+
     plt.show()
 
-def prettyFacetCatNumScatter(self, df, xNum, yNum, catRow = None, catCol = None, split = None, bbox = None
-                            ,aspect = 1, height = 4, legendLabels = None):
+
+def prettyFacetCatNumScatter(
+    self,
+    df,
+    xNum,
+    yNum,
+    catRow=None,
+    catCol=None,
+    split=None,
+    bbox=None,
+    aspect=1,
+    height=4,
+    legendLabels=None,
+):
     """
     Documentation:
         Description:
@@ -189,40 +244,59 @@ def prettyFacetCatNumScatter(self, df, xNum, yNum, catRow = None, catCol = None,
             legendLabels : list, default = None
                 Custom legend labels.
     """
-    g = sns.FacetGrid(df
-                    ,col = catCol
-                    ,row = catRow
-                    ,hue = split
-                    ,palette = style.styleHexMid
-                    ,hue_order = df[split].sort_values().drop_duplicates().values.tolist() if split is not None else None
-                    ,height = height
-                    ,aspect = aspect
-                    ,margin_titles = True
-        )
-    g = (g.map(plt.scatter
-              ,xNum
-              ,yNum
-            #   ,**kws
-            )
-        )
-    
+    g = sns.FacetGrid(
+        df,
+        col=catCol,
+        row=catRow,
+        hue=split,
+        palette=style.styleHexMid,
+        hue_order=df[split].sort_values().drop_duplicates().values.tolist()
+        if split is not None
+        else None,
+        height=height,
+        aspect=aspect,
+        margin_titles=True,
+    )
+    g = g.map(
+        plt.scatter,
+        xNum,
+        yNum
+        #   ,**kws
+    )
+
     for ax in g.axes.flat:
-        _ = ax.set_ylabel(ax.get_ylabel(), rotation = 90, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
-        _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
-        _ = ax.set_title(ax.get_title(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
-    
+        _ = ax.set_ylabel(
+            ax.get_ylabel(),
+            rotation=90,
+            fontsize=1.25 * self.chartProp,
+            color=style.styleGrey,
+        )
+        _ = ax.set_xlabel(
+            ax.get_xlabel(),
+            rotation=0,
+            fontsize=1.25 * self.chartProp,
+            color=style.styleGrey,
+        )
+        _ = ax.set_title(
+            ax.get_title(),
+            rotation=0,
+            fontsize=1.05 * self.chartProp,
+            color=style.styleGrey,
+        )
+
         if ax.texts:
             # This contains the right ylabel text
             txt = ax.texts[0]
-            ax.text(txt.get_unitless_position()[0]
-                   ,txt.get_unitless_position()[1]
-                   ,txt.get_text()
-                   ,transform = ax.transAxes
-                   ,va = 'center'
-                   ,fontsize = 1.25 * self.chartProp
-                   ,color = style.styleGrey
-                   ,rotation = -90
-                )
+            ax.text(
+                txt.get_unitless_position()[0],
+                txt.get_unitless_position()[1],
+                txt.get_text(),
+                transform=ax.transAxes,
+                va="center",
+                fontsize=1.25 * self.chartProp,
+                color=style.styleGrey,
+                rotation=-90,
+            )
             # Remove the original text
             ax.texts[0].remove()
 
@@ -230,7 +304,12 @@ def prettyFacetCatNumScatter(self, df, xNum, yNum, catRow = None, catCol = None,
     # create labels
     if split is not None:
         if legendLabels is None:
-            legendLabels = df[df[split].notnull()][split].sort_values().drop_duplicates().values.tolist()
+            legendLabels = (
+                df[df[split].notnull()][split]
+                .sort_values()
+                .drop_duplicates()
+                .values.tolist()
+            )
         else:
             legendLabels = np.array(legendLabels)
 
@@ -239,26 +318,37 @@ def prettyFacetCatNumScatter(self, df, xNum, yNum, catRow = None, catCol = None,
             labelColor[i] = style.styleHexMid[ix]
 
         # create patches
-        patches = [Patch(color = v, label = k) for k, v in labelColor.items()]
-        
+        patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
+
         # draw legend
-        leg = plt.legend(handles = patches
-                    ,fontsize = 1.0 * self.chartProp
-                    ,loc = 'upper right'
-                    ,markerscale = 0.5 * self.chartProp
-                    ,ncol = 1
-                    ,bbox_to_anchor = bbox
+        leg = plt.legend(
+            handles=patches,
+            fontsize=1.0 * self.chartProp,
+            loc="upper right",
+            markerscale=0.5 * self.chartProp,
+            ncol=1,
+            bbox_to_anchor=bbox,
         )
 
         # label font color
         for text in leg.get_texts():
-            plt.setp(text, color = 'Grey')
-    
+            plt.setp(text, color="Grey")
+
     plt.show()
 
 
-def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox = None, aspect = 1, height = 4
-                         ,legendLabels = None):
+def prettyFacetCatNumHist(
+    self,
+    df,
+    catRow,
+    catCol,
+    numCol,
+    split,
+    bbox=None,
+    aspect=1,
+    height=4,
+    legendLabels=None,
+):
     """
     Documentation:
         Description:
@@ -285,41 +375,62 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox = None, 
                 Height in inches of each facet.
             legendLabels : list, default = None
                 Custom legend labels.
-    """    
-    g = sns.FacetGrid(df
-                     ,row = catRow
-                     ,col = catCol
-                     ,hue = split
-                     ,hue_order = df[split].sort_values().drop_duplicates().values.tolist() if split is not None else None
-                     ,palette = style.styleHexMid
-                     ,despine = True
-                     ,height = height
-                     ,aspect = aspect
-                     ,margin_titles = True
-        )
-    g.map(plt.hist
-         ,numCol
+    """
+    g = sns.FacetGrid(
+        df,
+        row=catRow,
+        col=catCol,
+        hue=split,
+        hue_order=df[split].sort_values().drop_duplicates().values.tolist()
+        if split is not None
+        else None,
+        palette=style.styleHexMid,
+        despine=True,
+        height=height,
+        aspect=aspect,
+        margin_titles=True,
+    )
+    g.map(
+        plt.hist,
+        numCol
         #  ,bins = np.arange(0, 20)
-         ,alpha = .5
-        )
-    
+        ,
+        alpha=0.5,
+    )
+
     for ax in g.axes.flat:
-        _ = ax.set_ylabel(ax.get_ylabel(), rotation = 90, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
-        _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0, fontsize = 1.25 * self.chartProp, color = style.styleGrey)
-        _ = ax.set_title(ax.get_title(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
-    
+        _ = ax.set_ylabel(
+            ax.get_ylabel(),
+            rotation=90,
+            fontsize=1.25 * self.chartProp,
+            color=style.styleGrey,
+        )
+        _ = ax.set_xlabel(
+            ax.get_xlabel(),
+            rotation=0,
+            fontsize=1.25 * self.chartProp,
+            color=style.styleGrey,
+        )
+        _ = ax.set_title(
+            ax.get_title(),
+            rotation=0,
+            fontsize=1.05 * self.chartProp,
+            color=style.styleGrey,
+        )
+
         if ax.texts:
             # This contains the right ylabel text
             txt = ax.texts[0]
-            ax.text(txt.get_unitless_position()[0]
-                   ,txt.get_unitless_position()[1]
-                   ,txt.get_text()
-                   ,transform = ax.transAxes
-                   ,va = 'center'
-                   ,fontsize = 1.25 * self.chartProp
-                   ,color = style.styleGrey
-                   ,rotation = -90
-                )
+            ax.text(
+                txt.get_unitless_position()[0],
+                txt.get_unitless_position()[1],
+                txt.get_text(),
+                transform=ax.transAxes,
+                va="center",
+                fontsize=1.25 * self.chartProp,
+                color=style.styleGrey,
+                rotation=-90,
+            )
             # Remove the original text
             ax.texts[0].remove()
 
@@ -327,7 +438,12 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox = None, 
     # create labels
     if split is not None:
         if legendLabels is None:
-            legendLabels = df[df[split].notnull()][split].sort_values().drop_duplicates().values.tolist()
+            legendLabels = (
+                df[df[split].notnull()][split]
+                .sort_values()
+                .drop_duplicates()
+                .values.tolist()
+            )
         else:
             legendLabels = np.array(legendLabels)
 
@@ -336,26 +452,38 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox = None, 
             labelColor[i] = style.styleHexMid[ix]
 
         # create patches
-        patches = [Patch(color = v, label = k) for k, v in labelColor.items()]
-        
+        patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
+
         # draw legend
-        leg = plt.legend(handles = patches
-                    ,fontsize = 1.0 * self.chartProp
-                    ,loc = 'upper right'
-                    ,markerscale = 0.5 * self.chartProp
-                    ,ncol = 1
-                    ,bbox_to_anchor = bbox
-            )
+        leg = plt.legend(
+            handles=patches,
+            fontsize=1.0 * self.chartProp,
+            loc="upper right",
+            markerscale=0.5 * self.chartProp,
+            ncol=1,
+            bbox_to_anchor=bbox,
+        )
 
         # label font color
         for text in leg.get_texts():
-            plt.setp(text, color = 'Grey')
-    
+            plt.setp(text, color="Grey")
+
     plt.show()
 
-    
-def prettyFacetTwoCatPoint(self, df, x, y, split, catCol = None, catRow = None, bbox = None, aspect = 1, height = 4
-                          ,legendLabels = None):
+
+def prettyFacetTwoCatPoint(
+    self,
+    df,
+    x,
+    y,
+    split,
+    catCol=None,
+    catRow=None,
+    bbox=None,
+    aspect=1,
+    height=4,
+    legendLabels=None,
+):
     """
     Documentation:
         Description:
@@ -383,42 +511,55 @@ def prettyFacetTwoCatPoint(self, df, x, y, split, catCol = None, catRow = None, 
             legendLabels : list, default = None
                 Custom legend labels.
     """
-    g = sns.FacetGrid(df
-                     ,row = catCol
-                     ,col = catRow
-                     ,aspect = aspect
-                     ,height = height
-                     ,margin_titles = True
-        )
-    g.map(sns.pointplot
-         ,x
-         ,y
-         ,split
-         ,order = df[x].sort_values().drop_duplicates().values.tolist()
-         ,hue_order = df[split].sort_values().drop_duplicates().values.tolist()
-         ,palette = style.styleHexMid
-         ,alpha = .75
-         ,ci = None
-        )
-    
+    g = sns.FacetGrid(
+        df, row=catCol, col=catRow, aspect=aspect, height=height, margin_titles=True
+    )
+    g.map(
+        sns.pointplot,
+        x,
+        y,
+        split,
+        order=df[x].sort_values().drop_duplicates().values.tolist(),
+        hue_order=df[split].sort_values().drop_duplicates().values.tolist(),
+        palette=style.styleHexMid,
+        alpha=0.75,
+        ci=None,
+    )
+
     for ax in g.axes.flat:
-        _ = ax.set_ylabel(ax.get_ylabel(), rotation = 90, fontsize = 0.95 * self.chartProp, color = style.styleGrey)
-        _ = ax.set_xlabel(ax.get_xlabel(), rotation = 0, fontsize = 0.95 * self.chartProp, color = style.styleGrey)
-        _ = ax.set_title(ax.get_title(), rotation = 0, fontsize = 1.05 * self.chartProp, color = style.styleGrey)
-    
+        _ = ax.set_ylabel(
+            ax.get_ylabel(),
+            rotation=90,
+            fontsize=0.95 * self.chartProp,
+            color=style.styleGrey,
+        )
+        _ = ax.set_xlabel(
+            ax.get_xlabel(),
+            rotation=0,
+            fontsize=0.95 * self.chartProp,
+            color=style.styleGrey,
+        )
+        _ = ax.set_title(
+            ax.get_title(),
+            rotation=0,
+            fontsize=1.05 * self.chartProp,
+            color=style.styleGrey,
+        )
+
         if ax.texts:
             # This contains the right ylabel text
             txt = ax.texts[0]
-            
-            ax.text(txt.get_unitless_position()[0]
-                   ,txt.get_unitless_position()[1]
-                   ,txt.get_text()
-                   ,transform = ax.transAxes
-                   ,va = 'center'
-                   ,fontsize = 1.25 * self.chartProp
-                   ,color = style.styleGrey
-                   ,rotation = -90
-                )
+
+            ax.text(
+                txt.get_unitless_position()[0],
+                txt.get_unitless_position()[1],
+                txt.get_text(),
+                transform=ax.transAxes,
+                va="center",
+                fontsize=1.25 * self.chartProp,
+                color=style.styleGrey,
+                rotation=-90,
+            )
             # Remove the original text
             ax.texts[0].remove()
 
@@ -434,19 +575,20 @@ def prettyFacetTwoCatPoint(self, df, x, y, split, catCol = None, catRow = None, 
         labelColor[i] = style.styleHexMid[ix]
 
     # create patches
-    patches = [Patch(color = v, label = k) for k, v in labelColor.items()]
-    
+    patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
+
     # draw legend
-    leg = plt.legend(handles = patches
-                ,fontsize = 1.0 * self.chartProp
-                ,loc = 'upper right'
-                ,markerscale = 0.5 * self.chartProp
-                ,ncol = 1
-                ,bbox_to_anchor = bbox
+    leg = plt.legend(
+        handles=patches,
+        fontsize=1.0 * self.chartProp,
+        loc="upper right",
+        markerscale=0.5 * self.chartProp,
+        ncol=1,
+        bbox_to_anchor=bbox,
     )
 
     # label font color
     for text in leg.get_texts():
-        plt.setp(text, color = 'Grey')
+        plt.setp(text, color="Grey")
 
     plt.show()
