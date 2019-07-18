@@ -68,6 +68,10 @@ def prettyCorrHeatmap(self, df, annot=False, cols=None, ax=None, vmin=-1.0, vmax
     corrMatrix = df[cols].corr() if cols is not None else df.corr()
     cols = corrMatrix.columns
 
+    # generate a mask for the upper triangle
+    mask = np.zeros_like(corrMatrix, dtype=np.bool)
+    mask[np.triu_indices_from(mask)] = True
+
     # adjust font size as needed
     if len(cols) <= 5:
         fontAdjust = 1.25
@@ -85,6 +89,7 @@ def prettyCorrHeatmap(self, df, annot=False, cols=None, ax=None, vmin=-1.0, vmax
     # create heatmap using correlation matrix.
     g = sns.heatmap(
         corrMatrix,
+        mask=None,
         vmin=vmin,
         vmax=vmax,
         annot=annot,
@@ -147,6 +152,11 @@ def prettyCorrHeatmapTarget(
     corrMatrix = df.corr()
     corrTop = corrMatrix[target.name]  # [:-1]
     corrTop = corrTop[abs(corrTop) > thresh].sort_values(ascending=False)
+
+    # # generate a mask for the upper triangle
+    # mask = np.zeros_like(corrMatrix, dtype=np.bool)
+    # mask[np.triu_indices_from(mask)] = True
+
 
     display(pd.DataFrame(corrTop))
 
@@ -274,9 +284,9 @@ def prettyConfusionMatrix(
 def prettyRocCurve(
     self,
     model,
-    xTrain,
+    XTrain,
     yTrain,
-    xTest=None,
+    XTest=None,
     yTest=None,
     linecolor=style.styleHexMid[0],
     bbox=(1.2, 0.8),
@@ -289,13 +299,13 @@ def prettyRocCurve(
         Parameters:
             model : sklearn model or pipeline
                 Model to fit and generate prediction probabilities.
-            xTrain : array
+            XTrain : array
                 Training data for model fitting. Also used to return predict_probas
-                when xTest is None.
+                when XTest is None.
             yTrain : array
                 Training labels for model fitting. Also used to create ROC curve when 
-                xTest is None.
-            xTest : array, default = None
+                XTest is None.
+            XTest : array, default = None
                 Test data for returning predict_probas.
             yTest : array, default = None
                 Test data for creating ROC curve
@@ -307,15 +317,15 @@ def prettyRocCurve(
                 Axis on which to place visual.
     """
     ## return prediction probabilities.
-    # if xTest is None then fit the model using training data and return ROC curve for training data.
-    if xTest is None:
-        probas = model.fit(xTrain, yTrain).predict_proba(xTrain)
+    # if XTest is None then fit the model using training data and return ROC curve for training data.
+    if XTest is None:
+        probas = model.fit(XTrain, yTrain).predict_proba(XTrain)
         fpr, tpr, thresholds = metrics.roc_curve(
             y_true=yTrain, y_score=probas[:, 1], pos_label=1
         )
     # otherwise fit the model using training data and return ROC curve for test data.
     else:
-        probas = model.fit(xTrain, yTrain).predict_proba(xTest)
+        probas = model.fit(XTrain, yTrain).predict_proba(XTest)
         fpr, tpr, thresholds = metrics.roc_curve(
             y_true=yTest, y_score=probas[:, 1], pos_label=1
         )
@@ -416,10 +426,10 @@ def prettyDecisionRegion(
 
     # highlight test samples
     if testIdx:
-        xTest = x[testIdx, :]
+        XTest = x[testIdx, :]
         plt.scatter(
-            xTest[:, 0],
-            xTest[:, 1],
+            XTest[:, 0],
+            XTest[:, 1],
             facecolor="none",
             edgecolor="white",
             alpha=1.0,
