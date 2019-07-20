@@ -4,26 +4,14 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 
+from scipy.stats import linregress 
+
 import prettierplot.style as style
 import prettierplot.util as util
 
 
-def pretty2dScatter(
-    self,
-    x,
-    y,
-    df=None,
-    xUnits="f",
-    xTicks=None,
-    yUnits="f",
-    yTicks=None,
-    plotBuffer=True,
-    size=10,
-    axisLimits=True,
-    color=style.styleGrey,
-    facecolor="w",
-    ax=None,
-):
+def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yTicks=None, plotBuffer=True,
+                    size=10, axisLimits=True, color=style.styleGrey, facecolor="w", ax=None,):
     """
     Documentation:
         Description: 
@@ -101,25 +89,8 @@ def pretty2dScatter(
     plt.tight_layout()
 
 
-def pretty2dScatterHue(
-    self,
-    x,
-    y,
-    target,
-    label,
-    df=None,
-    xUnits="f",
-    xTicks=None,
-    yUnits="f",
-    yTicks=None,
-    plotBuffer=True,
-    size=10,
-    axisLimits=True,
-    color=style.styleGrey,
-    facecolor="w",
-    bbox=(1.2, 0.9),
-    ax=None,
-):
+def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=None, yUnits="f", yTicks=None,
+    plotBuffer=True, size=10, axisLimits=True, color=style.styleGrey, facecolor="w", bbox=(1.2, 0.9), ax=None,):
     """
     Documentation:
         Description: 
@@ -223,9 +194,7 @@ def pretty2dScatterHue(
     plt.tight_layout()
 
 
-def prettyDistPlot(
-    self, x, color, xUnits="f", yUnits="f", fit=None, xRotate=None, ax=None
-):
+def prettyDistPlot(self, x, color, xUnits="f", yUnits="f", fit=None, xRotate=None, ax=None):
     """
     Documentation:
         Description:
@@ -284,18 +253,8 @@ def prettyKdePlot(self, x, color, yUnits="f", xUnits="f", ax=None):
     util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
 
-def prettyRegPlot(
-    self,
-    x,
-    y,
-    data,
-    color=style.styleHexMid[0],
-    x_jitter=None,
-    xUnits="f",
-    yUnits="f",
-    xRotate=None,
-    ax=None,
-):
+def prettyRegPlot(self, x, y, data, color=style.styleHexMid[0], x_jitter=None, xUnits="f", yUnits="f", xRotate=None,
+                     ax=None,):
     """
     Documentation:
         Description:

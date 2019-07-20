@@ -42,7 +42,7 @@ def prettyProbPlot(self, x, plot):
     plot.get_lines()[1].set_color(style.styleGrey)
 
 
-def prettyCorrHeatmap(self, df, annot=False, cols=None, ax=None, vmin=-1.0, vmax=1.0):
+def prettyCorrHeatmap(self, df, annot=False, cols=None, mask = False, ax=None, vmin=-1.0, vmax=1.0):
     """
     Documentation:
         Description:
@@ -57,6 +57,9 @@ def prettyCorrHeatmap(self, df, annot=False, cols=None, ax=None, vmin=-1.0, vmax
                 value or not.
             cols : list, default = None
                 List of strings describing dataframe columns. Limits dataframe to select columns.
+            mask : boolean, default = False
+                Determines whether or not correlation table is masked such that only the lower
+                triangle appears.
             ax : Axes object, default = None
                 Axis on which to place visual.
             vmin : Float, default = -1.0
@@ -69,8 +72,8 @@ def prettyCorrHeatmap(self, df, annot=False, cols=None, ax=None, vmin=-1.0, vmax
     cols = corrMatrix.columns
 
     # generate a mask for the upper triangle
-    mask = np.zeros_like(corrMatrix, dtype=np.bool)
-    mask[np.triu_indices_from(mask)] = True
+    maskGrid = np.zeros_like(corrMatrix, dtype=np.bool)
+    maskGrid[np.triu_indices_from(maskGrid)] = True
 
     # adjust font size as needed
     if len(cols) <= 5:
@@ -89,7 +92,7 @@ def prettyCorrHeatmap(self, df, annot=False, cols=None, ax=None, vmin=-1.0, vmax
     # create heatmap using correlation matrix.
     g = sns.heatmap(
         corrMatrix,
-        mask=None,
+        mask=maskGrid if mask else None,
         vmin=vmin,
         vmax=vmax,
         annot=annot,
@@ -152,13 +155,6 @@ def prettyCorrHeatmapTarget(
     corrMatrix = df.corr()
     corrTop = corrMatrix[target.name]  # [:-1]
     corrTop = corrTop[abs(corrTop) > thresh].sort_values(ascending=False)
-
-    # # generate a mask for the upper triangle
-    # mask = np.zeros_like(corrMatrix, dtype=np.bool)
-    # mask[np.triu_indices_from(mask)] = True
-
-
-    display(pd.DataFrame(corrTop))
 
     if len(corrTop) <= 5:
         fontAdjust = 1.25
