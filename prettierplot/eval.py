@@ -175,7 +175,7 @@ def prettyCorrHeatmapTarget(
 
     # create heatmap using correlation matrix.
     g = sns.heatmap(
-        df[corrTop.index].corr(),
+        df[corrTop.index].corr().iloc[:,:1],
         vmin=-1.0,
         vmax=1.0,
         annot=annot,
