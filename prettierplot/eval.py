@@ -216,10 +216,18 @@ def prettyConfusionMatrix(
     ax=None,
     textcolors=["black", "white"],
     threshold=None,
+    reverseLabels=False,
     valfmt="{x:.0f}",
 ):
     """
-    
+    Documentation:
+        Description:
+
+        Parameters:
+            reverseLabels : boolean, default = False
+                Reverse the direction of the labels. Puts the True Positives in the upper left hand corner in
+                binary classification problems.
+            
     """
 
     if not ax:
@@ -228,6 +236,10 @@ def prettyConfusionMatrix(
     # create confusion matrix using predictions and true labels
     cm = pd.DataFrame(metrics.confusion_matrix(y_true=yTrue, y_pred=yPred))
     
+    # Sort rows and columns in descending order
+    cm.sort_index(axis = 1, ascending = False, inplace = True)
+    cm.sort_index(axis = 0, ascending = False, inplace = True)
+
     # plot heatmap and color bar
     im = ax.imshow(cm, cmap=cmap)
     cbar = ax.figure.colorbar(im, ax=ax)
