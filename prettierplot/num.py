@@ -221,7 +221,7 @@ def prettyDistPlot(self, x, color, xUnits="f", yUnits="f", fit=None, xRotate=Non
                 Axis on which to place visual.
     """
     # create distribution plot with an optional fit curve
-    g = sns.distplot(a=x, kde=True, color=color, axlabel=False, fit=fit, ax=ax)
+    g = sns.distplot(a=x, kde=False, color=color, axlabel=False, fit=fit, ax=ax)
 
     # use label formatter utility function to customize chart labels
     util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits, xRotate=xRotate)
@@ -373,12 +373,15 @@ def prettyPairPlot(
 
         # plot formatting
         for ax in g.axes.flat:
-            _ = ax.set_ylabel(ax.get_ylabel(), rotation=0)
-            _ = ax.set_xlabel(ax.get_xlabel(), rotation=0)
+            # _ = ax.set_ylabel(ax.get_ylabel(), rotation=0)
+            # _ = ax.set_xlabel(ax.get_xlabel(), rotation=0)
+            _ = ax.set_ylabel(ax.get_ylabel(), rotation=0, ha="right")
+            _ = ax.set_xlabel(ax.get_xlabel(), rotation=40, ha="right")
             _ = ax.xaxis.labelpad = 20
-            _ = ax.yaxis.labelpad = 75
+            _ = ax.yaxis.labelpad = 80
             _ = ax.xaxis.label.set_color(style.styleGrey)
             _ = ax.yaxis.label.set_color(style.styleGrey)
+            # _ = ax.set_xticklabels(ax.get_xticklabels(), rotation=40, ha="right")
 
         plt.subplots_adjust(hspace=0.0, wspace=0.0)
 

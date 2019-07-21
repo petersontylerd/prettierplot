@@ -6,16 +6,11 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def prettyBarV(
-    self,
-    x,
-    counts,
-    color=style.styleHexMid[0],
-    xLabels=None,
-    labelRotate=0,
-    yUnits="f",
-    ax=None,
-):
+import textwrap
+
+
+def prettyBarV(self, x, counts, color=style.styleHexMid[0], xLabels=None, xTickWrap = True, labelRotate=0,
+                yUnits="f", ax=None,):
     """
     Documentation:
         Description: 
@@ -29,6 +24,8 @@ def prettyBarV(
                 Bar color.
             xLabels : list, default = None
                 Custom x-axis test labels.
+            xTickWrap : boolean, default = True
+                Wrap x-axis tick labels.
             labelRotate : float or int, default = 0
                 Degrees by which the xtick labels are rotated.
             yUnits : string, default = 'f'
@@ -59,10 +56,11 @@ def prettyBarV(
     elif len(x) > 20:
         ax.tick_params(axis="x", colors=style.styleGrey, labelsize=0.6 * self.chartProp)
 
+    if xTickWrap:
+        x = ['\n'.join(textwrap.wrap(i.replace('_'," "),12)) for i in x]
+        ax.set_xticklabels(x)
 
-def prettyBarH(
-    self, y, counts, color=style.styleHexMid[0], labelRotate=45, xUnits="f", ax=None
-):
+def prettyBarH(self, y, counts, color=style.styleHexMid[0], labelRotate=45, xUnits="f", ax=None):
     """
     Documentation:
         Description: 

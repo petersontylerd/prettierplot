@@ -6,6 +6,8 @@ from matplotlib.patches import Patch
 import prettierplot.style as style
 import prettierplot.util as util
 
+import textwrap
+
 
 def prettyFacetCat(
     self, df, feature, labelRotate=0, yUnits="f", xUnits="s", bbox=(1.2, 0.9), ax=None
@@ -52,7 +54,8 @@ def prettyFacetCat(
         )
 
     # custom x-tick labels.
-    plt.xticks(ixs[: df.shape[0]] + bar_width / 2, df.iloc[:, 0].values)
+    plt.xticks(ixs[: df.shape[0]] + bar_width / 2,
+                ['\n'.join(textwrap.wrap(str(i).replace('_'," "),12)) for i in df.iloc[:, 0].values])
     plt.xticks(rotation=labelRotate)
 
     # add legend to figure.

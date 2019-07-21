@@ -41,19 +41,32 @@ def utilLabelFormatter(
             ySize : int or float, default = None
                 y-axis label size.
     """
-    # x-axis
+    ## x-axis
+    # format as dollars
     if xUnits == "d":
         fmt = "${x:,.0f}"
     elif xUnits == "dd":
         fmt = "${x:,.1f}"
     elif xUnits == "ddd":
         fmt = "${x:,.2f}"
+    elif xUnits == "dddd":
+        fmt = "${x:,.3f}"
+    elif xUnits == "ddddd":
+        fmt = "${x:,.4f}"
+    
+    # format as percent
     elif xUnits == "p":
         fmt = "{x:,.0f}%"
     elif xUnits == "pp":
         fmt = "{x:,.1f}%"
     elif xUnits == "ppp":
         fmt = "{x:,.2f}%"
+    elif xUnits == "pppp":
+        fmt = "{x:,.3f}%"
+    elif xUnits == "ppppp":
+        fmt = "{x:,.4f}%"
+    
+    # format as float
     elif xUnits == "f":
         fmt = "{x:,.0f}"
     elif xUnits == "ff":
@@ -76,19 +89,32 @@ def utilLabelFormatter(
         for tk in ax.get_xticklabels():
             tk.set_fontsize(xSize)
 
-    # y-axis
+    ## y-axis
+    # format as dollars
     if yUnits == "d":
         fmt = "${x:,.0f}"
     elif yUnits == "dd":
         fmt = "${x:,.1f}"
     elif yUnits == "ddd":
         fmt = "${x:,.2f}"
+    elif yUnits == "dddd":
+        fmt = "${x:,.3f}"
+    elif yUnits == "ddddd":
+        fmt = "${x:,.4f}"
+    
+    # format as percent
     elif yUnits == "p":
         fmt = "{x:,.0f}%"
     elif yUnits == "pp":
         fmt = "{x:,.1f}%"
     elif yUnits == "ppp":
         fmt = "{x:,.2f}%"
+    elif yUnits == "pppp":
+        fmt = "{x:,.3f}%"
+    elif yUnits == "ppppp":
+        fmt = "{x:,.4f}%"
+    
+    # format as float
     elif yUnits == "f":
         fmt = "{x:,.0f}"
     elif yUnits == "ff":
