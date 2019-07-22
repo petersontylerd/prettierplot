@@ -340,18 +340,8 @@ def prettyFacetCatNumScatter(
     plt.show()
 
 
-def prettyFacetCatNumHist(
-    self,
-    df,
-    catRow,
-    catCol,
-    numCol,
-    split,
-    bbox=None,
-    aspect=1,
-    height=4,
-    legendLabels=None,
-):
+def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, aspect=1, height=4,
+                        legendLabels=None,):
     """
     Documentation:
         Description:
@@ -474,19 +464,8 @@ def prettyFacetCatNumHist(
     plt.show()
 
 
-def prettyFacetTwoCatPoint(
-    self,
-    df,
-    x,
-    y,
-    split,
-    catCol=None,
-    catRow=None,
-    bbox=None,
-    aspect=1,
-    height=4,
-    legendLabels=None,
-):
+def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox=None,
+                            aspect=1, height=4, legendLabels=None, ):
     """
     Documentation:
         Description:
