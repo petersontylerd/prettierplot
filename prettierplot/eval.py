@@ -185,14 +185,12 @@ def prettyCorrHeatmapTarget(
         ),
     )
 
-    # format x-tick and y-tick labels.
+    # format y-tick labels and turn off xticks.
     g.set_yticklabels(
         g.get_yticklabels(), rotation=0, fontsize=fontAdjust * self.chartProp
     )
-    g.set_xticklabels(
-        g.get_xticklabels(), rotation=90, fontsize=fontAdjust * self.chartProp
-    )
-
+    plt.xticks([])
+    
     # customize color bar formatting and labeling.
     cbar = g.collections[0].colorbar
     cbar.ax.tick_params(
