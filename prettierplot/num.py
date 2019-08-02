@@ -375,7 +375,7 @@ def prettyPairPlot(
         for ax in g.axes.flat:
             # _ = ax.set_ylabel(ax.get_ylabel(), rotation=0)
             # _ = ax.set_xlabel(ax.get_xlabel(), rotation=0)
-            _ = ax.set_ylabel(ax.get_ylabel(), rotation=0, ha="right")
+            _ = ax.set_ylabel(ax.get_ylabel(), rotation=40, ha="right")
             _ = ax.set_xlabel(ax.get_xlabel(), rotation=40, ha="right")
             _ = ax.xaxis.labelpad = 20
             _ = ax.yaxis.labelpad = 80

@@ -118,9 +118,7 @@ def prettyCorrHeatmap(self, df, annot=False, cols=None, mask = False, ax=None, v
     cbar.set_ticks([vmax, 0.0, vmin])
 
 
-def prettyCorrHeatmapTarget(
-    self, df, target=None, annot=False, thresh=0.2, ax=None, vmin=-1.0, vmax=1.0
-):
+def prettyCorrHeatmapTarget(self, df, target=None, annot=False, thresh=0.2, ax=None, vmin=-1.0, vmax=1.0):
     """
     Documentation:
         Description:
@@ -201,18 +199,8 @@ def prettyCorrHeatmapTarget(
     plt.show()
 
 
-def prettyConfusionMatrix(
-    self,
-    yPred,
-    yTrue,
-    labels,
-    cmap="Blues",
-    ax=None,
-    textcolors=["black", "white"],
-    threshold=None,
-    reverseLabels=False,
-    valfmt="{x:.0f}",
-):
+def prettyConfusionMatrix(self, yPred, yTrue, labels, cmap="Blues", ax=None, textcolors=["black", "white"],
+                            threshold=None, reverseLabels=False, valfmt="{x:.0f}"):
     """
     Documentation:
         Description:
@@ -223,7 +211,6 @@ def prettyConfusionMatrix(
                 binary classification problems.
             
     """
-
     if not ax:
         ax = plt.gca()
 
@@ -287,17 +274,8 @@ def prettyConfusionMatrix(
     plt.show()
 
 
-def prettyRocCurve(
-    self,
-    model,
-    XTrain,
-    yTrain,
-    XTest=None,
-    yTest=None,
-    linecolor=style.styleHexMid[0],
-    bbox=(1.2, 0.8),
-    ax=None,
-):
+def prettyRocCurve(self, model, XTrain, yTrain, XTest=None, yTest=None, linecolor=style.styleHexMid[0],
+                    bbox=(1.2, 0.8), ax=None):
     """
     Documentation:
         Description:
@@ -374,9 +352,7 @@ def prettyRocCurve(
     )
 
 
-def prettyDecisionRegion(
-    self, x, y, classifier, testIdx=None, resolution=0.1, bbox=(1.2, 0.9), ax=None
-):
+def prettyDecisionRegion(self, x, y, classifier, testIdx=None, resolution=0.1, bbox=(1.2, 0.9), ax=None):
     """
     Documentation:
         Description:
