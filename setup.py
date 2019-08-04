@@ -4,7 +4,7 @@ import setuptools
 with open("README.md") as f:
     LONG_DESCRIPTION = f.read()
 
-DESCRIPTION = "Accelerate the end-to-end machine learning pipeline"
+DESCRIPTION = "Quickly create prettier plots"
 DISTNAME = "prettierplot"
 LICENSE = "MIT"
 # DOWNLOAD_URL = 'https://pypi.org/project/'
@@ -15,19 +15,20 @@ PROJECT_URLS = {
     "Source Code": "https://github.com/Petersontylerd/prettierplot",
 }
 URL = "https://github.com/Petersontylerd/prettierplot"
-VERSION = "0.0.10"
+VERSION = "0.0.12"
 
 
 def setup_package():
     metadata = dict(
         name=DISTNAME,
+        packages=['prettierplot'],
         maintainer=MAINTAINER,
         maintainer_email=MAINTAINER_EMAIL,
         description=DESCRIPTION,
         keywords=["Machine learning", "Data science"],
         license=LICENSE,
         url=URL,
-        packages=setuptools.find_packages(),
+        # download_url = DOWNLOAD_URL,
         project_urls=PROJECT_URLS,
         version=VERSION,
         long_description=LONG_DESCRIPTION,
@@ -44,8 +45,8 @@ def setup_package():
             "Programming Language :: Python :: 3",
             "Operating System :: OS Independent",
         ],
-        python_requires=">=3.5"
-        # ,install_requires = []
+        python_requires=">=3.5",
+        install_requires=[i.strip() for i in open("requirements.txt").readlines()],
     )
 
     setuptools.setup(**metadata)

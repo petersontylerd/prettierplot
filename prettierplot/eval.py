@@ -211,7 +211,7 @@ def prettyConfusionMatrix(self, yPred, yTrue, labels, cmap="Blues", ax=None, tex
                 binary classification problems.
             
     """
-    if not ax:
+    if ax is None:
         ax = plt.gca()
 
     # create confusion matrix using predictions and true labels
@@ -275,7 +275,7 @@ def prettyConfusionMatrix(self, yPred, yTrue, labels, cmap="Blues", ax=None, tex
 
 
 def prettyRocCurve(self, model, XTrain, yTrain, XTest=None, yTest=None, linecolor=style.styleHexMid[0],
-                    bbox=(1.2, 0.8), ax=None):
+                    bbox=(1.0, 0.4), ax=None):
     """
     Documentation:
         Description:
@@ -321,7 +321,7 @@ def prettyRocCurve(self, model, XTrain, yTrain, XTest=None, yTest=None, linecolo
     self.prettyLine(
         x=fpr,
         y=tpr,
-        label="ROC AUC: {:.4f}".format(roc_auc),
+        label="AUC: {:.4f}".format(roc_auc),
         linecolor=linecolor,
         xUnits="fff",
         yUnits="fff",
