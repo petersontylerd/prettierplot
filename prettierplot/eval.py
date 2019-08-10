@@ -218,8 +218,8 @@ def prettyConfusionMatrix(self, yPred, yTrue, labels, cmap="Blues", ax=None, tex
     cm = pd.DataFrame(metrics.confusion_matrix(y_true=yTrue, y_pred=yPred))
     
     # Sort rows and columns in descending order
-    cm.sort_index(axis = 1, ascending = False, inplace = True)
-    cm.sort_index(axis = 0, ascending = False, inplace = True)
+    # cm.sort_index(axis = 1, ascending = False, inplace = True)
+    # cm.sort_index(axis = 0, ascending = False, inplace = True)
 
     # plot heatmap and color bar
     im = ax.imshow(cm, cmap=cmap)
@@ -274,7 +274,7 @@ def prettyConfusionMatrix(self, yPred, yTrue, labels, cmap="Blues", ax=None, tex
     plt.show()
 
 
-def prettyRocCurve(self, model, XTrain, yTrain, XTest=None, yTest=None, linecolor=style.styleHexMid[0],
+def prettyRocCurve(self, model, XTrain, yTrain, XValid=None, yValid=None, linecolor=style.styleHexMid[0],
                     bbox=(1.0, 0.4), ax=None):
     """
     Documentation:
@@ -285,13 +285,13 @@ def prettyRocCurve(self, model, XTrain, yTrain, XTest=None, yTest=None, linecolo
                 Model to fit and generate prediction probabilities.
             XTrain : array
                 Training data for model fitting. Also used to return predict_probas
-                when XTest is None.
+                when XValid is None.
             yTrain : array
                 Training labels for model fitting. Also used to create ROC curve when 
-                XTest is None.
-            XTest : array, default = None
+                XValid is None.
+            XValid : array, default = None
                 Test data for returning predict_probas.
-            yTest : array, default = None
+            yValid : array, default = None
                 Test data for creating ROC curve
             linecolor : str, default = style.styleHexMid[0]
                 Curve line color
@@ -302,16 +302,16 @@ def prettyRocCurve(self, model, XTrain, yTrain, XTest=None, yTest=None, linecolo
     """
     ## return prediction probabilities.
     # if XTest is None then fit the model using training data and return ROC curve for training data.
-    if XTest is None:
+    if XValid is None:
         probas = model.fit(XTrain, yTrain).predict_proba(XTrain)
         fpr, tpr, thresholds = metrics.roc_curve(
             y_true=yTrain, y_score=probas[:, 1], pos_label=1
         )
     # otherwise fit the model using training data and return ROC curve for test data.
     else:
-        probas = model.fit(XTrain, yTrain).predict_proba(XTest)
+        probas = model.fit(XTrain, yTrain).predict_proba(XValid)
         fpr, tpr, thresholds = metrics.roc_curve(
-            y_true=yTest, y_score=probas[:, 1], pos_label=1
+            y_true=yValid, y_score=probas[:, 1], pos_label=1
         )
 
     # calculate area under the curve using FPR and TPR.
