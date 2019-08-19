@@ -13,10 +13,10 @@ class PrettierPlot:
         Description:
             PrettierPlot creates high-quality data visualizations quickly and easily.
             Initialization of this class creates a plotting object of a chosen size and
-            orientation. Once the figure is initialized, the method makeCanvas can be 
-            called to create the figure axis or chosen number of axes. Multiple axes can 
-            be plotted on a single figure, or the position variable can be utilized to 
-            create a subplot arrangement.        
+            orientation. Once the figure is initialized, the method makeCanvas can be
+            called to create the figure axis or chosen number of axes. Multiple axes can
+            be plotted on a single figure, or the position variable can be utilized to
+            create a subplot arrangement.
     """
 
     from .cat import (
@@ -59,14 +59,14 @@ class PrettierPlot:
     def __init__(self, chartProp=15, plotOrientation=None):
         """
         Documentation:
-            Description: 
+            Description:
                 Initialize PrettierPlot and dynamically set chart size.
             Parameters:
                 chartProp : float or int, default = 15
-                    Chart proportionality control. Determines relative size of figure size, axis labels, 
+                    Chart proportionality control. Determines relative size of figure size, axis labels,
                     chart title, tick labels, tick marks.
                 plotOrientation : string, default = None
-                    Default value produces a plot that is wider than it is tall. Specifying 'tall' will 
+                    Default value produces a plot that is wider than it is tall. Specifying 'tall' will
                     produce a taller, less wide plot. 'square' produces a square plot. 'wide' produces a
                     plot that is much wide than it is tall.
         """
@@ -88,18 +88,20 @@ class PrettierPlot:
         elif plotOrientation == "wide":
             chartWidth = self.chartProp * 1.7
             chartHeight = self.chartProp * 0.32
+        elif plotOrientation == "wideStandard":
+            chartWidth = self.chartProp * 1.5
+            chartHeight = self.chartProp
         else:
             chartWidth = self.chartProp
             chartHeight = self.chartProp * 0.5
         self.fig.set_figheight(chartHeight)
         self.fig.set_figwidth(chartWidth)
 
-    def makeCanvas(
-        self, title="", xLabel="", xShift=0.0, yLabel="", yShift=0.8, position=111
-    ):
+    def makeCanvas(self, title="", xLabel="", xShift=0.0, yLabel="", yShift=0.8, position=111, 
+                nrows=None, ncols=None, index=None, sharex=None, sharey=None):
         """
         Documentation:
-            Description: 
+            Description:
                 Create Axes object. Add descriptive attributes such as titles and axis labels,
                 set font size and font color. Remove grid. Remove top and right spine.
             Parameters:
@@ -108,16 +110,16 @@ class PrettierPlot:
                 xLabel : string, default = '' (blank)
                     x-axis label.
                 xShift : float, default = 0.8
-                    Controls position of x-axis label. Higher values move label right along axis. 
+                    Controls position of x-axis label. Higher values move label right along axis.
                     Intent is to align with left of axis.
                 yLabel : string, default = '' (blank)
                     y-axis label.
                 yShift : float, default = 0.8
-                    Controls position of y-axis label. Higher values move label higher along axis. 
+                    Controls position of y-axis label. Higher values move label higher along axis.
                     Intent is to align with top of axis.
                 position : int (nrows, ncols, index), default = 111
                     Determine subplot position of plot.
-            Returns 
+            Returns
                 ax : Axes object
                     Contain figure elements
         """
@@ -126,7 +128,10 @@ class PrettierPlot:
         # sns.set(rc = style.rcGrey)
 
         # add subplot
-        ax = self.fig.add_subplot(position)
+        if index is not None:
+            ax = self.fig.add_subplot(nrows, ncols, index, sharex=sharex, sharey=sharey)
+        else:
+            ax = self.fig.add_subplot(position)
 
         ## Add title
         # dynamically determine font size based on string length

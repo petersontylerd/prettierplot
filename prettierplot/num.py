@@ -86,7 +86,7 @@ def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yT
     if yTicks is not None:
         ax.set_yticks(yTicks)
 
-    plt.tight_layout()
+    # plt.tight_layout()
 
 
 def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=None, yUnits="f", yTicks=None,
