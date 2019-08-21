@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -6,42 +7,26 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def prettyLine(
-    self,
-    x,
-    y,
-    label=None,
-    df=None,
-    linecolor=None,
-    linestyle=None,
-    bbox=(1.2, 0.9),
-    xUnits="f",
-    xTicks=None,
-    yUnits="f",
-    yTicks=None,
-    markerOn=False,
-    plotBuffer=False,
-    axisLimits=False,
-    ax=None,
-):
+def prettyLine(self, x, y, label=None, df=None, linecolor=None, linestyle=None, bbox=(1.2, 0.9), xUnits="f", xTicks=None,
+                yUnits="f", yTicks=None, markerOn=False, plotBuffer=False, axisLimits=False, ax=None,):
     """
     Documentation:
-        Description: 
+        Description:
             Create line plot. Capable of plotting multile lines on the same figure. Also capable of
             adjusting which axis will have the same data for each line and which will have different
             data for each line.
         Parameters:
             x : list, array or string
-                Either 1-dimensional array of values, a multidimensional array of values, a list of columns 
+                Either 1-dimensional array of values, a multidimensional array of values, a list of columns
                 in a Pandas DataFrame, or a column name in a Pandas DataFrame.
             y : list, array or string
-                Either 1-dimensional array of values, a multidimensional array of values, a list of columns 
+                Either 1-dimensional array of values, a multidimensional array of values, a list of columns
                 in a Pandas DataFrame, or a column name in a Pandas DataFrame.
             label : string : default = None
                 Name to create legend entry.
             df : Pandas DataFrame, default = None
-                Dataset containing data to be plotted. Can be any size, as plotted columns will be chosen 
-                by columns names specified in x, y. 
+                Dataset containing data to be plotted. Can be any size, as plotted columns will be chosen
+                by columns names specified in x, y.
             linecolor : string, default = reference to list
                 Determine color of line.
             linestyle : string, default = reference to list
@@ -49,17 +34,17 @@ def prettyLine(
             bbox : tuple, default = (1.2, 0.9)
                 Override bbox value for legend
             xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             xTicks : array, default = None
-                Specify custom x-tick labels. 
+                Specify custom x-tick labels.
             yUnits : string, default = 'f'
-                Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             yTicks : array, default = None
-                Specify custom y-tick labels. 
+                Specify custom y-tick labels.
             markerOn : boolean, default = False
                 Determines whether to show line with markers at each element.
             plotBuffer : boolean, default = False
@@ -71,12 +56,16 @@ def prettyLine(
     """
     # if a Pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
     if df is not None:
-        x = df[x].values
+        if isinstance(df.index, pd.core.indexes.base.Index):
+            x = df.index.values
+        else:
+            x = df[x].values
+
         y = df[y].values
     else:
         # convert input list to array
-        x = np.array(x) if type(x) == list else x
-        y = np.array(y) if type(y) == list else y
+        x = np.array(x) if isinstance(x, list) else x
+        y = np.array(y) if isinstance(y, list) else y
 
         # reshape arrays if necessar
         x = x.reshape(-1, 1) if len(x.shape) == 1 else x
@@ -129,42 +118,26 @@ def prettyLine(
     plt.tight_layout()
 
 
-def prettyMultiLine(
-    self,
-    x,
-    y,
-    label=None,
-    df=None,
-    linecolor=None,
-    linestyle=None,
-    bbox=(1.2, 0.9),
-    xUnits="f",
-    xTicks=None,
-    yUnits="f",
-    yTicks=None,
-    markerOn=False,
-    plotBuffer=False,
-    axisLimits=False,
-    ax=None,
-):
+def prettyMultiLine(self, x, y, label=None, df=None, linecolor=None, linestyle=None, bbox=(1.2, 0.9), xUnits="f", xTicks=None,
+                    yUnits="f", yTicks=None, markerOn=False, plotBuffer=False, axisLimits=False, ax=None,):
     """
     Documentation:
-        Description: 
+        Description:
             Create line plot. Capable of plotting multile lines on the same figure. Also capable of
             adjusting which axis will have the same data for each line and which will have different
             data for each line.
         Parameters:
             x : array or string
-                Either 1-dimensional array of values, a multidimensional array of values, a list of columns 
+                Either 1-dimensional array of values, a multidimensional array of values, a list of columns
                 in a Pandas DataFrame, or a column name in a Pandas DataFrame.
             y : array or string
-                Either 1-dimensional array of values, a multidimensional array of values, a list of columns 
+                Either 1-dimensional array of values, a multidimensional array of values, a list of columns
                 in a Pandas DataFrame, or a column name in a Pandas DataFrame.
             label : list of strings : default = None
                 List of names of used to create legend entries for each line.
             df : Pandas DataFrame, default = None
-                Dataset containing data to be plotted. Can be any size, as plotted columns will be chosen 
-                by columns names specified in x, y. 
+                Dataset containing data to be plotted. Can be any size, as plotted columns will be chosen
+                by columns names specified in x, y.
             linecolor : string, default = reference to list
                 Determine color of line.
             linestyle : string, default = reference to list
@@ -172,17 +145,17 @@ def prettyMultiLine(
             bbox : tuple, default = (1.2, 0.9)
                 Override bbox value for legend
             xUnits : string, default = 'd'
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             xTicks : array, default = None
-                Specify custom x-tick labels. 
+                Specify custom x-tick labels.
             yUnits : string, default = 'd'
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             yTicks : array, default = None
-                Specify custom y-tick labels. 
+                Specify custom y-tick labels.
             markerOn : boolean, default = False
                 Determines whether to show line with markers at each element.
             plotBuffer : boolean, default = False
@@ -194,12 +167,16 @@ def prettyMultiLine(
     """
     # if a Pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
     if df is not None:
-        x = df[x].values
+        if isinstance(df.index, pd.core.indexes.base.Index):
+            x = df.index.values
+        else:
+            x = df[x].values
+
         y = df[y].values
     else:
         # convert input list to array
-        x = np.array(x) if type(x) == list else x
-        y = np.array(y) if type(y) == list else y
+        x = np.array(x) if isinstance(x, list) else x
+        y = np.array(y) if isinstance(y, list) else y
 
         x = x.reshape(-1, 1) if len(x.shape) == 1 else x
         y = y.reshape(-1, 1) if len(y.shape) == 1 else y
