@@ -3,18 +3,19 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 
-from scipy.stats import linregress 
+from scipy.stats import linregress
 
 import prettierplot.style as style
 import prettierplot.util as util
 
 
 def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yTicks=None, plotBuffer=True,
-                    size=10, axisLimits=True, color=style.styleGrey, facecolor="w", ax=None,):
+                    size=10, axisLimits=True, color=style.styleGrey, facecolor="w", ax=None):
     """
     Documentation:
-        Description: 
+        Description:
             Create 2-dimensional scatter plot.
         Parameters:
             x : array or string
@@ -22,18 +23,18 @@ def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yT
             y : array or string
                 Either 1-dimensional array of values or a column name in a Pandas DataFrame.
             df : Pandas DataFrame, default = None
-                Dataset containing data to be plotted. Can be any size - plotted columns will be 
-                chosen by columns names specified in x, y. 
+                Dataset containing data to be plotted. Can be any size - plotted columns will be
+                chosen by columns names specified in x, y.
             xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             xTicks : array, default = None
-                Specify custom x-tick labels. 
+                Specify custom x-tick labels.
             yUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             yTicks : array, default = None
-                Specify custom y-tick labels. 
+                Specify custom y-tick labels.
             plotBuffer : boolean, default = True
                 Switch for determining whether dynamic plot buffer function is executed.
             size : int or float, default = 10
@@ -89,11 +90,11 @@ def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yT
     # plt.tight_layout()
 
 
-def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=None, yUnits="f", yTicks=None,
-    plotBuffer=True, size=10, axisLimits=True, color=style.styleGrey, facecolor="w", bbox=(1.2, 0.9), ax=None,):
+def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=None, yUnits="f", yTicks=None, plotBuffer=True,
+                        size=10, axisLimits=True, color=style.styleGrey, facecolor="w", bbox=(1.2, 0.9), ax=None):
     """
     Documentation:
-        Description: 
+        Description:
             Create 2-dimensional scatter plot with a third dimension represented as a color hue in the
             scatter dots.
         Parameters:
@@ -106,18 +107,18 @@ def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=No
             label : list
                 List of labels describing hue.
             df : Pandas DataFrame, default = None
-                Dataset containing data to be plotted. Can be any size - plotted columns will be 
-                chosen by columns names specified in x, y. 
+                Dataset containing data to be plotted. Can be any size - plotted columns will be
+                chosen by columns names specified in x, y.
             xUnits : string, default = 'd'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             xTicks : array, default = None
-                Specify custom x-tick labels. 
+                Specify custom x-tick labels.
             yUnits : string, default = 'd'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             yTicks : array, default = None
-                Specify custom y-tick labels. 
+                Specify custom y-tick labels.
             plotBuffer : boolean, default = True
                 Switch for determining whether dynamic plot buffer function is executed.
             size : int or float, default = 10
@@ -206,10 +207,10 @@ def prettyDistPlot(self, x, color, xUnits="f", yUnits="f", fit=None, xRotate=Non
             color : string (some sort of color code)
                 Determines color of bars, KDE lines.
             xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             yUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             fit : random variabe object, default = None
                 Allows for the addition of another curve. Utilizing 'norm' overlays a normal distribution
@@ -238,10 +239,10 @@ def prettyKdePlot(self, x, color, yUnits="f", xUnits="f", ax=None):
             color : string (some sort of color code)
                 Determines color of KDE lines.
             xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             yUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             ax : Axes object, default = None
                 Axis on which to place visual.
@@ -253,8 +254,8 @@ def prettyKdePlot(self, x, color, yUnits="f", xUnits="f", ax=None):
     util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
 
-def prettyRegPlot(self, x, y, data, color=style.styleHexMid[0], x_jitter=None, xUnits="f", yUnits="f", xRotate=None,
-                     ax=None,):
+def prettyRegPlot(self, x, y, data, color=style.styleHexMid[0], x_jitter=None, xUnits="f", yUnits="f",
+                    xRotate=None, ax=None):
     """
     Documentation:
         Description:
@@ -263,7 +264,7 @@ def prettyRegPlot(self, x, y, data, color=style.styleHexMid[0], x_jitter=None, x
             x : string
                 Name of independent variable in dataframe. Represents a category
             y : string
-                Name of continuous target variable. 
+                Name of continuous target variable.
             data : Pandas DataFrame
                 Pandas DataFrame including both indepedent variable and target variable.
             color : string
@@ -274,10 +275,10 @@ def prettyRegPlot(self, x, y, data, color=style.styleHexMid[0], x_jitter=None, x
             labelRotate : float or int, default = 45
                 Degrees by which the xtick labels are rotated.
             xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             yUnits : string, default = 'f'
-                Determines units of y-axis tick labels. 'f' displays float. 'p' displays percentages, 
+                Determines units of y-axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             xRotate : int, default = None
                 Rotates x-axis tick mark labels X degrees.
@@ -299,12 +300,91 @@ def prettyRegPlot(self, x, y, data, color=style.styleHexMid[0], x_jitter=None, x
     util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits, xRotate=xRotate)
 
 
-def prettyPairPlot(
-    self, df, cols=None, target=None, diag_kind="auto", legendLabels=None, bbox=None
-):
+def prettyPairPlotCustom(self, df, cols=None, gradientCol=None):
     """
     Documentation:
-        Description: 
+        Description:
+            Create pair plot that produces a grid of scatter plots for all unique pairs of
+            continuous features and a series of KDE or histogram plots along the diagonal.
+        Parameters:
+            df : Pandas DataFrame
+                Pandas DataFrame containing data of interest.
+            cols : list, default = None
+                List of strings describing columns in Pandas DataFrame to be visualized.
+            gradientCol : string, default = None
+                Introduce third dimension to scatter plots through a color hue that differentiates
+                dots based on the target's value.
+            diag_kind : string, default = 'auto.
+                Type of plot created along diagonal.
+    """
+    # Custom plot formatting settings for this particular chart.
+    with plt.rc_context(
+        {
+            "axes.titlesize": 3.5 * self.chartProp,
+            "axes.labelsize": 0.9 * self.chartProp,  # Axis title font size
+            "xtick.labelsize": 0.8 * self.chartProp,
+            "xtick.major.size": 0.5 * self.chartProp,
+            "xtick.major.width": 0.05 * self.chartProp,
+            "xtick.color": style.styleGrey,
+            "ytick.labelsize": 0.8 * self.chartProp,
+            "ytick.major.size": 0.5 * self.chartProp,
+            "ytick.major.width": 0.05 * self.chartProp,
+            "ytick.color": style.styleGrey,
+            "figure.facecolor": style.styleWhite,
+            "axes.facecolor": style.styleWhite,
+            "axes.spines.left": False,
+            "axes.spines.bottom": False,
+            "axes.spines.top": False,
+            "axes.spines.right": False,
+            "axes.edgecolor": style.styleGrey,
+            "axes.grid": False,
+        }
+    ):
+
+        # limit to columns of interest if provided
+        if cols is not None:
+            df = df[cols]
+
+        df = util.numericCoerce(df, cols=cols)
+
+
+        # create figure and axes
+        fig, axes = plt.subplots(
+            ncols=len(df.columns),
+            nrows=len(df.columns),
+            constrained_layout=True,
+            figsize=(20, 14),
+        )
+
+        # unpack axes
+        for (i, j), ax in np.ndenumerate(axes):
+            # turn of axes on upper triangle
+            # if i < j:
+            #     plt.setp(ax.get_xticklabels(), visible=False)
+            #     plt.setp(ax.get_yticklabels(), visible=False)
+            # set diagonal plots as KDE plots
+            if i == j:
+                sns.kdeplot(df.iloc[:, i], ax=ax, legend=False, shade=True)
+            # set lower triangle plots as scatter plots
+            else:
+                sns.scatterplot(
+                    x=df.iloc[:, j],
+                    y=df.iloc[:, i],
+                    hue=gradientCol if gradientCol is None else df[gradientCol],
+                    data=df,
+                    palette=LinearSegmentedColormap.from_list(
+                        name="", colors=["white", style.styleHexMid[0]]
+                    ),
+                    legend=False,
+                    ax=ax,
+                )
+        plt.show()
+
+
+def prettyPairPlot(self, df, cols=None, target=None, diag_kind="auto", legendLabels=None, bbox=None):
+    """
+    Documentation:
+        Description:
             Create pair plot that produces a grid of scatter plots for all unique pairs of
             continuous features and a series of KDE or histogram plots along the diagonal.
         Parameters:
@@ -313,7 +393,7 @@ def prettyPairPlot(
             cols : list, default = None
                 List of strings describing columns in Pandas DataFrame to be visualized.
             target : Pandas Series, default = None
-                Introduce third dimension to scatter plots through a color hue that differentiates 
+                Introduce third dimension to scatter plots through a color hue that differentiates
                 dots based on the target's value.
             diag_kind : string, default = 'auto.
                 Type of plot created along diagonal.
@@ -423,7 +503,7 @@ def prettyHist(self, x, color, label, alpha=0.8):
     Documentation:
         Description:
             Create histogram of continuous variable. Simple function capable of easy
-            iteration through several groupings of a continuous variable that is 
+            iteration through several groupings of a continuous variable that is
             separated out based on a categorical label. This results in several overlapping
             histograms and can reveal differences in distributions.
         Parameters:
@@ -438,4 +518,3 @@ def prettyHist(self, x, color, label, alpha=0.8):
     """
     # Create histogram.
     plt.hist(x=x, color=color, label=label, alpha=alpha)
-

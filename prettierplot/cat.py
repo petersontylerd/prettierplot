@@ -10,10 +10,10 @@ import textwrap
 
 
 def prettyBarV(self, x, counts, color=style.styleHexMid[0], xLabels=None, xTickWrap = True, labelRotate=0,
-                yUnits="f", ax=None,):
+                yUnits="f", ax=None):
     """
     Documentation:
-        Description: 
+        Description:
             Create vertical bar plot.
         Parameters:
             x : array
@@ -29,8 +29,8 @@ def prettyBarV(self, x, counts, color=style.styleHexMid[0], xLabels=None, xTickW
             labelRotate : float or int, default = 0
                 Degrees by which the xtick labels are rotated.
             yUnits : string, default = 'f'
-                Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             ax : Axes object, default = None
                 Axis on which to place visual.
@@ -63,7 +63,7 @@ def prettyBarV(self, x, counts, color=style.styleHexMid[0], xLabels=None, xTickW
 def prettyBarH(self, y, counts, color=style.styleHexMid[0], labelRotate=45, xUnits="f", ax=None):
     """
     Documentation:
-        Description: 
+        Description:
             Create vertical bar plot.
         Parameters:
             y : array
@@ -75,8 +75,8 @@ def prettyBarH(self, y, counts, color=style.styleHexMid[0], labelRotate=45, xUni
             labelRotate : float or int, default = 45
                 Degrees by which the xtick labels are rotated.
             xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             ax : Axes object, default = None
                 Axis on which to place visual.
@@ -101,7 +101,7 @@ def prettyBoxPlotV(self, x, y, data, color, labelRotate=0, yUnits="f", ax=None):
             x : string
                 Name of independent variable in dataframe. Represents a category.
             y : string
-                Name of continuous target variable. 
+                Name of continuous target variable.
             data : Pandas DataFrame
                 Pandas DataFrame including both indpedent variable and target variable.
             color : string
@@ -111,8 +111,8 @@ def prettyBoxPlotV(self, x, y, data, color, labelRotate=0, yUnits="f", ax=None):
             labelRotate : float or int, default = 45
                 Degrees by which the xtick labels are rotated.
             yUnits : string, default = 'f'
-                Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             ax : Axes object, default = None
                 Axis on which to place visual.
@@ -140,9 +140,7 @@ def prettyBoxPlotV(self, x, y, data, color, labelRotate=0, yUnits="f", ax=None):
     util.utilLabelFormatter(ax=ax, yUnits=yUnits)
 
 
-def prettyBoxPlotH(
-    self, x, y, data, color=style.styleHexMid, xUnits="f", bbox=(1.05, 1), ax=None
-):
+def prettyBoxPlotH(self, x, y, data, color=style.styleHexMid, xUnits="f", bbox=(1.05, 1), ax=None):
     """
     Documentation:
         Description:
@@ -152,7 +150,7 @@ def prettyBoxPlotH(
             x : string
                 Name of independent variable in dataframe. Represents a category.
             y : string
-                Name of continuous target variable. 
+                Name of continuous target variable.
             data : Pandas DataFrame
                 Pandas DataFrame including both indpedent variable and target variable.
             color : string (some sort of color code), default = style.styleHexMid
@@ -160,8 +158,8 @@ def prettyBoxPlotH(
                 which can be a default seaborn palette, a custom seaborn palette, or a custom
                 matplotlib cmap.
             xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             bbox : tuple of floats, default = (1.05, 1.0)
                 Coordinates for determining legend position.
@@ -182,4 +180,3 @@ def prettyBoxPlotH(
 
     # legend placement.
     plt.legend(bbox_to_anchor=bbox, loc=2, borderaxespad=0.0)
-

@@ -52,6 +52,7 @@ class PrettierPlot:
         prettyKdePlot,
         prettyRegPlot,
         prettyPairPlot,
+        prettyPairPlotCustom,
         prettyHist,
     )
 
@@ -97,8 +98,8 @@ class PrettierPlot:
         self.fig.set_figheight(chartHeight)
         self.fig.set_figwidth(chartWidth)
 
-    def makeCanvas(self, title="", xLabel="", xShift=0.0, yLabel="", yShift=0.8, position=111, 
-                nrows=None, ncols=None, index=None, sharex=None, sharey=None):
+    def makeCanvas(self, title="", xLabel="", xShift=0.0, yLabel="", yShift=0.8, position=111, nrows=None,
+                    ncols=None, index=None, sharex=None, sharey=None):
         """
         Documentation:
             Description:

@@ -50,7 +50,7 @@ def prettyCorrHeatmap(self, df, annot=False, cols=None, mask = False, ax=None, v
             with all numerical features, and can be limited to certain features using 'cols'.
         Parameters:
             df : Pandas DataFrame
-                Pandas DataFrame containing all features of interest. Will be transformed into 
+                Pandas DataFrame containing all features of interest. Will be transformed into
                 a correlation matrix.
             annot : boolean, default = False
                 Determines whether or not correlation table is annotated with correlation
@@ -122,12 +122,12 @@ def prettyCorrHeatmapTarget(self, df, target=None, annot=False, thresh=0.2, ax=N
     """
     Documentation:
         Description:
-            Using continuous features, create correlation heatmap. Capable of dropping 
+            Using continuous features, create correlation heatmap. Capable of dropping
             zeros in select features, where zeros potentially indicate a complete absence
             of the feature.
         Parameters:
             df : Pandas DataFrame
-                Pandas DataFrame containing all features of interest. Will be transformed into 
+                Pandas DataFrame containing all features of interest. Will be transformed into
                 a correlation matrix.
             annot : boolean, default = False
                 Determines whether or not correlation table is annotated with correlation
@@ -188,7 +188,7 @@ def prettyCorrHeatmapTarget(self, df, target=None, annot=False, thresh=0.2, ax=N
         g.get_yticklabels(), rotation=0, fontsize=fontAdjust * self.chartProp
     )
     plt.xticks([])
-    
+
     # customize color bar formatting and labeling.
     cbar = g.collections[0].colorbar
     cbar.ax.tick_params(
@@ -209,14 +209,14 @@ def prettyConfusionMatrix(self, yPred, yTrue, labels, cmap="Blues", ax=None, tex
             reverseLabels : boolean, default = False
                 Reverse the direction of the labels. Puts the True Positives in the upper left hand corner in
                 binary classification problems.
-            
+
     """
     if ax is None:
         ax = plt.gca()
 
     # create confusion matrix using predictions and true labels
     cm = pd.DataFrame(metrics.confusion_matrix(y_true=yTrue, y_pred=yPred))
-    
+
     # Sort rows and columns in descending order
     # cm.sort_index(axis = 1, ascending = False, inplace = True)
     # cm.sort_index(axis = 0, ascending = False, inplace = True)
@@ -279,7 +279,7 @@ def prettyRocCurve(self, model, XTrain, yTrain, XValid=None, yValid=None, lineco
     """
     Documentation:
         Description:
-            Plot ROC curve and report AUC in 
+            Plot ROC curve and report AUC in
         Parameters:
             model : sklearn model or pipeline
                 Model to fit and generate prediction probabilities.
@@ -287,7 +287,7 @@ def prettyRocCurve(self, model, XTrain, yTrain, XValid=None, yValid=None, lineco
                 Training data for model fitting. Also used to return predict_probas
                 when XValid is None.
             yTrain : array
-                Training labels for model fitting. Also used to create ROC curve when 
+                Training labels for model fitting. Also used to create ROC curve when
                 XValid is None.
             XValid : array, default = None
                 Test data for returning predict_probas.
@@ -430,7 +430,3 @@ def prettyDecisionRegion(self, x, y, classifier, testIdx=None, resolution=0.1, b
     )
 
     plt.tight_layout()
-
-
-def prettyResidualPlot(self):
-    pass

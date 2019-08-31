@@ -9,13 +9,11 @@ import prettierplot.util as util
 import textwrap
 
 
-def prettyFacetCat(
-    self, df, feature, labelRotate=0, yUnits="f", xUnits="s", bbox=(1.2, 0.9), ax=None
-):
+def prettyFacetCat(self, df, feature, labelRotate=0, yUnits="f", xUnits="s", bbox=(1.2, 0.9), ax=None):
     """
     Documentation:
         Description:
-            Creates a count plot for a categorical variable and facets the variable by a 
+            Creates a count plot for a categorical variable and facets the variable by a
             categorical label.
         Parameters:
             df : Pandas DataFrame
@@ -25,12 +23,12 @@ def prettyFacetCat(
             labelRotate : float or int, default = 0
                 Degrees by which the xtick labels are rotated.
             xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             yUnits : string, default = 's'
-                Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             bbox : tuple of floats, default = (1.2, 0.9)
                 Coordinates for determining legend position.
@@ -79,19 +77,8 @@ def prettyFacetCat(
     plt.show()
 
 
-def prettyFacetTwoCatBar(
-    self,
-    df,
-    x,
-    y,
-    split,
-    xUnits=None,
-    yUnits=None,
-    bbox=None,
-    legendLabels=None,
-    filterNaN=True,
-    ax=None,
-):
+def prettyFacetTwoCatBar(self, df, x, y, split, xUnits=None, yUnits=None, bbox=None, legendLabels=None,
+                            filterNaN=True, ax=None):
     """
     Documentation:
         Description:
@@ -107,13 +94,13 @@ def prettyFacetTwoCatBar(
             split : string
                 Categorical variable on which to differentiate the numCol variable.
             xUnits : string, default = None
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
+                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             yUnits : string, default = None
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays 
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional 
-                decimal places.            
+                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
             bbox : tuple of floats, default = None
                 Coordinates for determining legend position.
             legendLabels : list, default = None
@@ -206,19 +193,8 @@ def prettyFacetTwoCatBar(
     plt.show()
 
 
-def prettyFacetCatNumScatter(
-    self,
-    df,
-    xNum,
-    yNum,
-    catRow=None,
-    catCol=None,
-    split=None,
-    bbox=None,
-    aspect=1,
-    height=4,
-    legendLabels=None,
-):
+def prettyFacetCatNumScatter(self, df, xNum, yNum, catRow=None, catCol=None, split=None, bbox=None, aspect=1,
+                                height=4, legendLabels=None):
     """
     Documentation:
         Description:
@@ -233,13 +209,13 @@ def prettyFacetCatNumScatter(
                 Continuous variable to be plotted along y-axis.
             catRow : string
                 Categorical variable faceted along the row axis.
-            catCol : string 
+            catCol : string
                 Categorical variable faceted along the column axis.
             split : string
                 Categorical variable on which to differentiate the numCol variable.
             bbox : tuple of floats, default = None
                 Coordinates for determining legend position.
-            aspect : float, default = 1 
+            aspect : float, default = 1
                 Higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             height : float, default = 4
@@ -341,19 +317,19 @@ def prettyFacetCatNumScatter(
 
 
 def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, aspect=1, height=4,
-                        legendLabels=None,):
+                            legendLabels=None):
     """
     Documentation:
         Description:
-            Creates histograms of one continuous variable, and each can optionally be split by a categorical to 
-            show two or more distributions. Allows for faceting by up to two categorical variables along the 
+            Creates histograms of one continuous variable, and each can optionally be split by a categorical to
+            show two or more distributions. Allows for faceting by up to two categorical variables along the
             column and/or row axes of the figure.
         Parameters:
             df : Pandas DataFrame
                 Pandas DataFrame
             catRow : string
                 Categorical variable faceted along the row axis.
-            catCol : string 
+            catCol : string
                 Categorical variable faceted along the column axis.
             numCol : string
                 Continuous variable to be plotted along x-axis.
@@ -361,7 +337,7 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
                 Categorical variable on which to differentiate the numCol variable.
             bbox : tuple of floats, default = None
                 Coordinates for determining legend position.
-            aspect : float, default = 1 
+            aspect : float, default = 1
                 Higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             height : float, default = 4
@@ -464,12 +440,12 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
     plt.show()
 
 
-def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox=None,
-                            aspect=1, height=4, legendLabels=None, ):
+def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox=None, aspect=1, height=4,
+                            legendLabels=None):
     """
     Documentation:
         Description:
-            Creates point plots that 
+            Creates point plots that
         Parameters:
             df : Pandas DataFrame
                 Pandas DataFrame
@@ -481,11 +457,11 @@ def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox
                 Categorical variable on which to differentiate the 'x' variable.
             catRow : string
                 Categorical variable faceted along the row axis.
-            catCol : string 
+            catCol : string
                 Categorical variable faceted along the column axis.
             bbox : tuple of floats, default = None
                 Coordinates for determining legend position.
-            aspect : float, default = 1 
+            aspect : float, default = 1
                 Higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             height : float, default = 4

@@ -1,13 +1,14 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tkr
 
 
 def utilPlotBuffer(ax, x, y):
     """
-    Info:
+    Documentation:
         Description:
-            Creates narrow border around plot arrow. 
+            Creates narrow border around plot arrow.
             Prevents plot icons from being clipped by plot edges.
     """
     xLim = ax.get_xlim()
@@ -20,23 +21,21 @@ def utilPlotBuffer(ax, x, y):
     ax.set_ylim(yLim[0] - yMargin, yLim[1] + yMargin)
 
 
-def utilLabelFormatter(
-    ax, xUnits=None, yUnits=None, xSize=None, ySize=None, xRotate=None, yRotate=None
-):
+def utilLabelFormatter(ax, xUnits=None, yUnits=None, xSize=None, ySize=None, xRotate=None, yRotate=None):
     """
-    Info:
+    Documentation:
         Description:
             Formats tick labels as dolloars, percentages, or decimals.
         Parameters:
             ax : Axes object, default = None
                 Axis on which to place visual..
             xUnits : str, default = None
-                Determines units of x-axis tick labels. None displays float. 'p' displays percentages, 
+                Determines units of x-axis tick labels. None displays float. 'p' displays percentages,
                 '$' displays dollars.
             xSize : int or float, default = None
                 x-axis label size.
             yUnits : str, default = None
-                Determines units of y-axis tick labels. None displays float. 'p' displays percentages, 
+                Determines units of y-axis tick labels. None displays float. 'p' displays percentages,
                 '$' displays dollars.
             ySize : int or float, default = None
                 y-axis label size.
@@ -53,7 +52,7 @@ def utilLabelFormatter(
         fmt = "${x:,.3f}"
     elif xUnits == "ddddd":
         fmt = "${x:,.4f}"
-    
+
     # format as percent
     elif xUnits == "p":
         fmt = "{x:,.0f}%"
@@ -65,7 +64,7 @@ def utilLabelFormatter(
         fmt = "{x:,.3f}%"
     elif xUnits == "ppppp":
         fmt = "{x:,.4f}%"
-    
+
     # format as float
     elif xUnits == "f":
         fmt = "{x:,.0f}"
@@ -101,7 +100,7 @@ def utilLabelFormatter(
         fmt = "${x:,.3f}"
     elif yUnits == "ddddd":
         fmt = "${x:,.4f}"
-    
+
     # format as percent
     elif yUnits == "p":
         fmt = "{x:,.0f}%"
@@ -113,7 +112,7 @@ def utilLabelFormatter(
         fmt = "{x:,.3f}%"
     elif yUnits == "ppppp":
         fmt = "{x:,.4f}%"
-    
+
     # format as float
     elif yUnits == "f":
         fmt = "{x:,.0f}"
@@ -140,7 +139,7 @@ def utilLabelFormatter(
 
 def utilSetAxes(x, y, xThresh=0.75, yThresh=0.75):
     """
-    Info:
+    Documentation:
         Description:
             Dynamically set lower/upper limits of x/y axes.
     """
@@ -157,3 +156,32 @@ def utilSetAxes(x, y, xThresh=0.75, yThresh=0.75):
     yMax = yMax + yMax * 0.1
     return xMin, xMax, yMin, yMax
 
+
+def numericCoerce(df, cols=None):
+    """
+    Documentation:
+        Description:
+            Convert object columns that include numeric data to float or int
+            data type.
+        Paramters:
+            df : Pandas DataFrame
+                Input dataset
+            cols : list of strings
+                List of column names to convert.
+        Returns:
+            Pandas DataFrame with converted columns.
+    """
+    # if no columns specified, set cols equal to all non object columns
+    if cols is None:
+        cols = df.columns
+
+    for col in cols:
+        # exclude columsn that contain only nulls
+        if not df[col].isnull().all():
+            try:
+                df[col] = df[col].apply(pd.to_numeric)
+            except ValueError:
+                pass
+        else:
+            pass
+    return df
