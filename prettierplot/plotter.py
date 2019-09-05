@@ -25,6 +25,9 @@ class PrettierPlot:
         prettyBoxPlotV,
         prettyBoxPlotH
     )
+    from .data import (
+        titanic,
+    )
     from .eval import (
         prettyProbPlot,
         prettyCorrHeatmap,
@@ -32,7 +35,7 @@ class PrettierPlot:
         prettyConfusionMatrix,
         prettyRocCurve,
         prettyDecisionRegion,
-        prettyResidualPlot,
+        # prettyResidualPlot,
     )
     from .facet import (
         prettyFacetCat,
@@ -99,7 +102,7 @@ class PrettierPlot:
         self.fig.set_figwidth(chartWidth)
 
     def makeCanvas(self, title="", xLabel="", xShift=0.0, yLabel="", yShift=0.8, position=111, nrows=None,
-                    ncols=None, index=None, sharex=None, sharey=None):
+                    ncols=None, index=None, sharex=None, sharey=None, titleScale=1.0):
         """
         Documentation:
             Description:
@@ -120,6 +123,17 @@ class PrettierPlot:
                     Intent is to align with top of axis.
                 position : int (nrows, ncols, index), default = 111
                     Determine subplot position of plot.
+                nrows : int, default = None
+                    Number of rows in subplot grid.
+                ncols : int, default = None
+                    Number of columns in subplot grid.
+                sharex : boolean or None, default = None
+                    Conditional controlling whether to share x-axis across all subplots in a column.
+                sharey : boolean or None, default = None
+                    Conditional controlling whether to share y-axis across all subplots in a row.
+                titleScale : float, default = 1.0
+                    Controls the scaling up (higher value) and scaling down (lower value) of the size of
+                    the main chart title, the x-axis title and the y-axis title.
             Returns
                 ax : Axes object
                     Contain figure elements
@@ -136,19 +150,20 @@ class PrettierPlot:
 
         ## Add title
         # dynamically determine font size based on string length
+        # scale by titleScale
         if len(title) >= 45:
-            fontAdjust = 1.0
+            fontAdjust = 1.0 * titleScale
         elif len(title) >= 30 and len(title) < 45:
-            fontAdjust = 1.25
+            fontAdjust = 1.25 * titleScale
         elif len(title) >= 20 and len(title) < 30:
-            fontAdjust = 1.5
+            fontAdjust = 1.5 * titleScale
         else:
-            fontAdjust = 1.75
+            fontAdjust = 1.75 * titleScale
 
         # set title
         ax.set_title(
             title,
-            fontsize=2.0 * self.chartProp
+            fontsize=(2.0 * self.chartProp) * titleScale
             if position == 111
             else fontAdjust * self.chartProp,
             color=style.styleGrey,
@@ -156,22 +171,22 @@ class PrettierPlot:
             pad=0.4 * self.chartProp,
         )
 
-        # Remove grid line and right/top spines.
+        # Remove grid line and right/top spines
         ax.grid(False)
         ax.spines["right"].set_visible(False)
         ax.spines["top"].set_visible(False)
 
-        # Add axis labels.
+        # Add axis labels
         plt.xlabel(
             xLabel,
-            fontsize=1.667 * self.chartProp,
+            fontsize=1.667 * self.chartProp * titleScale,
             labelpad=1.667 * self.chartProp,
             position=(xShift, 0.5),
             horizontalalignment="left",
         )
         plt.ylabel(
             yLabel,
-            fontsize=1.667 * self.chartProp,
+            fontsize=1.667 * self.chartProp * titleScale,
             labelpad=1.667 * self.chartProp,
             position=(1.0, yShift),
             horizontalalignment="left",

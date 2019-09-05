@@ -9,7 +9,7 @@ import prettierplot.util as util
 import textwrap
 
 
-def prettyBarV(self, x, counts, color=style.styleHexMid[0], xLabels=None, xTickWrap = True, labelRotate=0,
+def prettyBarV(self, x, counts, color=style.styleGrey, xLabels=None, xTickWrap = True, labelRotate=0,
                 yUnits="f", ax=None):
     """
     Documentation:
@@ -60,7 +60,7 @@ def prettyBarV(self, x, counts, color=style.styleHexMid[0], xLabels=None, xTickW
         x = ['\n'.join(textwrap.wrap(i.replace('_'," "),12)) for i in x]
         ax.set_xticklabels(x)
 
-def prettyBarH(self, y, counts, color=style.styleHexMid[0], labelRotate=45, xUnits="f", ax=None):
+def prettyBarH(self, y, counts, color=style.styleGrey, labelRotate=45, xUnits="f", ax=None):
     """
     Documentation:
         Description:
