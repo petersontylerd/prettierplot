@@ -129,27 +129,27 @@ def prettyFacetTwoCatBar(self, df, x, y, split, xUnits=None, yUnits=None, bbox=N
 
     # Format x and y-tick labels
     g.set_yticklabels(
-        g.get_yticklabels(),
+        g.get_yticklabels() * 100 if "p" in yUnits else g.get_yticklabels(),
         rotation=0,
-        fontsize=1.25 * self.chartProp,
+        fontsize=0.95 * self.chartProp,
         color=style.styleGrey,
     )
     g.set_xticklabels(
         g.get_xticklabels(),
         rotation=0,
-        fontsize=1.25 * self.chartProp,
+        fontsize=0.95 * self.chartProp,
         color=style.styleGrey,
     )
     g.set_ylabel(
         g.get_ylabel(),
         rotation=90,
-        fontsize=1.75 * self.chartProp,
+        fontsize=1.25 * self.chartProp,
         color=style.styleGrey,
     )
     g.set_xlabel(
         g.get_xlabel(),
         rotation=0,
-        fontsize=1.75 * self.chartProp,
+        fontsize=1.25 * self.chartProp,
         color=style.styleGrey,
     )
 
@@ -193,8 +193,8 @@ def prettyFacetTwoCatBar(self, df, x, y, split, xUnits=None, yUnits=None, bbox=N
     plt.show()
 
 
-def prettyFacetCatNumScatter(self, df, xNum, yNum, catRow=None, catCol=None, split=None, bbox=None, aspect=1,
-                                height=4, legendLabels=None):
+def prettyFacetCatNumScatter(self, df, x, y, catRow=None, catCol=None, split=None, bbox=None, aspect=1,
+                                height=4, legendLabels=None, xUnits="f", yUnits="f"):
     """
     Documentation:
         Description:
@@ -203,9 +203,9 @@ def prettyFacetCatNumScatter(self, df, xNum, yNum, catRow=None, catCol=None, spl
         Parameters:
             df : Pandas DataFrame
                 Pandas DataFrame
-            xNum : string
+            x : string
                 Continuous variable to be plotted along x-axis.
-            yNum : string
+            y : string
                 Continuous variable to be plotted along y-axis.
             catRow : string
                 Categorical variable faceted along the row axis.
@@ -222,6 +222,12 @@ def prettyFacetCatNumScatter(self, df, xNum, yNum, catRow=None, catCol=None, spl
                 Height in inches of each facet.
             legendLabels : list, default = None
                 Custom legend labels.
+            xUnits : string, default = 'f'
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            yUnits : string, default = 'f'
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
     """
     g = sns.FacetGrid(
         df,
@@ -238,12 +244,24 @@ def prettyFacetCatNumScatter(self, df, xNum, yNum, catRow=None, catCol=None, spl
     )
     g = g.map(
         plt.scatter,
-        xNum,
-        yNum
-        #   ,**kws
+        x,
+        y
     )
 
+    # format x any y ticklabels, x and y labels, and main title
     for ax in g.axes.flat:
+        _ = ax.set_yticklabels(
+            ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+            rotation=0,
+            fontsize=0.95 * self.chartProp,
+            color=style.styleGrey,
+        )
+        _ = ax.set_xticklabels(
+            ax.get_xticklabels(),
+            rotation=0,
+            fontsize=0.95 * self.chartProp,
+            color=style.styleGrey,
+        )
         _ = ax.set_ylabel(
             ax.get_ylabel(),
             rotation=90,
@@ -259,9 +277,13 @@ def prettyFacetCatNumScatter(self, df, xNum, yNum, catRow=None, catCol=None, spl
         _ = ax.set_title(
             ax.get_title(),
             rotation=0,
-            fontsize=1.05 * self.chartProp,
+            fontsize=1.25 * self.chartProp,
             color=style.styleGrey,
         )
+
+        # custom tick label formatting
+        util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
+
 
         if ax.texts:
             # This contains the right ylabel text
@@ -317,7 +339,7 @@ def prettyFacetCatNumScatter(self, df, xNum, yNum, catRow=None, catCol=None, spl
 
 
 def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, aspect=1, height=4,
-                            legendLabels=None):
+                            legendLabels=None, xUnits="f", yUnits="f"):
     """
     Documentation:
         Description:
@@ -344,6 +366,12 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
                 Height in inches of each facet.
             legendLabels : list, default = None
                 Custom legend labels.
+            xUnits : string, default = 'f'
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            yUnits : string, default = 'f'
+                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
     """
     g = sns.FacetGrid(
         df,
@@ -371,13 +399,13 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
         _ = ax.set_ylabel(
             ax.get_ylabel(),
             rotation=90,
-            fontsize=1.25 * self.chartProp,
+            fontsize=1.05 * self.chartProp,
             color=style.styleGrey,
         )
         _ = ax.set_xlabel(
             ax.get_xlabel(),
             rotation=0,
-            fontsize=1.25 * self.chartProp,
+            fontsize=1.05 * self.chartProp,
             color=style.styleGrey,
         )
         _ = ax.set_title(
@@ -396,7 +424,7 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
                 txt.get_text(),
                 transform=ax.transAxes,
                 va="center",
-                fontsize=1.25 * self.chartProp,
+                fontsize=1.05 * self.chartProp,
                 color=style.styleGrey,
                 rotation=-90,
             )
@@ -470,7 +498,7 @@ def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox
                 Custom legend labels.
     """
     g = sns.FacetGrid(
-        df, row=catCol, col=catRow, aspect=aspect, height=height, margin_titles=True
+        df, row=catRow, col=catCol, aspect=aspect, height=height, margin_titles=True
     )
     g.map(
         sns.pointplot,

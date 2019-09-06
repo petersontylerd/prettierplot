@@ -12,7 +12,7 @@ import prettierplot.util as util
 
 
 def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yTicks=None, plotBuffer=True,
-                    size=10, axisLimits=True, color=style.styleGrey, facecolor="w", ax=None):
+                    size=5, axisLimits=True, color=style.styleGrey, facecolor="w", ax=None):
     """
     Documentation:
         Description:
@@ -37,7 +37,7 @@ def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yT
                 Specify custom y-tick labels.
             plotBuffer : boolean, default = True
                 Switch for determining whether dynamic plot buffer function is executed.
-            size : int or float, default = 10
+            size : int or float, default = 5
                 Determines scatter dot size.
             axisLimits : boolean, default = True
                 Switch for determining whether dynamic axis limit setting function is executed.
@@ -60,16 +60,13 @@ def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yT
     # plot 2-d scatter.
     plt.scatter(
         x=x,
-        y=y,
+        y=y * 100 if "p" in yUnits else y,
         color=color,
         s=size * self.chartProp,
         alpha=0.7,
         facecolor=facecolor,
         linewidth=0.167 * self.chartProp,
     )
-
-    # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
     # dynamically set axis lower / upper limits.
     if axisLimits:
@@ -87,7 +84,23 @@ def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yT
     if yTicks is not None:
         ax.set_yticks(yTicks)
 
-    # plt.tight_layout()
+    # format x and y ticklabels
+    ax.set_yticklabels(
+        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    ax.set_xticklabels(
+        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    # use label formatter utility function to customize chart labels
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
 
 def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=None, yUnits="f", yTicks=None, plotBuffer=True,
@@ -173,9 +186,6 @@ def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=No
             fontsize=1.1 * self.chartProp,
         )
 
-    # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
-
     # dynamically set axis lower / upper limits.
     if axisLimits:
         xMin, xMax, yMin, yMax = util.utilSetAxes(x=x, y=y)
@@ -192,7 +202,23 @@ def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=No
     if yTicks is not None:
         ax.set_yticks(yTicks)
 
-    plt.tight_layout()
+    # format x and y ticklabels
+    ax.set_yticklabels(
+        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    ax.set_xticklabels(
+        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    # use label formatter utility function to customize chart labels
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
 
 def prettyDistPlot(self, x, color, xUnits="f", yUnits="f", fit=None, xRotate=None, ax=None):
@@ -224,8 +250,24 @@ def prettyDistPlot(self, x, color, xUnits="f", yUnits="f", fit=None, xRotate=Non
     # create distribution plot with an optional fit curve
     g = sns.distplot(a=x, kde=False, color=color, axlabel=False, fit=fit, ax=ax)
 
+    # format x and y ticklabels
+    ax.set_yticklabels(
+        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    ax.set_xticklabels(
+        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
+
     # use label formatter utility function to customize chart labels
     util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits, xRotate=xRotate)
+
 
 
 def prettyKdePlot(self, x, color, yUnits="f", xUnits="f", ax=None):
@@ -250,6 +292,20 @@ def prettyKdePlot(self, x, color, yUnits="f", xUnits="f", ax=None):
     # create kernel density estimation line
     g = sns.kdeplot(data=x, shade=True, color=color, legend=None, ax=ax)
 
+    # format x and y ticklabels
+    ax.set_yticklabels(
+        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    ax.set_xticklabels(
+        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
     # use label formatter utility function to customize chart labels
     util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
@@ -295,6 +351,21 @@ def prettyRegPlot(self, x, y, data, color=style.styleHexMid[0], x_jitter=None, x
         line_kws={"color": style.styleHexMid[1]},
         ax=ax,
     ).set(xlabel=None, ylabel=None)
+
+    # format x and y ticklabels
+    ax.set_yticklabels(
+        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    ax.set_xticklabels(
+        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
 
     # use label formatter utility function to customize chart labels
     util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits, xRotate=xRotate)

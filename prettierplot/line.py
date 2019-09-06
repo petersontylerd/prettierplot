@@ -74,15 +74,15 @@ def prettyLine(self, x, y, label=None, df=None, linecolor=None, linestyle=None, 
     # add line to plot
     plt.plot(
         x,
-        y,
+        y * 100 if "p" in yUnits else y,
         color=linecolor if linecolor is not None else style.styleHexMid[0],
         linestyle=linestyle if linestyle is not None else style.styleLineStyle[0],
         linewidth=0.247 * self.chartProp,
         label=label,
         marker="." if markerOn else None,
-        markersize=25 if markerOn else None,
+        markersize=17 if markerOn else None,
         markerfacecolor="w" if markerOn else None,
-        markeredgewidth=2.5 if markerOn else None,
+        markeredgewidth=2.2 if markerOn else None,
     )
 
     # add legend to figure
@@ -94,9 +94,6 @@ def prettyLine(self, x, y, label=None, df=None, linecolor=None, linestyle=None, 
             frameon=True,
             fontsize=1.1 * self.chartProp,
         )
-
-    # axis tick label formatting
-    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
     # dynamically set axis lower / upper limits
     if axisLimits:
@@ -114,8 +111,23 @@ def prettyLine(self, x, y, label=None, df=None, linecolor=None, linestyle=None, 
     if yTicks is not None:
         ax.set_yticks(yTicks)
 
-    # show figure with tight layout
-    plt.tight_layout()
+    # format x and y ticklabels
+    ax.set_yticklabels(
+        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        rotation=0,
+        fontsize=1.1 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    ax.set_xticklabels(
+        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        rotation=0,
+        fontsize=1.1 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    # axis tick label formatting
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
 
 def prettyMultiLine(self, x, y, label=None, df=None, linecolor=None, linestyle=None, bbox=(1.2, 0.9), xUnits="f", xTicks=None,
@@ -186,15 +198,15 @@ def prettyMultiLine(self, x, y, label=None, df=None, linecolor=None, linestyle=N
         yCol = y[:, ix]
         plt.plot(
             x,
-            yCol,
+            yCol * 100 if "p" in yUnits else yCol,
             color=linecolor if linecolor is not None else style.styleHexMid[ix],
             linestyle=linestyle if linestyle is not None else style.styleLineStyle[0],
             linewidth=0.247 * self.chartProp,
             label=label[ix] if label is not None else None,
             marker="." if markerOn else None,
-            markersize=25 if markerOn else None,
+            markersize=17 if markerOn else None,
             markerfacecolor="w" if markerOn else None,
-            markeredgewidth=2.5 if markerOn else None,
+            markeredgewidth=2.2 if markerOn else None,
         )
 
     # add legend to figure
@@ -206,9 +218,6 @@ def prettyMultiLine(self, x, y, label=None, df=None, linecolor=None, linestyle=N
             frameon=True,
             fontsize=1.1 * self.chartProp,
         )
-
-    # axis tick label formatting
-    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
     # dynamically set axis lower / upper limits
     if axisLimits:
@@ -226,5 +235,20 @@ def prettyMultiLine(self, x, y, label=None, df=None, linecolor=None, linestyle=N
     if yTicks is not None:
         ax.set_yticks(yTicks)
 
-    # show figure with tight layout
-    plt.tight_layout()
+    # format x and y ticklabels
+    ax.set_yticklabels(
+        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        rotation=0,
+        fontsize=1.1 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    ax.set_xticklabels(
+        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        rotation=0,
+        fontsize=1.1 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    # axis tick label formatting
+    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)

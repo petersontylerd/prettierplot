@@ -47,18 +47,29 @@ def prettyBarV(self, x, counts, color=style.styleGrey, xLabels=None, xTickWrap =
     # rotate x-tick labels.
     plt.xticks(rotation=labelRotate)
 
-    # use label formatter utility function to customize chart labels.
-    util.utilLabelFormatter(ax=ax, yUnits=yUnits)
-
-    # tesize x-axis labels as needed.
+    # resize x-axis labels as needed.
     if len(x) > 10 and len(x) <= 20:
-        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=1.2 * self.chartProp)
+        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=1.0 * self.chartProp)
     elif len(x) > 20:
-        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=0.6 * self.chartProp)
+        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=0.9 * self.chartProp)
+    else:
+        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=1.2 * self.chartProp)
 
     if xTickWrap:
         x = ['\n'.join(textwrap.wrap(i.replace('_'," "),12)) for i in x]
         ax.set_xticklabels(x)
+
+    # format y ticklabels
+    ax.set_yticklabels(
+        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        rotation=0,
+        fontsize=1.2 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    # use label formatter utility function to customize chart labels.
+    util.utilLabelFormatter(ax=ax, yUnits=yUnits)
+
 
 def prettyBarH(self, y, counts, color=style.styleGrey, labelRotate=45, xUnits="f", ax=None):
     """
@@ -86,6 +97,21 @@ def prettyBarH(self, y, counts, color=style.styleGrey, labelRotate=45, xUnits="f
 
     # rotate x-tick labels.
     plt.xticks(rotation=labelRotate)
+
+    # format x and y ticklabels
+    ax.set_yticklabels(
+        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    ax.set_xticklabels(
+        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
 
     # use label formatter utility function to customize chart labels.
     util.utilLabelFormatter(ax=ax, xUnits=xUnits)
@@ -125,9 +151,9 @@ def prettyBoxPlotV(self, x, y, data, color, labelRotate=0, yUnits="f", ax=None):
     # resize x-axis labels as needed.
     unique = np.unique(data[x])
     if len(unique) > 10 and len(unique) <= 20:
-        ax.tick_params(axis="x", labelsize=1.2 * self.chartProp)
+        ax.tick_params(axis="x", labelsize=0.9 * self.chartProp)
     elif len(unique) > 20:
-        ax.tick_params(axis="x", labelsize=0.6 * self.chartProp)
+        ax.tick_params(axis="x", labelsize=0.9 * self.chartProp)
 
     # fade box plot figures by reducing alpha.
     plt.setp(ax.artists, alpha=0.8)
@@ -174,6 +200,21 @@ def prettyBoxPlotH(self, x, y, data, color=style.styleHexMid, xUnits="f", bbox=(
     # fade box plot figures by reducing alpha.
     plt.setp(ax.artists, alpha=0.8)
     ax.yaxis.set_visible(False)
+
+    # format x and y ticklabels
+    ax.set_yticklabels(
+        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
+
+    ax.set_xticklabels(
+        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chartProp,
+        color=style.styleGrey,
+    )
 
     # use label formatter utility function to customize chart labels.
     util.utilLabelFormatter(ax=ax, xUnits=xUnits)

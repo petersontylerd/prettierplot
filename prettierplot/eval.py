@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.ticker as tkr
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
@@ -107,8 +108,12 @@ def prettyCorrHeatmap(self, df, annot=False, cols=None, mask = False, ax=None, v
     )
 
     # format x-tick and y-tick labels
-    g.set_yticklabels(g.get_yticklabels(), rotation=0, fontsize=1.0 * self.chartProp)
-    g.set_xticklabels(g.get_xticklabels(), rotation=90, fontsize=1.0 * self.chartProp)
+    g.set_yticklabels(g.get_yticklabels(), rotation=0, fontsize=0.8 * self.chartProp)
+    g.set_xticklabels(g.get_xticklabels(), rotation=90, fontsize=0.8 * self.chartProp)
+
+    # workaround for matplotlib 3.1.1 bug
+    if matplotlib.__version__ == "3.1.1":
+        g.set_ylim(corrMatrix.shape[1] + 0.1, -0.1)
 
     # customize color bar formatting and labeling.
     cbar = g.collections[0].colorbar
