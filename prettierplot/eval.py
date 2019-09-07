@@ -35,7 +35,7 @@ def prettyProbPlot(self, x, plot):
 
     # format scattered dots.
     plot.get_lines()[0].set_markerfacecolor(style.styleWhite)
-    plot.get_lines()[0].set_color(style.styleHexMid[2])
+    plot.get_lines()[0].set_color(style.styleGrey)
     plot.get_lines()[0].set_markersize(5.0)
 
     # format line representing normality.
@@ -102,9 +102,7 @@ def prettyCorrHeatmap(self, df, annot=False, cols=None, mask = False, ax=None, v
         ax=ax,
         xticklabels=True,
         yticklabels=True,
-        cmap=LinearSegmentedColormap.from_list(
-            name="", colors=[style.styleHexMid[2], "white", style.styleHexMid[0]]
-        ),
+        cmap="viridis",
     )
 
     # format x-tick and y-tick labels
@@ -183,9 +181,7 @@ def prettyCorrHeatmapTarget(self, df, target=None, annot=False, thresh=0.2, ax=N
         ax=ax,
         xticklabels=True,
         yticklabels=True,
-        cmap=LinearSegmentedColormap.from_list(
-            name="", colors=[style.styleHexMid[2], "white", style.styleHexMid[0]]
-        ),
+        cmap="viridis",
     )
 
     # format y-tick labels and turn off xticks.
@@ -193,6 +189,10 @@ def prettyCorrHeatmapTarget(self, df, target=None, annot=False, thresh=0.2, ax=N
         g.get_yticklabels(), rotation=0, fontsize=fontAdjust * self.chartProp
     )
     plt.xticks([])
+
+    # workaround for matplotlib 3.1.1 bug
+    if matplotlib.__version__ == "3.1.1":
+        g.set_ylim(corrMatrix.shape[1] + 0.1, -0.1)
 
     # customize color bar formatting and labeling.
     cbar = g.collections[0].colorbar
@@ -204,7 +204,7 @@ def prettyCorrHeatmapTarget(self, df, target=None, annot=False, thresh=0.2, ax=N
     plt.show()
 
 
-def prettyConfusionMatrix(self, yPred, yTrue, labels, cmap="Blues", ax=None, textcolors=["black", "white"],
+def prettyConfusionMatrix(self, yPred, yTrue, labels, cmap="viridis", ax=None, textcolors=["black", "white"],
                             threshold=None, reverseLabels=False, valfmt="{x:.0f}"):
     """
     Documentation:
@@ -272,14 +272,15 @@ def prettyConfusionMatrix(self, yPred, yTrue, labels, cmap="Blues", ax=None, tex
     texts = []
     for i in range(cm.shape[0]):
         for j in range(cm.shape[1]):
-            kw.update(color=textcolors[int(im.norm(cm[i, j]) > threshold)])
+            kw.update(color=textcolors[int(im.norm(cm[i, j]) < threshold)])
+            # kw.update(color=textcolors[int(im.norm(cm[i, j]) > threshold)])
             text = im.axes.text(j, i, valfmt(cm[i, j], None), **kw)
             texts.append(text)
 
     plt.show()
 
 
-def prettyRocCurve(self, model, XTrain, yTrain, XValid=None, yValid=None, linecolor=style.styleHexMid[0],
+def prettyRocCurve(self, model, XTrain, yTrain, XValid=None, yValid=None, linecolor=style.styleGrey,
                     bbox=(1.0, 0.4), ax=None):
     """
     Documentation:
@@ -356,8 +357,7 @@ def prettyRocCurve(self, model, XTrain, yTrain, XValid=None, yValid=None, lineco
         ax=ax,
     )
 
-
-def prettyDecisionRegion(self, x, y, classifier, testIdx=None, resolution=0.1, bbox=(1.2, 0.9), ax=None):
+def prettyDecisionRegion(self, x, y, classifier, testIdx=None, resolution=0.1, bbox=(1.2, 0.9), colorMap="viridis", ax=None):
     """
     Documentation:
         Description:
@@ -375,11 +375,17 @@ def prettyDecisionRegion(self, x, y, classifier, testIdx=None, resolution=0.1, b
                 Controls clarity of the graph by setting interval of the arrays passed into np.meshgrid.
             bbox : tuple of floats, default = (1.2, 0.9)
                 Coordinates for determining legend position.
+            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
+                Colormap from which to draw plot colors.
             ax : Axes object, default = None
                 Axis on which to place visual.
     """
+    # generate color list
+    colorList = style.colorGen(name=colorMap, num=len(np.unique(y)))
+
     # objects for marker generator and color map
-    cmap = ListedColormap(style.styleHexLight[: len(np.unique(y))])
+    cmap = ListedColormap(colorList)
+    # cmap = ListedColormap(style.styleHexLight[: len(np.unique(y))])
 
     # plot decision surface
     x1Min, x1Max = x[:, 0].min() - 1, x[:, 0].max() + 1
@@ -398,17 +404,18 @@ def prettyDecisionRegion(self, x, y, classifier, testIdx=None, resolution=0.1, b
     plt.xlim(xx1.min(), xx1.max())
     plt.ylim(xx2.min(), xx2.max())
 
+
     # plot samples
     for idx, cl in enumerate(np.unique(y)):
         plt.scatter(
             x=x[y == cl, 0],
             y=x[y == cl, 1],
             alpha=1.0,
-            c=style.styleHexMid[idx],
+            c=colorList[idx],
             marker=style.styleMarkers[1],
             label=cl,
             s=12.5 * self.chartProp,
-            edgecolor=style.styleHexMidDark[idx],
+            # edgecolor=style.styleHexMidDark[idx],
         )
 
     # highlight test samples

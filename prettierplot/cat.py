@@ -1,6 +1,7 @@
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+import matplotlib.cm
 
 import prettierplot.style as style
 import prettierplot.util as util
@@ -23,7 +24,7 @@ def prettyBarV(self, x, counts, color=style.styleGrey, xLabels=None, xTickWrap =
             color : string (some sort of color code), default = style.styleHexMid[0]
                 Bar color.
             xLabels : list, default = None
-                Custom x-axis test labels.
+                Custom x-axis text labels.
             xTickWrap : boolean, default = True
                 Wrap x-axis tick labels.
             labelRotate : float or int, default = 0
@@ -35,12 +36,15 @@ def prettyBarV(self, x, counts, color=style.styleGrey, xLabels=None, xTickWrap =
             ax : Axes object, default = None
                 Axis on which to place visual.
     """
+    # custom labela
+    labels = xLabels if xLabels is not None else x
+
     # create vertical bar plot.
     plt.bar(
         x=x,
         height=counts,
         color=color,
-        tick_label=xLabels if xLabels is not None else x,
+        tick_label=labels,
         alpha=0.8,
     )
 
@@ -55,9 +59,12 @@ def prettyBarV(self, x, counts, color=style.styleGrey, xLabels=None, xTickWrap =
     else:
         ax.tick_params(axis="x", colors=style.styleGrey, labelsize=1.2 * self.chartProp)
 
-    if xTickWrap:
-        x = ['\n'.join(textwrap.wrap(i.replace('_'," "),12)) for i in x]
-        ax.set_xticklabels(x)
+    if xTickWrap and type(labels):
+        try:
+            x = ['\n'.join(textwrap.wrap(i.replace('_'," "),12)) for i in labels]
+            ax.set_xticklabels(x)
+        except AttributeError:
+            pass
 
     # format y ticklabels
     ax.set_yticklabels(
@@ -98,16 +105,8 @@ def prettyBarH(self, y, counts, color=style.styleGrey, labelRotate=45, xUnits="f
     # rotate x-tick labels.
     plt.xticks(rotation=labelRotate)
 
-    # format x and y ticklabels
-    ax.set_yticklabels(
-        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
-        rotation=0,
-        fontsize=0.9 * self.chartProp,
-        color=style.styleGrey,
-    )
-
     ax.set_xticklabels(
-        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        ax.get_xticklabels() * 100 if "p" in xUnits else ax.get_xticklabels(),
         rotation=0,
         fontsize=0.9 * self.chartProp,
         color=style.styleGrey,
@@ -117,7 +116,7 @@ def prettyBarH(self, y, counts, color=style.styleGrey, labelRotate=45, xUnits="f
     util.utilLabelFormatter(ax=ax, xUnits=xUnits)
 
 
-def prettyBoxPlotV(self, x, y, data, color, labelRotate=0, yUnits="f", ax=None):
+def prettyBoxPlotV(self, x, y, data, color, labelRotate=0, yUnits="f", colorMap="viridis", ax=None):
     """
     Documentation:
         Description:
@@ -140,13 +139,19 @@ def prettyBoxPlotV(self, x, y, data, color, labelRotate=0, yUnits="f", ax=None):
                 Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
+            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
+                Colormap from which to draw plot colors.
             ax : Axes object, default = None
                 Axis on which to place visual.
     """
     # create vertical box plot.
-    g = sns.boxplot(x=x, y=y, data=data, orient="v", palette=color, ax=ax).set(
-        xlabel=None, ylabel=None
-    )
+    g = sns.boxplot(
+        x=x,
+        y=y,
+        data=data,
+        orient="v",
+        palette=sns.color_palette(style.colorGen(colorMap, num=len(np.unique(data[x].values)))), ax=ax
+    ).set(xlabel=None, ylabel=None)
 
     # resize x-axis labels as needed.
     unique = np.unique(data[x])
@@ -166,7 +171,7 @@ def prettyBoxPlotV(self, x, y, data, color, labelRotate=0, yUnits="f", ax=None):
     util.utilLabelFormatter(ax=ax, yUnits=yUnits)
 
 
-def prettyBoxPlotH(self, x, y, data, color=style.styleHexMid, xUnits="f", bbox=(1.05, 1), ax=None):
+def prettyBoxPlotH(self, x, y, data, color=style.styleGrey, xUnits="f", bbox=(1.05, 1), colorMap="viridis", ax=None):
     """
     Documentation:
         Description:
@@ -189,32 +194,26 @@ def prettyBoxPlotH(self, x, y, data, color=style.styleHexMid, xUnits="f", bbox=(
                 decimal places.
             bbox : tuple of floats, default = (1.05, 1.0)
                 Coordinates for determining legend position.
+            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
+                Colormap from which to draw plot colors.
             ax : Axes object, default = None
                 Axis on which to place visual.
     """
     # create horizontal box plot.
-    g = sns.boxplot(x=x, y=y, hue=y, data=data, orient="h", palette=color, ax=ax).set(
-        xlabel=None, ylabel=None
-    )
+    g = sns.boxplot(
+        x=x,
+        y=y,
+        hue=y,
+        data=data,
+        orient="h",
+        palette=sns.color_palette(style.colorGen(colorMap, num=len(np.unique(data[y].values)))),
+        # palette=sns.color_palette(style.colorGen(colorMap, num=len(np.unique(y)))),
+        ax=ax,
+    ).set(xlabel=None, ylabel=None)
 
     # fade box plot figures by reducing alpha.
     plt.setp(ax.artists, alpha=0.8)
     ax.yaxis.set_visible(False)
-
-    # format x and y ticklabels
-    ax.set_yticklabels(
-        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
-        rotation=0,
-        fontsize=0.9 * self.chartProp,
-        color=style.styleGrey,
-    )
-
-    ax.set_xticklabels(
-        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
-        rotation=0,
-        fontsize=0.9 * self.chartProp,
-        color=style.styleGrey,
-    )
 
     # use label formatter utility function to customize chart labels.
     util.utilLabelFormatter(ax=ax, xUnits=xUnits)

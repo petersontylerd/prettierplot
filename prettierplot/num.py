@@ -57,6 +57,8 @@ def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yT
         x = x.reshape(-1, 1)
         y = y.reshape(-1, 1)
 
+    # generate color
+
     # plot 2-d scatter.
     plt.scatter(
         x=x,
@@ -88,14 +90,14 @@ def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yT
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chartProp,
+        fontsize=1.0 * self.chartProp,
         color=style.styleGrey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chartProp,
+        fontsize=1.0 * self.chartProp,
         color=style.styleGrey,
     )
 
@@ -103,8 +105,8 @@ def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yT
     util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
 
-def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=None, yUnits="f", yTicks=None, plotBuffer=True,
-                        size=10, axisLimits=True, color=style.styleGrey, facecolor="w", bbox=(1.2, 0.9), ax=None):
+def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=None, yUnits="f", yTicks=None, plotBuffer=True, size=10,
+                        axisLimits=True, color=style.styleGrey, facecolor="w", bbox=(1.2, 0.9), colorMap="viridis", ax=None):
     """
     Documentation:
         Description:
@@ -144,6 +146,8 @@ def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=No
                 Determine face color of scatter dots.
             bbox : tuple of floats, default = (1.2, 0.9)
                 Coordinates for determining legend position.
+            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
+                Colormap from which to draw plot colors.
             ax : Axes object, default = None
                 Axis on which to place visual.
     """
@@ -161,9 +165,12 @@ def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=No
     # unique target values.
     targetIds = np.unique(X[:, 2])
 
+    # generate color list
+    colorList = style.colorGen(name=colorMap, num=len(targetIds))
+
     # loop through sets of target values, labels and colors to create 2-d scatter with hue.
     for targetId, targetName, color in zip(
-        targetIds, label, style.styleHexMid[: len(targetIds)]
+        targetIds, label, colorList
     ):
         plt.scatter(
             x=X[X[:, 2] == targetId][:, 0],
@@ -206,14 +213,14 @@ def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=No
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chartProp,
+        fontsize=1.0 * self.chartProp,
         color=style.styleGrey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chartProp,
+        fontsize=1.0 * self.chartProp,
         color=style.styleGrey,
     )
 
@@ -269,7 +276,6 @@ def prettyDistPlot(self, x, color, xUnits="f", yUnits="f", fit=None, xRotate=Non
     util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits, xRotate=xRotate)
 
 
-
 def prettyKdePlot(self, x, color, yUnits="f", xUnits="f", ax=None):
     """
     Documentation:
@@ -310,7 +316,7 @@ def prettyKdePlot(self, x, color, yUnits="f", xUnits="f", ax=None):
     util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
 
 
-def prettyRegPlot(self, x, y, data, color=style.styleHexMid[0], x_jitter=None, xUnits="f", yUnits="f",
+def prettyRegPlot(self, x, y, data, dotColor=style.styleGrey, lineColor=style.styleBlue, x_jitter=None, xUnits="f", yUnits="f",
                     xRotate=None, ax=None):
     """
     Documentation:
@@ -323,8 +329,10 @@ def prettyRegPlot(self, x, y, data, color=style.styleHexMid[0], x_jitter=None, x
                 Name of continuous target variable.
             data : Pandas DataFrame
                 Pandas DataFrame including both indepedent variable and target variable.
-            color : string
-                Determines color of dots and regression line.
+            dotColor : string
+                Determines color of dots.
+            lineColor : string
+                Determines color of regression line.
             x_jitter : float, default = None
                 Optional paramter for randomly displacing dots along the x-axis to enable easier visibility
                 of dots.
@@ -347,8 +355,8 @@ def prettyRegPlot(self, x, y, data, color=style.styleHexMid[0], x_jitter=None, x
         y=y,
         data=data,
         x_jitter=x_jitter,
-        scatter_kws={"alpha": 0.3, "color": style.styleHexMid[0]},
-        line_kws={"color": style.styleHexMid[1]},
+        scatter_kws={"alpha": 0.3, "color": dotColor},
+        line_kws={"color": lineColor},
         ax=ax,
     ).set(xlabel=None, ylabel=None)
 
@@ -371,7 +379,7 @@ def prettyRegPlot(self, x, y, data, color=style.styleHexMid[0], x_jitter=None, x
     util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits, xRotate=xRotate)
 
 
-def prettyPairPlotCustom(self, df, cols=None, gradientCol=None):
+def prettyPairPlotCustom(self, df, cols=None, color = style.styleBlue, gradientCol=None):
     """
     Documentation:
         Description:
@@ -382,6 +390,8 @@ def prettyPairPlotCustom(self, df, cols=None, gradientCol=None):
                 Pandas DataFrame containing data of interest.
             cols : list, default = None
                 List of strings describing columns in Pandas DataFrame to be visualized.
+            color : string, default = style.styleBlue
+                Color to serve as high end of gradient when gradientCol is specified.
             gradientCol : string, default = None
                 Introduce third dimension to scatter plots through a color hue that differentiates
                 dots based on the target's value.
@@ -444,7 +454,7 @@ def prettyPairPlotCustom(self, df, cols=None, gradientCol=None):
                     hue=gradientCol if gradientCol is None else df[gradientCol],
                     data=df,
                     palette=LinearSegmentedColormap.from_list(
-                        name="", colors=["white", style.styleHexMid[0]]
+                        name="", colors=["white", color]
                     ),
                     legend=False,
                     ax=ax,
@@ -452,7 +462,7 @@ def prettyPairPlotCustom(self, df, cols=None, gradientCol=None):
         plt.show()
 
 
-def prettyPairPlot(self, df, cols=None, target=None, diag_kind="auto", legendLabels=None, bbox=None):
+def prettyPairPlot(self, df, cols=None, target=None, diag_kind="auto", legendLabels=None, bbox=None, colorMap="viridis"):
     """
     Documentation:
         Description:
@@ -468,6 +478,12 @@ def prettyPairPlot(self, df, cols=None, target=None, diag_kind="auto", legendLab
                 dots based on the target's value.
             diag_kind : string, default = 'auto.
                 Type of plot created along diagonal.
+            legendLabels : list, default = None
+                List containing strings of custom labels to display in legend.
+            bbox : tuple of floats, default = None
+                Coordinates for determining legend position.
+            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
+                Colormap from which to draw plot colors.
     """
     # Custom plot formatting settings for this particular chart.
     with plt.rc_context(
@@ -516,10 +532,10 @@ def prettyPairPlot(self, df, cols=None, target=None, diag_kind="auto", legendLab
                 "linewidth": 1,
                 "alpha": 0.4,
                 "marker": "o",
-                "facecolor": style.styleHexMid[0] if target is None else None,
+                "facecolor": style.styleGrey if target is None else None,
             },
-            diag_kws={"facecolor": style.styleHexMid[1] if target is None else None},
-            palette=style.styleHexMid,
+            diag_kws={"facecolor": style.styleGrey if target is None else None},
+            palette=None if target is None else sns.color_palette(style.colorGen(colorMap, num = len(np.unique(target)))),
         )
 
         # plot formatting
@@ -529,7 +545,7 @@ def prettyPairPlot(self, df, cols=None, target=None, diag_kind="auto", legendLab
             _ = ax.set_ylabel(ax.get_ylabel(), rotation=40, ha="right")
             _ = ax.set_xlabel(ax.get_xlabel(), rotation=40, ha="right")
             _ = ax.xaxis.labelpad = 20
-            _ = ax.yaxis.labelpad = 80
+            _ = ax.yaxis.labelpad = 40
             _ = ax.xaxis.label.set_color(style.styleGrey)
             _ = ax.yaxis.label.set_color(style.styleGrey)
             # _ = ax.set_xticklabels(ax.get_xticklabels(), rotation=40, ha="right")
@@ -547,9 +563,12 @@ def prettyPairPlot(self, df, cols=None, target=None, diag_kind="auto", legendLab
             else:
                 legendLabels = np.array(legendLabels)
 
+            # generate colors
+            colorList = style.colorGen("viridis", num = len(legendLabels))
+
             labelColor = {}
             for ix, i in enumerate(legendLabels):
-                labelColor[i] = style.styleHexMid[ix]
+                labelColor[i] = colorList[ix]
 
             # create patches
             patches = [Patch(color=v, label=k) for k, v in labelColor.items()]

@@ -7,7 +7,7 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def prettyLine(self, x, y, label=None, df=None, linecolor=None, linestyle=None, bbox=(1.2, 0.9), xUnits="f", xTicks=None,
+def prettyLine(self, x, y, label=None, df=None, linecolor=style.styleGrey, linestyle=None, bbox=(1.2, 0.9), xUnits="f", xTicks=None,
                 yUnits="f", yTicks=None, markerOn=False, plotBuffer=False, axisLimits=False, ax=None,):
     """
     Documentation:
@@ -75,8 +75,8 @@ def prettyLine(self, x, y, label=None, df=None, linecolor=None, linestyle=None, 
     plt.plot(
         x,
         y * 100 if "p" in yUnits else y,
-        color=linecolor if linecolor is not None else style.styleHexMid[0],
-        linestyle=linestyle if linestyle is not None else style.styleLineStyle[0],
+        color=linecolor,
+        linestyle=linestyle,
         linewidth=0.247 * self.chartProp,
         label=label,
         marker="." if markerOn else None,
@@ -115,14 +115,14 @@ def prettyLine(self, x, y, label=None, df=None, linecolor=None, linestyle=None, 
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
         rotation=0,
-        fontsize=1.1 * self.chartProp,
+        fontsize=1.0 * self.chartProp,
         color=style.styleGrey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
         rotation=0,
-        fontsize=1.1 * self.chartProp,
+        fontsize=1.0 * self.chartProp,
         color=style.styleGrey,
     )
 
@@ -131,7 +131,7 @@ def prettyLine(self, x, y, label=None, df=None, linecolor=None, linestyle=None, 
 
 
 def prettyMultiLine(self, x, y, label=None, df=None, linecolor=None, linestyle=None, bbox=(1.2, 0.9), xUnits="f", xTicks=None,
-                    yUnits="f", yTicks=None, markerOn=False, plotBuffer=False, axisLimits=False, ax=None,):
+                    yUnits="f", yTicks=None, markerOn=False, plotBuffer=False, axisLimits=False, colorMap="viridis", ax=None,):
     """
     Documentation:
         Description:
@@ -174,6 +174,8 @@ def prettyMultiLine(self, x, y, label=None, df=None, linecolor=None, linestyle=N
                 Switch for determining whether dynamic plot buffer function is executed.
             axisLimits : boolean, default = False
                 Switch for determining whether dynamic axis limit setting function is executed.
+            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
+                Colormap from which to draw plot colors.
             ax : Axes object, default = None
                 Axis on which to place visual.
     """
@@ -193,13 +195,16 @@ def prettyMultiLine(self, x, y, label=None, df=None, linecolor=None, linestyle=N
         x = x.reshape(-1, 1) if len(x.shape) == 1 else x
         y = y.reshape(-1, 1) if len(y.shape) == 1 else y
 
+    # generate color list
+    colorList = style.colorGen(name=colorMap, num=y.shape[1])
+
     # add multiple lines
     for ix in np.arange(y.shape[1]):
         yCol = y[:, ix]
         plt.plot(
             x,
             yCol * 100 if "p" in yUnits else yCol,
-            color=linecolor if linecolor is not None else style.styleHexMid[ix],
+            color=linecolor if linecolor is not None else colorList[ix],
             linestyle=linestyle if linestyle is not None else style.styleLineStyle[0],
             linewidth=0.247 * self.chartProp,
             label=label[ix] if label is not None else None,

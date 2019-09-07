@@ -9,7 +9,7 @@ import prettierplot.util as util
 import textwrap
 
 
-def prettyFacetCat(self, df, feature, labelRotate=0, yUnits="f", xUnits="s", bbox=(1.2, 0.9), ax=None):
+def prettyFacetCat(self, df, feature, labelRotate=0, yUnits="f", xUnits="s", bbox=(1.2, 0.9), colorMap="viridis", ax=None):
     """
     Documentation:
         Description:
@@ -32,6 +32,8 @@ def prettyFacetCat(self, df, feature, labelRotate=0, yUnits="f", xUnits="s", bbo
                 decimal places.
             bbox : tuple of floats, default = (1.2, 0.9)
                 Coordinates for determining legend position.
+            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
+                Colormap from which to draw plot colors.
             ax : Axes object, default = None
                 Axis on which to place visual.
     """
@@ -41,13 +43,17 @@ def prettyFacetCat(self, df, feature, labelRotate=0, yUnits="f", xUnits="s", bbo
     featureDict = {}
     for feature in df.columns[1:]:
         featureDict[feature] = df[feature].values.tolist()
+
+    # generate color list
+    colorList = style.colorGen(name=colorMap, num=len(featureDict.keys()))
+
     for featureIx, (k, v) in enumerate(featureDict.items()):
         plt.bar(
             ixs + (bar_width * featureIx),
             featureDict[k],
             bar_width,
             alpha=0.75,
-            color=style.styleHexMid[featureIx],
+            color=colorList[featureIx],
             label=str(k),
         )
 
@@ -78,7 +84,7 @@ def prettyFacetCat(self, df, feature, labelRotate=0, yUnits="f", xUnits="s", bbo
 
 
 def prettyFacetTwoCatBar(self, df, x, y, split, xUnits=None, yUnits=None, bbox=None, legendLabels=None,
-                            filterNaN=True, ax=None):
+                            filterNaN=True, colorMap="viridis", ax=None):
     """
     Documentation:
         Description:
@@ -107,6 +113,8 @@ def prettyFacetTwoCatBar(self, df, x, y, split, xUnits=None, yUnits=None, bbox=N
                 Custom legend labels.
             filterNan : boolean, default = True
                 Remove record that have a null value in the column specified by the 'x' parameter.
+            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
+                Colormap from which to draw plot colors.
             ax : Axes object, default = None
                 Axis on which to place visual.
     """
@@ -118,7 +126,7 @@ def prettyFacetTwoCatBar(self, df, x, y, split, xUnits=None, yUnits=None, bbox=N
         y=y,
         hue=split,
         data=df,
-        palette=style.styleHexMid,
+        palette=sns.color_palette(style.colorGen("viridis", num=len(np.unique(df[split].values)))),
         order=df[x].sort_values().drop_duplicates().values.tolist(),
         hue_order=df[split].sort_values().drop_duplicates().values.tolist()
         if split is not None
@@ -166,9 +174,12 @@ def prettyFacetTwoCatBar(self, df, x, y, split, xUnits=None, yUnits=None, bbox=N
         else:
             legendLabels = np.array(legendLabels)
 
+        # generate colors
+        colorList = style.colorGen(colorMap, num = len(legendLabels))
+
         labelColor = {}
         for ix, i in enumerate(legendLabels):
-            labelColor[i] = style.styleHexMid[ix]
+            labelColor[i] = colorList[ix]
 
         # create patches
         patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
@@ -194,7 +205,7 @@ def prettyFacetTwoCatBar(self, df, x, y, split, xUnits=None, yUnits=None, bbox=N
 
 
 def prettyFacetCatNumScatter(self, df, x, y, catRow=None, catCol=None, split=None, bbox=None, aspect=1,
-                                height=4, legendLabels=None, xUnits="f", yUnits="f"):
+                                height=4, legendLabels=None, xUnits="f", yUnits="f", colorMap="viridis"):
     """
     Documentation:
         Description:
@@ -228,13 +239,15 @@ def prettyFacetCatNumScatter(self, df, x, y, catRow=None, catCol=None, split=Non
             yUnits : string, default = 'f'
                 Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
+                Colormap from which to draw plot colors.
     """
     g = sns.FacetGrid(
         df,
         col=catCol,
         row=catRow,
         hue=split,
-        palette=style.styleHexMid,
+        palette=sns.color_palette(style.colorGen(colorMap, num=len(np.unique(df[split].values)))),
         hue_order=df[split].sort_values().drop_duplicates().values.tolist()
         if split is not None
         else None,
@@ -245,7 +258,8 @@ def prettyFacetCatNumScatter(self, df, x, y, catRow=None, catCol=None, split=Non
     g = g.map(
         plt.scatter,
         x,
-        y
+        y,
+        s=1.2 *self.chartProp
     )
 
     # format x any y ticklabels, x and y labels, and main title
@@ -314,9 +328,12 @@ def prettyFacetCatNumScatter(self, df, x, y, catRow=None, catCol=None, split=Non
         else:
             legendLabels = np.array(legendLabels)
 
+        # generate colors
+        colorList = style.colorGen(colorMap, num = len(legendLabels))
+
         labelColor = {}
         for ix, i in enumerate(legendLabels):
-            labelColor[i] = style.styleHexMid[ix]
+            labelColor[i] = colorList[ix]
 
         # create patches
         patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
@@ -339,7 +356,7 @@ def prettyFacetCatNumScatter(self, df, x, y, catRow=None, catCol=None, split=Non
 
 
 def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, aspect=1, height=4,
-                            legendLabels=None, xUnits="f", yUnits="f"):
+                            legendLabels=None, xUnits="f", yUnits="f", colorMap="viridis"):
     """
     Documentation:
         Description:
@@ -372,6 +389,8 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
             yUnits : string, default = 'f'
                 Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
+                Colormap from which to draw plot colors.
     """
     g = sns.FacetGrid(
         df,
@@ -381,7 +400,7 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
         hue_order=df[split].sort_values().drop_duplicates().values.tolist()
         if split is not None
         else None,
-        palette=style.styleHexMid,
+        palette=sns.color_palette(style.colorGen(colorMap, num=len(np.unique(df[split].values)))),
         despine=True,
         height=height,
         aspect=aspect,
@@ -444,9 +463,12 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
         else:
             legendLabels = np.array(legendLabels)
 
+        # generate colors
+        colorList = style.colorGen(colorMap, num = len(legendLabels))
+
         labelColor = {}
         for ix, i in enumerate(legendLabels):
-            labelColor[i] = style.styleHexMid[ix]
+            labelColor[i] = colorList[ix]
 
         # create patches
         patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
@@ -469,7 +491,7 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
 
 
 def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox=None, aspect=1, height=4,
-                            legendLabels=None):
+                            legendLabels=None, colorMap="viridis"):
     """
     Documentation:
         Description:
@@ -496,6 +518,8 @@ def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox
                 Height in inches of each facet.
             legendLabels : list, default = None
                 Custom legend labels.
+            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
+                Colormap from which to draw plot colors.
     """
     g = sns.FacetGrid(
         df, row=catRow, col=catCol, aspect=aspect, height=height, margin_titles=True
@@ -507,7 +531,7 @@ def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox
         split,
         order=df[x].sort_values().drop_duplicates().values.tolist(),
         hue_order=df[split].sort_values().drop_duplicates().values.tolist(),
-        palette=style.styleHexMid,
+        palette=sns.color_palette(style.colorGen(colorMap, num=len(np.unique(df[split].values)))),
         alpha=0.75,
         ci=None,
     )
@@ -556,9 +580,12 @@ def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox
     else:
         legendLabels = np.array(legendLabels)
 
+    # generate colors
+    colorList = style.colorGen(colorMap, num = len(legendLabels))
+
     labelColor = {}
     for ix, i in enumerate(legendLabels):
-        labelColor[i] = style.styleHexMid[ix]
+        labelColor[i] = colorList[ix]
 
     # create patches
     patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
