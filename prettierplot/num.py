@@ -445,7 +445,7 @@ def prettyPairPlotCustom(self, df, cols=None, color = style.styleBlue, gradientC
             #     plt.setp(ax.get_yticklabels(), visible=False)
             # set diagonal plots as KDE plots
             if i == j:
-                sns.kdeplot(df.iloc[:, i], ax=ax, legend=False, shade=True)
+                sns.kdeplot(df.iloc[:, i], ax=ax, legend=False, shade=True, color=color)
             # set lower triangle plots as scatter plots
             else:
                 sns.scatterplot(

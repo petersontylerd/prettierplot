@@ -64,14 +64,14 @@ rcGrey = {
     "xtick.bottom": True,
     "xtick.top": False,
     "xtick.major.size": 6.0,
-    "xtick.major.width": 2.0,
+    "xtick.major.width": 1.25,
     "ytick.labelsize": 15.0,
     "ytick.color": styleGrey,
     "ytick.direction": "out",
     "ytick.left": True,
     "ytick.right": False,
     "ytick.major.size": 6.0,
-    "ytick.major.width": 2.0,
+    "ytick.major.width": 1.25,
     "figure.facecolor": "white",
     "font.family": ["DejaVu Sans"]
     # ,'font.family': ['Arial']

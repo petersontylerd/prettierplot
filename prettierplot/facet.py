@@ -139,25 +139,31 @@ def prettyFacetTwoCatBar(self, df, x, y, split, xUnits=None, yUnits=None, bbox=N
     g.set_yticklabels(
         g.get_yticklabels() * 100 if "p" in yUnits else g.get_yticklabels(),
         rotation=0,
-        fontsize=0.95 * self.chartProp,
+        fontsize=1.05 * self.chartProp,
         color=style.styleGrey,
     )
     g.set_xticklabels(
         g.get_xticklabels(),
         rotation=0,
-        fontsize=0.95 * self.chartProp,
+        fontsize=1.05 * self.chartProp,
         color=style.styleGrey,
     )
     g.set_ylabel(
         g.get_ylabel(),
         rotation=90,
-        fontsize=1.25 * self.chartProp,
+        fontsize=1.35 * self.chartProp,
         color=style.styleGrey,
     )
     g.set_xlabel(
         g.get_xlabel(),
         rotation=0,
-        fontsize=1.25 * self.chartProp,
+        fontsize=1.35 * self.chartProp,
+        color=style.styleGrey,
+    )
+    g.set_title(
+        g.get_title(),
+        rotation=0,
+        fontsize=1.5 * self.chartProp,
         color=style.styleGrey,
     )
 
@@ -267,31 +273,31 @@ def prettyFacetCatNumScatter(self, df, x, y, catRow=None, catCol=None, split=Non
         _ = ax.set_yticklabels(
             ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
             rotation=0,
-            fontsize=0.95 * self.chartProp,
+            fontsize=0.8 * self.chartProp,
             color=style.styleGrey,
         )
         _ = ax.set_xticklabels(
             ax.get_xticklabels(),
             rotation=0,
-            fontsize=0.95 * self.chartProp,
+            fontsize=0.8 * self.chartProp,
             color=style.styleGrey,
         )
         _ = ax.set_ylabel(
             ax.get_ylabel(),
             rotation=90,
-            fontsize=1.25 * self.chartProp,
+            fontsize=1.05 * self.chartProp,
             color=style.styleGrey,
         )
         _ = ax.set_xlabel(
             ax.get_xlabel(),
             rotation=0,
-            fontsize=1.25 * self.chartProp,
+            fontsize=1.05 * self.chartProp,
             color=style.styleGrey,
         )
         _ = ax.set_title(
             ax.get_title(),
             rotation=0,
-            fontsize=1.25 * self.chartProp,
+            fontsize=1.05 * self.chartProp,
             color=style.styleGrey,
         )
 
@@ -308,7 +314,7 @@ def prettyFacetCatNumScatter(self, df, x, y, catRow=None, catCol=None, split=Non
                 txt.get_text(),
                 transform=ax.transAxes,
                 va="center",
-                fontsize=1.25 * self.chartProp,
+                fontsize=1.05 * self.chartProp,
                 color=style.styleGrey,
                 rotation=-90,
             )
@@ -414,7 +420,7 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
         alpha=0.5,
     )
 
-    for ax in g.axes.flat:
+    for i, ax in enumerate(g.axes.flat):
         _ = ax.set_ylabel(
             ax.get_ylabel(),
             rotation=90,
@@ -433,6 +439,25 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
             fontsize=1.05 * self.chartProp,
             color=style.styleGrey,
         )
+
+        # resize y tick labels
+        labels = ax.get_yticklabels()
+        if len(labels) > 0:
+            _ = ax.set_yticklabels(
+                ax.get_yticklabels(),
+                rotation=0,
+                fontsize=0.8 * self.chartProp,
+                color=style.styleGrey,
+            )
+        # resize x tick labels
+        labels = ax.get_xticklabels()
+        if len(labels) > 0:
+            _ = ax.set_xticklabels(
+                ax.get_xticklabels(),
+                rotation=0,
+                fontsize=0.8 * self.chartProp,
+                color=style.styleGrey,
+            )
 
         if ax.texts:
             # This contains the right ylabel text
@@ -540,13 +565,13 @@ def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox
         _ = ax.set_ylabel(
             ax.get_ylabel(),
             rotation=90,
-            fontsize=0.95 * self.chartProp,
+            fontsize=1.05 * self.chartProp,
             color=style.styleGrey,
         )
         _ = ax.set_xlabel(
             ax.get_xlabel(),
             rotation=0,
-            fontsize=0.95 * self.chartProp,
+            fontsize=1.05 * self.chartProp,
             color=style.styleGrey,
         )
         _ = ax.set_title(
@@ -555,6 +580,25 @@ def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox
             fontsize=1.05 * self.chartProp,
             color=style.styleGrey,
         )
+
+        # resize y tick labels
+        labels = ax.get_yticklabels()
+        if len(labels) > 0:
+            _ = ax.set_yticklabels(
+                ax.get_yticklabels(),
+                rotation=0,
+                fontsize=0.8 * self.chartProp,
+                color=style.styleGrey,
+            )
+        # resize x tick labels
+        labels = ax.get_xticklabels()
+        if len(labels) > 0:
+            _ = ax.set_xticklabels(
+                ax.get_xticklabels(),
+                rotation=0,
+                fontsize=0.8 * self.chartProp,
+                color=style.styleGrey,
+            )
 
         if ax.texts:
             # This contains the right ylabel text
@@ -566,7 +610,7 @@ def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox
                 txt.get_text(),
                 transform=ax.transAxes,
                 va="center",
-                fontsize=1.25 * self.chartProp,
+                fontsize=1.05 * self.chartProp,
                 color=style.styleGrey,
                 rotation=-90,
             )

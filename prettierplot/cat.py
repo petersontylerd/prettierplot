@@ -70,7 +70,7 @@ def prettyBarV(self, x, counts, color=style.styleGrey, xLabels=None, xTickWrap =
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
         rotation=0,
-        fontsize=1.2 * self.chartProp,
+        fontsize=0.9 * self.chartProp,
         color=style.styleGrey,
     )
 
@@ -153,12 +153,25 @@ def prettyBoxPlotV(self, x, y, data, color, labelRotate=0, yUnits="f", colorMap=
         palette=sns.color_palette(style.colorGen(colorMap, num=len(np.unique(data[x].values)))), ax=ax
     ).set(xlabel=None, ylabel=None)
 
+    # # resize x-axis labels as needed.
+    # unique = np.unique(data[x])
+    # if len(unique) > 10 and len(unique) <= 20:
+    #     ax.tick_params(axis="x", labelsize=0.9 * self.chartProp)
+    # elif len(unique) > 20:
+    #     ax.tick_params(axis="x", labelsize=0.9 * self.chartProp)
+
+
     # resize x-axis labels as needed.
     unique = np.unique(data[x])
     if len(unique) > 10 and len(unique) <= 20:
-        ax.tick_params(axis="x", labelsize=0.9 * self.chartProp)
+        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=1.0 * self.chartProp)
     elif len(unique) > 20:
-        ax.tick_params(axis="x", labelsize=0.9 * self.chartProp)
+        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=0.9 * self.chartProp)
+    else:
+        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=1.2 * self.chartProp)
+
+    # resize y-axis
+    ax.tick_params(axis="y", labelsize=0.9 * self.chartProp)
 
     # fade box plot figures by reducing alpha.
     plt.setp(ax.artists, alpha=0.8)

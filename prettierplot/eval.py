@@ -190,9 +190,9 @@ def prettyCorrHeatmapTarget(self, df, target=None, annot=False, thresh=0.2, ax=N
     )
     plt.xticks([])
 
-    # workaround for matplotlib 3.1.1 bug
-    if matplotlib.__version__ == "3.1.1":
-        g.set_ylim(corrMatrix.shape[1] + 0.1, -0.1)
+    # # workaround for matplotlib 3.1.1 bug
+    # if matplotlib.__version__ == "3.1.1":
+    #     g.set_ylim(corrMatrix.shape[1] + 0.1, -0.1)
 
     # customize color bar formatting and labeling.
     cbar = g.collections[0].colorbar
@@ -233,8 +233,8 @@ def prettyConfusionMatrix(self, yPred, yTrue, labels, cmap="viridis", ax=None, t
     # set ticks and custom labels
     ax.set_xticks(np.arange(cm.shape[1]))
     ax.set_yticks(np.arange(cm.shape[0]))
-    ax.set_xticklabels(labels)
-    ax.set_yticklabels(labels)
+    ax.set_xticklabels(labels, fontsize=15)
+    ax.set_yticklabels(labels, fontsize=15)
 
     # customize tick and label positions
     ax.tick_params(top=True, bottom=False, labeltop=True, labelbottom=False)
@@ -276,6 +276,20 @@ def prettyConfusionMatrix(self, yPred, yTrue, labels, cmap="viridis", ax=None, t
             # kw.update(color=textcolors[int(im.norm(cm[i, j]) > threshold)])
             text = im.axes.text(j, i, valfmt(cm[i, j], None), **kw)
             texts.append(text)
+
+    #
+    ax.set_ylabel(
+        ax.get_ylabel(),
+        rotation=90,
+        fontsize=18,
+        color=style.styleGrey,
+    )
+    ax.set_xlabel(
+        ax.get_xlabel(),
+        rotation=0,
+        fontsize=18,
+        color=style.styleGrey,
+    )
 
     plt.show()
 
