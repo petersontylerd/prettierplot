@@ -232,7 +232,7 @@ def prettyDistPlot(self, x, color, xUnits="f", yUnits="f", fit=None, xRotate=Non
     """
     Documentation:
         Description:
-            Creates distribution plot for continuous variables, showing counts of a single
+            Creates distribution plot for numeric variables, showing counts of a single
             variable. Also overlays a kernel density estimation curve.
         Parameters:
             x : array
@@ -326,7 +326,7 @@ def prettyRegPlot(self, x, y, data, dotColor=style.styleGrey, lineColor=style.st
             x : string
                 Name of independent variable in dataframe. Represents a category
             y : string
-                Name of continuous target variable.
+                Name of numeric target variable.
             data : Pandas DataFrame
                 Pandas DataFrame including both indepedent variable and target variable.
             dotColor : string
@@ -384,7 +384,7 @@ def prettyPairPlotCustom(self, df, cols=None, color = style.styleBlue, gradientC
     Documentation:
         Description:
             Create pair plot that produces a grid of scatter plots for all unique pairs of
-            continuous features and a series of KDE or histogram plots along the diagonal.
+            numeric features and a series of KDE or histogram plots along the diagonal.
         Parameters:
             df : Pandas DataFrame
                 Pandas DataFrame containing data of interest.
@@ -467,7 +467,7 @@ def prettyPairPlot(self, df, cols=None, target=None, diag_kind="auto", legendLab
     Documentation:
         Description:
             Create pair plot that produces a grid of scatter plots for all unique pairs of
-            continuous features and a series of KDE or histogram plots along the diagonal.
+            numeric features and a series of KDE or histogram plots along the diagonal.
         Parameters:
             df : Pandas DataFrame
                 Pandas DataFrame containing data of interest.
@@ -592,8 +592,8 @@ def prettyHist(self, x, color, label, alpha=0.8):
     """
     Documentation:
         Description:
-            Create histogram of continuous variable. Simple function capable of easy
-            iteration through several groupings of a continuous variable that is
+            Create histogram of numeric variable. Simple function capable of easy
+            iteration through several groupings of a numeric variable that is
             separated out based on a categorical label. This results in several overlapping
             histograms and can reveal differences in distributions.
         Parameters:

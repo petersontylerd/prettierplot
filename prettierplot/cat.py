@@ -120,13 +120,13 @@ def prettyBoxPlotV(self, x, y, data, color, labelRotate=0, yUnits="f", colorMap=
     """
     Documentation:
         Description:
-            Create vertical box plots. Useful for evaluated a continuous target on the y-axis
+            Create vertical box plots. Useful for evaluated a numeric target on the y-axis
             vs. several different category segments on the x-axis
         Parameters:
             x : string
                 Name of independent variable in dataframe. Represents a category.
             y : string
-                Name of continuous target variable.
+                Name of numeric target variable.
             data : Pandas DataFrame
                 Pandas DataFrame including both indpedent variable and target variable.
             color : string
@@ -189,12 +189,12 @@ def prettyBoxPlotH(self, x, y, data, color=style.styleGrey, xUnits="f", bbox=(1.
     Documentation:
         Description:
             Create horizontal box plots. Useful for evaluating a categorical target on the y-axis
-            vs. a continuous independent variable on the x-axis.
+            vs. a numeric independent variable on the x-axis.
         Parameters:
             x : string
                 Name of independent variable in dataframe. Represents a category.
             y : string
-                Name of continuous target variable.
+                Name of numeric target variable.
             data : Pandas DataFrame
                 Pandas DataFrame including both indpedent variable and target variable.
             color : string (some sort of color code), default = style.styleHexMid

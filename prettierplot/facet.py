@@ -215,15 +215,15 @@ def prettyFacetCatNumScatter(self, df, x, y, catRow=None, catCol=None, split=Non
     """
     Documentation:
         Description:
-            Creates scatter plots of two continuous variables and allows for faceting by up to two
+            Creates scatter plots of two numeric variables and allows for faceting by up to two
             categorical variables along the column and/or row axes of the figure.
         Parameters:
             df : Pandas DataFrame
                 Pandas DataFrame
             x : string
-                Continuous variable to be plotted along x-axis.
+                numeric variable to be plotted along x-axis.
             y : string
-                Continuous variable to be plotted along y-axis.
+                numeric variable to be plotted along y-axis.
             catRow : string
                 Categorical variable faceted along the row axis.
             catCol : string
@@ -366,7 +366,7 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
     """
     Documentation:
         Description:
-            Creates histograms of one continuous variable, and each can optionally be split by a categorical to
+            Creates histograms of one numeric variable, and each can optionally be split by a categorical to
             show two or more distributions. Allows for faceting by up to two categorical variables along the
             column and/or row axes of the figure.
         Parameters:
@@ -377,7 +377,7 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
             catCol : string
                 Categorical variable faceted along the column axis.
             numCol : string
-                Continuous variable to be plotted along x-axis.
+                numeric variable to be plotted along x-axis.
             split : string
                 Categorical variable on which to differentiate the numCol variable.
             bbox : tuple of floats, default = None

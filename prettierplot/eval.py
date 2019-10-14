@@ -18,11 +18,11 @@ def prettyProbPlot(self, x, plot):
     """
         Documentation:
             Description:
-                Create plot that visualizes how well a continuous feature's distribution
+                Create plot that visualizes how well a numeric feature's distribution
                 conforms to a normal distribution
             Parameters:
                 x : array
-                    1-dimensional array containing data of a continuous feature.
+                    1-dimensional array containing data of a numeric feature.
                 plot : plot object
                     Plotting object for applying additional formatting.
         """
@@ -47,7 +47,7 @@ def prettyCorrHeatmap(self, df, annot=False, cols=None, mask = False, ax=None, v
     """
     Documentation:
         Description:
-            Using continuous features, create correlation heatmap. Produces correlation
+            Using numeric features, create correlation heatmap. Produces correlation
             with all numerical features, and can be limited to certain features using 'cols'.
         Parameters:
             df : Pandas DataFrame
@@ -125,7 +125,7 @@ def prettyCorrHeatmapTarget(self, df, target=None, annot=False, thresh=0.2, ax=N
     """
     Documentation:
         Description:
-            Using continuous features, create correlation heatmap. Capable of dropping
+            Using numeric features, create correlation heatmap. Capable of dropping
             zeros in select features, where zeros potentially indicate a complete absence
             of the feature.
         Parameters:
