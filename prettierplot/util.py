@@ -5,172 +5,172 @@ import matplotlib.ticker as tkr
 from matplotlib import cm
 
 
-def utilPlotBuffer(ax, x, y):
+def util_plot_buffer(ax, x, y):
     """
-    Documentation:
-        Description:
-            Creates narrow border around plot arrow.
-            Prevents plot icons from being clipped by plot edges.
+    documentation:
+        description:
+            creates narrow border around plot arrow.
+            prevents plot icons from being clipped by plot edges.
     """
-    xLim = ax.get_xlim()
-    yLim = ax.get_ylim()
+    x_lim = ax.get_xlim()
+    y_lim = ax.get_ylim()
 
-    xMargin = (xLim[1] - xLim[0]) * x
-    yMargin = (yLim[1] - yLim[0]) * y
+    x_margin = (x_lim[1] - x_lim[0]) * x
+    y_margin = (y_lim[1] - y_lim[0]) * y
 
-    ax.set_xlim(xLim[0] - xMargin, xLim[1] + xMargin)
-    ax.set_ylim(yLim[0] - yMargin, yLim[1] + yMargin)
+    ax.set_xlim(x_lim[0] - x_margin, x_lim[1] + x_margin)
+    ax.set_ylim(y_lim[0] - y_margin, y_lim[1] + y_margin)
 
 
-def utilLabelFormatter(ax, xUnits=None, yUnits=None, xSize=None, ySize=None, xRotate=None, yRotate=None):
+def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=None, x_rotate=None, y_rotate=None):
     """
-    Documentation:
-        Description:
-            Formats tick labels as dolloars, percentages, or decimals.
-        Parameters:
-            ax : Axes object, default = None
-                Axis on which to place visual..
-            xUnits : str, default = None
-                Determines units of x-axis tick labels. None displays float. 'p' displays percentages,
+    documentation:
+        description:
+            formats tick labels as dolloars, percentages, or decimals.
+        parameters:
+            ax : axes object, default =None
+                axis on which to place visual..
+            x_units : str, default =None
+                determines units of x_axis tick labels. none displays float. 'p' displays percentages,
                 '$' displays dollars.
-            xSize : int or float, default = None
-                x-axis label size.
-            yUnits : str, default = None
-                Determines units of y-axis tick labels. None displays float. 'p' displays percentages,
+            x_size : int or float, default =None
+                x_axis label size.
+            y_units : str, default =None
+                determines units of y_axis tick labels. none displays float. 'p' displays percentages,
                 '$' displays dollars.
-            ySize : int or float, default = None
-                y-axis label size.
+            y_size : int or float, default =None
+                y_axis label size.
     """
-    ## x-axis
+    ## x_axis
     # format as dollars
-    if xUnits == "d":
+    if x_units == "d":
         fmt = "${x:,.0f}"
-    elif xUnits == "dd":
+    elif x_units == "dd":
         fmt = "${x:,.1f}"
-    elif xUnits == "ddd":
+    elif x_units == "ddd":
         fmt = "${x:,.2f}"
-    elif xUnits == "dddd":
+    elif x_units == "dddd":
         fmt = "${x:,.3f}"
-    elif xUnits == "ddddd":
+    elif x_units == "ddddd":
         fmt = "${x:,.4f}"
 
     # format as percent
-    elif xUnits == "p":
+    elif x_units == "p":
         fmt = "{x:,.0f}%"
-    elif xUnits == "pp":
+    elif x_units == "pp":
         fmt = "{x:,.1f}%"
-    elif xUnits == "ppp":
+    elif x_units == "ppp":
         fmt = "{x:,.2f}%"
-    elif xUnits == "pppp":
+    elif x_units == "pppp":
         fmt = "{x:,.3f}%"
-    elif xUnits == "ppppp":
+    elif x_units == "ppppp":
         fmt = "{x:,.4f}%"
 
     # format as float
-    elif xUnits == "f":
+    elif x_units == "f":
         fmt = "{x:,.0f}"
-    elif xUnits == "ff":
+    elif x_units == "ff":
         fmt = "{x:,.1f}"
-    elif xUnits == "fff":
+    elif x_units == "fff":
         fmt = "{x:,.2f}"
-    elif xUnits == "ffff":
+    elif x_units == "ffff":
         fmt = "{x:,.3f}"
-    elif xUnits == "fffff":
+    elif x_units == "fffff":
         fmt = "{x:,.4f}"
 
-    if xUnits is not None and xUnits != "s":
-        tick = tkr.StrMethodFormatter(fmt)
+    if x_units is not None and x_units != "s":
+        tick = tkr.str_method_formatter(fmt)
         ax.xaxis.set_major_formatter(tick)
 
-    if xUnits is not None and xRotate is not None:
+    if x_units is not None and x_rotate is not None:
         ax.tick_params(labelrotation=45, axis="x")
 
-    if xSize is not None:
+    if x_size is not None:
         for tk in ax.get_xticklabels():
-            tk.set_fontsize(xSize)
+            tk.set_fontsize(x_size)
 
-    ## y-axis
+    ## y_axis
     # format as dollars
-    if yUnits == "d":
+    if y_units == "d":
         fmt = "${x:,.0f}"
-    elif yUnits == "dd":
+    elif y_units == "dd":
         fmt = "${x:,.1f}"
-    elif yUnits == "ddd":
+    elif y_units == "ddd":
         fmt = "${x:,.2f}"
-    elif yUnits == "dddd":
+    elif y_units == "dddd":
         fmt = "${x:,.3f}"
-    elif yUnits == "ddddd":
+    elif y_units == "ddddd":
         fmt = "${x:,.4f}"
 
     # format as percent
-    elif yUnits == "p":
+    elif y_units == "p":
         fmt = "{x:,.0f}%"
-    elif yUnits == "pp":
+    elif y_units == "pp":
         fmt = "{x:,.1f}%"
-    elif yUnits == "ppp":
+    elif y_units == "ppp":
         fmt = "{x:,.2f}%"
-    elif yUnits == "pppp":
+    elif y_units == "pppp":
         fmt = "{x:,.3f}%"
-    elif yUnits == "ppppp":
+    elif y_units == "ppppp":
         fmt = "{x:,.4f}%"
 
     # format as float
-    elif yUnits == "f":
+    elif y_units == "f":
         fmt = "{x:,.0f}"
-    elif yUnits == "ff":
+    elif y_units == "ff":
         fmt = "{x:,.1f}"
-    elif yUnits == "fff":
+    elif y_units == "fff":
         fmt = "{x:,.2f}"
-    elif yUnits == "ffff":
+    elif y_units == "ffff":
         fmt = "{x:,.3f}"
-    elif yUnits == "ffff":
+    elif y_units == "ffff":
         fmt = "{x:,.4f}"
 
-    if yUnits is not None and yUnits != "s":
-        tick = tkr.StrMethodFormatter(fmt)
+    if y_units is not None and y_units != "s":
+        tick = tkr.str_method_formatter(fmt)
         ax.yaxis.set_major_formatter(tick)
 
-    if yUnits is not None and yRotate is not None:
+    if y_units is not None and y_rotate is not None:
         ax.tick_params(labelrotation=45, axis="y")
 
-    if ySize is not None:
+    if y_size is not None:
         for tk in ax.get_yticklabels():
-            tk.set_fontsize(ySize)
+            tk.set_fontsize(y_size)
 
 
-def utilSetAxes(x, y, xThresh=0.75, yThresh=0.75):
+def util_set_axes(x, y, x_thresh=0.75, y_thresh=0.75):
     """
-    Documentation:
-        Description:
-            Dynamically set lower/upper limits of x/y axes.
+    documentation:
+        description:
+            dynamically set lower/upper limits of x/y axes.
     """
-    xMin = round(np.min(x), 5)
-    xMax = round(np.max(x), 5)
-    xChange = (xMax - xMin) / xMax
-    xMin = 0 if 1.00 >= xChange >= xThresh else np.round(xMin, 1)
-    xMax = xMax + xMax * 0.1
+    x_min = round(np.min(x), 5)
+    x_max = round(np.max(x), 5)
+    x_change = (x_max - x_min) / x_max
+    x_min = 0 if 1.00 >= x_change >= x_thresh else np.round(x_min, 1)
+    x_max = x_max + x_max * 0.1
 
-    yMin = round(np.min(y), 5)
-    yMax = round(np.max(y), 5)
-    yChange = (yMax - yMin) / yMax
-    yMin = 0 if 1.00 >= yChange >= yThresh else np.round(yMin, 1)
-    yMax = yMax + yMax * 0.1
-    return xMin, xMax, yMin, yMax
+    y_min = round(np.min(y), 5)
+    y_max = round(np.max(y), 5)
+    y_change = (y_max - y_min) / y_max
+    y_min = 0 if 1.00 >= y_change >= y_thresh else np.round(y_min, 1)
+    y_max = y_max + y_max * 0.1
+    return x_min, x_max, y_min, y_max
 
 
-def numericCoerce(df, cols=None):
+def numeric_coerce(df, cols=None):
     """
-    Documentation:
-        Description:
-            Convert object columns that include numeric data to float or int
+    documentation:
+        description:
+            convert object columns that include numeric data to float or int
             data type.
-        Paramters:
-            df : Pandas DataFrame
-                Input dataset
+        paramters:
+            df : pandas DataFrame
+                input dataset
             cols : list of strings
-                List of column names to convert.
-        Returns:
-            Pandas DataFrame with converted columns.
+                list of column names to convert.
+        returns:
+            pandas DataFrame with converted columns.
     """
     # if no columns specified, set cols equal to all non object columns
     if cols is None:

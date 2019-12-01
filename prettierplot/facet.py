@@ -1,7 +1,7 @@
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-from matplotlib.patches import Patch
+from matplotlib.patches import patch
 
 import prettierplot.style as style
 import prettierplot.util as util
@@ -9,58 +9,58 @@ import prettierplot.util as util
 import textwrap
 
 
-def prettyFacetCat(self, df, feature, labelRotate=0, yUnits="f", xUnits="s", bbox=(1.2, 0.9), colorMap="viridis", ax=None):
+def pretty_facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=(1.2, 0.9), color_map="viridis", ax=None):
     """
-    Documentation:
-        Description:
-            Creates a count plot for a categorical variable and facets the variable by a
+    documentation:
+        description:
+            creates a count plot for a categorical variable and facets the variable by a
             categorical label.
-        Parameters:
-            df : Pandas DataFrame
-                Pandas DataFrame
+        parameters:
+            df : pandas DataFrame
+                pandas DataFrame
             feature : string
-                String describing column name containing target values
-            labelRotate : float or int, default = 0
-                Degrees by which the xtick labels are rotated.
-            xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                string describing column name containing target values
+            label_rotate : float or int, default = 0
+                degrees by which the xtick labels are rotated.
+            x_units : string, default = 'f'
+                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            yUnits : string, default = 's'
-                Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+            y_units : string, default = 's'
+                determines units of y_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             bbox : tuple of floats, default = (1.2, 0.9)
-                Coordinates for determining legend position.
-            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
-                Colormap from which to draw plot colors.
-            ax : Axes object, default = None
-                Axis on which to place visual.
+                coordinates for determining legend position.
+            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+                colormap from which to draw plot colors.
+            ax : axes object, default =None
+                axis on which to place visual.
     """
     ixs = np.arange(df.shape[0])
     bar_width = 0.35
 
-    featureDict = {}
+    feature_dict = {}
     for feature in df.columns[1:]:
-        featureDict[feature] = df[feature].values.tolist()
+        feature_dict[feature] = df[feature].values.tolist()
 
     # generate color list
-    colorList = style.colorGen(name=colorMap, num=len(featureDict.keys()))
+    color_list = style.color_gen(name=color_map, num=len(feature_dict.keys()))
 
-    for featureIx, (k, v) in enumerate(featureDict.items()):
+    for feature_ix, (k, v) in enumerate(feature_dict.items()):
         plt.bar(
-            ixs + (bar_width * featureIx),
-            featureDict[k],
+            ixs + (bar_width * feature_ix),
+            feature_dict[k],
             bar_width,
             alpha=0.75,
-            color=colorList[featureIx],
+            color=color_list[feature_ix],
             label=str(k),
         )
 
-    # custom x-tick labels.
+    # custom x_tick labels.
     plt.xticks(ixs[: df.shape[0]] + bar_width / 2,
                 ['\n'.join(textwrap.wrap(str(i).replace('_'," "),12)) for i in df.iloc[:, 0].values])
-    plt.xticks(rotation=labelRotate)
+    plt.xticks(rotation=label_rotate)
 
     # add legend to figure.
     plt.legend(
@@ -68,57 +68,57 @@ def prettyFacetCat(self, df, feature, labelRotate=0, yUnits="f", xUnits="s", bbo
         bbox_to_anchor=bbox,
         ncol=1,
         frameon=True,
-        fontsize=1.1 * self.chartProp,
+        fontsize=1.1 * self.chart_prop,
     )
 
     # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
+    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
-    # resize x-axis labels as needed.
-    if len(featureDict[feature]) > 10 and len(featureDict[feature]) <= 20:
-        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=1.2 * self.chartProp)
-    elif len(featureDict[feature]) > 20:
-        ax.tick_params(axis="x", colors=style.styleGrey, labelsize=0.6 * self.chartProp)
+    # resize x_axis labels as needed.
+    if len(feature_dict[feature]) > 10 and len(feature_dict[feature]) <= 20:
+        ax.tick_params(axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
+    elif len(feature_dict[feature]) > 20:
+        ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.6 * self.chart_prop)
 
     plt.show()
 
 
-def prettyFacetTwoCatBar(self, df, x, y, split, xUnits=None, yUnits=None, bbox=None, legendLabels=None,
-                            filterNaN=True, colorMap="viridis", ax=None):
+def pretty_facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=None, legend_labels=None,
+                            filter_na_n=True, color_map="viridis", ax=None):
     """
-    Documentation:
-        Description:
-            Creates a series of bar plots that count a variable along the y-axis and separate the counts
+    documentation:
+        description:
+            creates a series of bar plots that count a variable along the y_axis and separate the counts
             into bins based on by two categorical variables.
-        Parameters:
-            df : Pandas DataFrame
-                Pandas DataFrame
+        parameters:
+            df : pandas DataFrame
+                pandas DataFrame
             x : string
-                Categorical variable to be plotted along x-axis.
+                categorical variable to be plotted along x_axis.
             y : string
-                Variable to be counted along y-axis.
+                variable to be counted along y_axis.
             split : string
-                Categorical variable on which to differentiate the numCol variable.
-            xUnits : string, default = None
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                categorical variable on which to differentiate the num_col variable.
+            x_units : string, default =None
+                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            yUnits : string, default = None
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+            y_units : string, default =None
+                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            bbox : tuple of floats, default = None
-                Coordinates for determining legend position.
-            legendLabels : list, default = None
-                Custom legend labels.
-            filterNan : boolean, default = True
-                Remove record that have a null value in the column specified by the 'x' parameter.
-            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
-                Colormap from which to draw plot colors.
-            ax : Axes object, default = None
-                Axis on which to place visual.
+            bbox : tuple of floats, default =None
+                coordinates for determining legend position.
+            legend_labels : list, default =None
+                custom legend labels.
+            filter_nan : boolean, default=True
+                remove record that have a null value in the column specified by the 'x' parameter.
+            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+                colormap from which to draw plot colors.
+            ax : axes object, default =None
+                axis on which to place visual.
     """
-    if filterNaN:
+    if filter_na_n:
         df = df.dropna(subset=[x])
 
     g = sns.barplot(
@@ -126,7 +126,7 @@ def prettyFacetTwoCatBar(self, df, x, y, split, xUnits=None, yUnits=None, bbox=N
         y=y,
         hue=split,
         data=df,
-        palette=sns.color_palette(style.colorGen("viridis", num=len(np.unique(df[split].values)))),
+        palette=sns.color_palette(style.color_gen("viridis", num=len(np.unique(df[split].values)))),
         order=df[x].sort_values().drop_duplicates().values.tolist(),
         hue_order=df[split].sort_values().drop_duplicates().values.tolist()
         if split is not None
@@ -135,125 +135,125 @@ def prettyFacetTwoCatBar(self, df, x, y, split, xUnits=None, yUnits=None, bbox=N
         ci=None,
     )
 
-    # Format x and y-tick labels
+    # format x and y_tick labels
     g.set_yticklabels(
-        g.get_yticklabels() * 100 if "p" in yUnits else g.get_yticklabels(),
+        g.get_yticklabels() * 100 if "p" in y_units else g.get_yticklabels(),
         rotation=0,
-        fontsize=1.05 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=1.05 * self.chart_prop,
+        color=style.style_grey,
     )
     g.set_xticklabels(
         g.get_xticklabels(),
         rotation=0,
-        fontsize=1.05 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=1.05 * self.chart_prop,
+        color=style.style_grey,
     )
     g.set_ylabel(
         g.get_ylabel(),
-        rotation=90,
-        fontsize=1.35 * self.chartProp,
-        color=style.styleGrey,
+        rotation=-90,
+        fontsize=1.35 * self.chart_prop,
+        color=style.style_grey,
     )
     g.set_xlabel(
         g.get_xlabel(),
         rotation=0,
-        fontsize=1.35 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=1.35 * self.chart_prop,
+        color=style.style_grey,
     )
     g.set_title(
         g.get_title(),
         rotation=0,
-        fontsize=1.5 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=1.5 * self.chart_prop,
+        color=style.style_grey,
     )
 
     ## create custom legend
     # create labels
     if split is not None:
-        if legendLabels is None:
-            legendLabels = (
+        if legend_labels is None:
+            legend_labels = (
                 df[df[split].notnull()][split]
                 .sort_values()
                 .drop_duplicates()
                 .values.tolist()
             )
         else:
-            legendLabels = np.array(legendLabels)
+            legend_labels = np.array(legend_labels)
 
         # generate colors
-        colorList = style.colorGen(colorMap, num = len(legendLabels))
+        color_list = style.color_gen(color_map, num = len(legend_labels))
 
-        labelColor = {}
-        for ix, i in enumerate(legendLabels):
-            labelColor[i] = colorList[ix]
+        label_color = {}
+        for ix, i in enumerate(legend_labels):
+            label_color[i] = color_list[ix]
 
         # create patches
-        patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
+        patches = [patch(color=v, label=k) for k, v in label_color.items()]
 
         # draw legend
         leg = plt.legend(
             handles=patches,
-            fontsize=1.25 * self.chartProp,
+            fontsize=1.25 * self.chart_prop,
             loc="upper right",
-            markerscale=0.5 * self.chartProp,
+            markerscale=0.5 * self.chart_prop,
             ncol=1,
             bbox_to_anchor=bbox,
         )
 
         # label font color
         for text in leg.get_texts():
-            plt.setp(text, color="Grey")
+            plt.setp(text, color="grey")
 
         # use label formatter utility function to customize chart labels
-        util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
+        util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
     plt.show()
 
 
-def prettyFacetCatNumScatter(self, df, x, y, catRow=None, catCol=None, split=None, bbox=None, aspect=1,
-                                height=4, legendLabels=None, xUnits="f", yUnits="f", colorMap="viridis"):
+def pretty_facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None, bbox=None, aspect=1,
+                                height=4, legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
     """
-    Documentation:
-        Description:
-            Creates scatter plots of two numeric variables and allows for faceting by up to two
+    documentation:
+        description:
+            creates scatter plots of two numeric variables and allows for faceting by up to two
             categorical variables along the column and/or row axes of the figure.
-        Parameters:
-            df : Pandas DataFrame
-                Pandas DataFrame
+        parameters:
+            df : pandas DataFrame
+                pandas DataFrame
             x : string
-                numeric variable to be plotted along x-axis.
+                numeric variable to be plotted along x_axis.
             y : string
-                numeric variable to be plotted along y-axis.
-            catRow : string
-                Categorical variable faceted along the row axis.
-            catCol : string
-                Categorical variable faceted along the column axis.
+                numeric variable to be plotted along y_axis.
+            cat_row : string
+                categorical variable faceted along the row axis.
+            cat_col : string
+                categorical variable faceted along the column axis.
             split : string
-                Categorical variable on which to differentiate the numCol variable.
-            bbox : tuple of floats, default = None
-                Coordinates for determining legend position.
+                categorical variable on which to differentiate the num_col variable.
+            bbox : tuple of floats, default =None
+                coordinates for determining legend position.
             aspect : float, default = 1
-                Higher values create wider plot, lower values create narrow plot, while
+                higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             height : float, default = 4
-                Height in inches of each facet.
-            legendLabels : list, default = None
-                Custom legend labels.
-            xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            yUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
-                Colormap from which to draw plot colors.
+                height in inches of each facet.
+            legend_labels : list, default =None
+                custom legend labels.
+            x_units : string, default = 'f'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            y_units : string, default = 'f'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+                colormap from which to draw plot colors.
     """
     g = sns.FacetGrid(
         df,
-        col=catCol,
-        row=catRow,
+        col=cat_col,
+        row=cat_row,
         hue=split,
-        palette=sns.color_palette(style.colorGen(colorMap, num=len(np.unique(df[split].values)))),
+        palette=sns.color_palette(style.color_gen(color_map, num=len(np.unique(df[split].values)))),
         hue_order=df[split].sort_values().drop_duplicates().values.tolist()
         if split is not None
         else None,
@@ -265,148 +265,148 @@ def prettyFacetCatNumScatter(self, df, x, y, catRow=None, catCol=None, split=Non
         plt.scatter,
         x,
         y,
-        s=1.2 *self.chartProp
+        s=1.2 *self.chart_prop
     )
 
     # format x any y ticklabels, x and y labels, and main title
     for ax in g.axes.flat:
-        _ = ax.set_yticklabels(
-            ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        _ =ax.set_yticklabels(
+            ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
             rotation=0,
-            fontsize=0.8 * self.chartProp,
-            color=style.styleGrey,
+            fontsize=0.8 * self.chart_prop,
+            color=style.style_grey,
         )
-        _ = ax.set_xticklabels(
+        _ =ax.set_xticklabels(
             ax.get_xticklabels(),
             rotation=0,
-            fontsize=0.8 * self.chartProp,
-            color=style.styleGrey,
+            fontsize=0.8 * self.chart_prop,
+            color=style.style_grey,
         )
-        _ = ax.set_ylabel(
+        _ =ax.set_ylabel(
             ax.get_ylabel(),
-            rotation=90,
-            fontsize=1.05 * self.chartProp,
-            color=style.styleGrey,
+            rotation=-90,
+            fontsize=1.05 * self.chart_prop,
+            color=style.style_grey,
         )
-        _ = ax.set_xlabel(
+        _ =ax.set_xlabel(
             ax.get_xlabel(),
             rotation=0,
-            fontsize=1.05 * self.chartProp,
-            color=style.styleGrey,
+            fontsize=1.05 * self.chart_prop,
+            color=style.style_grey,
         )
-        _ = ax.set_title(
+        _ =ax.set_title(
             ax.get_title(),
             rotation=0,
-            fontsize=1.05 * self.chartProp,
-            color=style.styleGrey,
+            fontsize=1.05 * self.chart_prop,
+            color=style.style_grey,
         )
 
         # custom tick label formatting
-        util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
+        util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
         if ax.texts:
-            # This contains the right ylabel text
+            # this contains the right ylabel text
             txt = ax.texts[0]
             ax.text(
                 txt.get_unitless_position()[0],
                 txt.get_unitless_position()[1],
                 txt.get_text(),
-                transform=ax.transAxes,
+                transform=ax.trans_axes,
                 va="center",
-                fontsize=1.05 * self.chartProp,
-                color=style.styleGrey,
+                fontsize=1.05 * self.chart_prop,
+                color=style.style_grey,
                 rotation=-90,
             )
-            # Remove the original text
+            # remove the original text
             ax.texts[0].remove()
 
     ## create custom legend
     # create labels
     if split is not None:
-        if legendLabels is None:
-            legendLabels = (
+        if legend_labels is None:
+            legend_labels = (
                 df[df[split].notnull()][split]
                 .sort_values()
                 .drop_duplicates()
                 .values.tolist()
             )
         else:
-            legendLabels = np.array(legendLabels)
+            legend_labels = np.array(legend_labels)
 
         # generate colors
-        colorList = style.colorGen(colorMap, num = len(legendLabels))
+        color_list = style.color_gen(color_map, num = len(legend_labels))
 
-        labelColor = {}
-        for ix, i in enumerate(legendLabels):
-            labelColor[i] = colorList[ix]
+        label_color = {}
+        for ix, i in enumerate(legend_labels):
+            label_color[i] = color_list[ix]
 
         # create patches
-        patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
+        patches = [patch(color=v, label=k) for k, v in label_color.items()]
 
         # draw legend
         leg = plt.legend(
             handles=patches,
-            fontsize=1.0 * self.chartProp,
+            fontsize=1.0 * self.chart_prop,
             loc="upper right",
-            markerscale=0.5 * self.chartProp,
+            markerscale=0.5 * self.chart_prop,
             ncol=1,
             bbox_to_anchor=bbox,
         )
 
         # label font color
         for text in leg.get_texts():
-            plt.setp(text, color="Grey")
+            plt.setp(text, color="grey")
 
     plt.show()
 
 
-def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, aspect=1, height=4,
-                            legendLabels=None, xUnits="f", yUnits="f", colorMap="viridis"):
+def pretty_facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, aspect=1, height=4,
+                            legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
     """
-    Documentation:
-        Description:
-            Creates histograms of one numeric variable, and each can optionally be split by a categorical to
-            show two or more distributions. Allows for faceting by up to two categorical variables along the
+    documentation:
+        description:
+            creates histograms of one numeric variable, and each can optionally be split by a categorical to
+            show two or more distributions. allows for faceting by up to two categorical variables along the
             column and/or row axes of the figure.
-        Parameters:
-            df : Pandas DataFrame
-                Pandas DataFrame
-            catRow : string
-                Categorical variable faceted along the row axis.
-            catCol : string
-                Categorical variable faceted along the column axis.
-            numCol : string
-                numeric variable to be plotted along x-axis.
+        parameters:
+            df : pandas DataFrame
+                pandas DataFrame
+            cat_row : string
+                categorical variable faceted along the row axis.
+            cat_col : string
+                categorical variable faceted along the column axis.
+            num_col : string
+                numeric variable to be plotted along x_axis.
             split : string
-                Categorical variable on which to differentiate the numCol variable.
-            bbox : tuple of floats, default = None
-                Coordinates for determining legend position.
+                categorical variable on which to differentiate the num_col variable.
+            bbox : tuple of floats, default =None
+                coordinates for determining legend position.
             aspect : float, default = 1
-                Higher values create wider plot, lower values create narrow plot, while
+                higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             height : float, default = 4
-                Height in inches of each facet.
-            legendLabels : list, default = None
-                Custom legend labels.
-            xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            yUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
-                Colormap from which to draw plot colors.
+                height in inches of each facet.
+            legend_labels : list, default =None
+                custom legend labels.
+            x_units : string, default = 'f'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            y_units : string, default = 'f'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+                colormap from which to draw plot colors.
     """
     g = sns.FacetGrid(
         df,
-        row=catRow,
-        col=catCol,
+        row=cat_row,
+        col=cat_col,
         hue=split,
         hue_order=df[split].sort_values().drop_duplicates().values.tolist()
         if split is not None
         else None,
-        palette=sns.color_palette(style.colorGen(colorMap, num=len(np.unique(df[split].values)))),
+        palette=sns.color_palette(style.color_gen(color_map, num=len(np.unique(df[split].values)))),
         despine=True,
         height=height,
         aspect=aspect,
@@ -414,140 +414,140 @@ def prettyFacetCatNumHist(self, df, catRow, catCol, numCol, split, bbox=None, as
     )
     g.map(
         plt.hist,
-        numCol
+        num_col
         #  ,bins = np.arange(0, 20)
         ,
         alpha=0.5,
     )
 
     for i, ax in enumerate(g.axes.flat):
-        _ = ax.set_ylabel(
+        _ =ax.set_ylabel(
             ax.get_ylabel(),
-            rotation=90,
-            fontsize=1.05 * self.chartProp,
-            color=style.styleGrey,
+            rotation=-90,
+            fontsize=1.05 * self.chart_prop,
+            color=style.style_grey,
         )
-        _ = ax.set_xlabel(
+        _ =ax.set_xlabel(
             ax.get_xlabel(),
             rotation=0,
-            fontsize=1.05 * self.chartProp,
-            color=style.styleGrey,
+            fontsize=1.05 * self.chart_prop,
+            color=style.style_grey,
         )
-        _ = ax.set_title(
+        _ =ax.set_title(
             ax.get_title(),
             rotation=0,
-            fontsize=1.05 * self.chartProp,
-            color=style.styleGrey,
+            fontsize=1.05 * self.chart_prop,
+            color=style.style_grey,
         )
 
         # resize y tick labels
         labels = ax.get_yticklabels()
         if len(labels) > 0:
-            _ = ax.set_yticklabels(
+            _ =ax.set_yticklabels(
                 ax.get_yticklabels(),
                 rotation=0,
-                fontsize=0.8 * self.chartProp,
-                color=style.styleGrey,
+                fontsize=0.8 * self.chart_prop,
+                color=style.style_grey,
             )
         # resize x tick labels
         labels = ax.get_xticklabels()
         if len(labels) > 0:
-            _ = ax.set_xticklabels(
+            _ =ax.set_xticklabels(
                 ax.get_xticklabels(),
                 rotation=0,
-                fontsize=0.8 * self.chartProp,
-                color=style.styleGrey,
+                fontsize=0.8 * self.chart_prop,
+                color=style.style_grey,
             )
 
         if ax.texts:
-            # This contains the right ylabel text
+            # this contains the right ylabel text
             txt = ax.texts[0]
             ax.text(
                 txt.get_unitless_position()[0],
                 txt.get_unitless_position()[1],
                 txt.get_text(),
-                transform=ax.transAxes,
+                transform=ax.trans_axes,
                 va="center",
-                fontsize=1.05 * self.chartProp,
-                color=style.styleGrey,
+                fontsize=1.05 * self.chart_prop,
+                color=style.style_grey,
                 rotation=-90,
             )
-            # Remove the original text
+            # remove the original text
             ax.texts[0].remove()
 
     ## create custom legend
     # create labels
     if split is not None:
-        if legendLabels is None:
-            legendLabels = (
+        if legend_labels is None:
+            legend_labels = (
                 df[df[split].notnull()][split]
                 .sort_values()
                 .drop_duplicates()
                 .values.tolist()
             )
         else:
-            legendLabels = np.array(legendLabels)
+            legend_labels = np.array(legend_labels)
 
         # generate colors
-        colorList = style.colorGen(colorMap, num = len(legendLabels))
+        color_list = style.color_gen(color_map, num = len(legend_labels))
 
-        labelColor = {}
-        for ix, i in enumerate(legendLabels):
-            labelColor[i] = colorList[ix]
+        label_color = {}
+        for ix, i in enumerate(legend_labels):
+            label_color[i] = color_list[ix]
 
         # create patches
-        patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
+        patches = [patch(color=v, label=k) for k, v in label_color.items()]
 
         # draw legend
         leg = plt.legend(
             handles=patches,
-            fontsize=1.0 * self.chartProp,
+            fontsize=1.0 * self.chart_prop,
             loc="upper right",
-            markerscale=0.5 * self.chartProp,
+            markerscale=0.5 * self.chart_prop,
             ncol=1,
             bbox_to_anchor=bbox,
         )
 
         # label font color
         for text in leg.get_texts():
-            plt.setp(text, color="Grey")
+            plt.setp(text, color="grey")
 
     plt.show()
 
 
-def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox=None, aspect=1, height=4,
-                            legendLabels=None, colorMap="viridis"):
+def pretty_facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=None, aspect=1, height=4,
+                            legend_labels=None, color_map="viridis"):
     """
-    Documentation:
-        Description:
-            Creates point plots that
-        Parameters:
-            df : Pandas DataFrame
-                Pandas DataFrame
+    documentation:
+        description:
+            creates point plots that
+        parameters:
+            df : pandas DataFrame
+                pandas DataFrame
             x : string
-                Categorical variable to be plotted along x-axis.
+                categorical variable to be plotted along x_axis.
             y : string
-                Variable to be counted along y-axis.
+                variable to be counted along y_axis.
             split : string
-                Categorical variable on which to differentiate the 'x' variable.
-            catRow : string
-                Categorical variable faceted along the row axis.
-            catCol : string
-                Categorical variable faceted along the column axis.
-            bbox : tuple of floats, default = None
-                Coordinates for determining legend position.
+                categorical variable on which to differentiate the 'x' variable.
+            cat_row : string
+                categorical variable faceted along the row axis.
+            cat_col : string
+                categorical variable faceted along the column axis.
+            bbox : tuple of floats, default =None
+                coordinates for determining legend position.
             aspect : float, default = 1
-                Higher values create wider plot, lower values create narrow plot, while
+                higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             height : float, default = 4
-                Height in inches of each facet.
-            legendLabels : list, default = None
-                Custom legend labels.
-            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
-                Colormap from which to draw plot colors.
+                height in inches of each facet.
+            legend_labels : list, default =None
+                custom legend labels.
+            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+                colormap from which to draw plot colors.
     """
     g = sns.FacetGrid(
-        df, row=catRow, col=catCol, aspect=aspect, height=height, margin_titles=True
+        df, row=cat_row, col=cat_col, aspect=aspect, height=height, margin_titles=True
     )
     g.map(
         sns.pointplot,
@@ -556,96 +556,96 @@ def prettyFacetTwoCatPoint(self, df, x, y, split, catCol=None, catRow=None, bbox
         split,
         order=df[x].sort_values().drop_duplicates().values.tolist(),
         hue_order=df[split].sort_values().drop_duplicates().values.tolist(),
-        palette=sns.color_palette(style.colorGen(colorMap, num=len(np.unique(df[split].values)))),
+        palette=sns.color_palette(style.color_gen(color_map, num=len(np.unique(df[split].values)))),
         alpha=0.75,
         ci=None,
     )
 
     for ax in g.axes.flat:
-        _ = ax.set_ylabel(
+        _ =ax.set_ylabel(
             ax.get_ylabel(),
-            rotation=90,
-            fontsize=1.05 * self.chartProp,
-            color=style.styleGrey,
+            rotation=-90,
+            fontsize=1.05 * self.chart_prop,
+            color=style.style_grey,
         )
-        _ = ax.set_xlabel(
+        _ =ax.set_xlabel(
             ax.get_xlabel(),
             rotation=0,
-            fontsize=1.05 * self.chartProp,
-            color=style.styleGrey,
+            fontsize=1.05 * self.chart_prop,
+            color=style.style_grey,
         )
-        _ = ax.set_title(
+        _ =ax.set_title(
             ax.get_title(),
             rotation=0,
-            fontsize=1.05 * self.chartProp,
-            color=style.styleGrey,
+            fontsize=1.05 * self.chart_prop,
+            color=style.style_grey,
         )
 
         # resize y tick labels
         labels = ax.get_yticklabels()
         if len(labels) > 0:
-            _ = ax.set_yticklabels(
+            _ =ax.set_yticklabels(
                 ax.get_yticklabels(),
                 rotation=0,
-                fontsize=0.8 * self.chartProp,
-                color=style.styleGrey,
+                fontsize=0.8 * self.chart_prop,
+                color=style.style_grey,
             )
         # resize x tick labels
         labels = ax.get_xticklabels()
         if len(labels) > 0:
-            _ = ax.set_xticklabels(
+            _ =ax.set_xticklabels(
                 ax.get_xticklabels(),
                 rotation=0,
-                fontsize=0.8 * self.chartProp,
-                color=style.styleGrey,
+                fontsize=0.8 * self.chart_prop,
+                color=style.style_grey,
             )
 
         if ax.texts:
-            # This contains the right ylabel text
+            # this contains the right ylabel text
             txt = ax.texts[0]
 
             ax.text(
                 txt.get_unitless_position()[0],
                 txt.get_unitless_position()[1],
                 txt.get_text(),
-                transform=ax.transAxes,
+                transform=ax.trans_axes,
                 va="center",
-                fontsize=1.05 * self.chartProp,
-                color=style.styleGrey,
+                fontsize=1.05 * self.chart_prop,
+                color=style.style_grey,
                 rotation=-90,
             )
-            # Remove the original text
+            # remove the original text
             ax.texts[0].remove()
 
     ## create custom legend
     # create labels
-    if legendLabels is None:
-        legendLabels = np.unique(df[df[split].notnull()][split])
+    if legend_labels is None:
+        legend_labels = np.unique(df[df[split].notnull()][split])
     else:
-        legendLabels = np.array(legendLabels)
+        legend_labels = np.array(legend_labels)
 
     # generate colors
-    colorList = style.colorGen(colorMap, num = len(legendLabels))
+    color_list = style.color_gen(color_map, num = len(legend_labels))
 
-    labelColor = {}
-    for ix, i in enumerate(legendLabels):
-        labelColor[i] = colorList[ix]
+    label_color = {}
+    for ix, i in enumerate(legend_labels):
+        label_color[i] = color_list[ix]
 
     # create patches
-    patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
+    patches = [patch(color=v, label=k) for k, v in label_color.items()]
 
     # draw legend
     leg = plt.legend(
         handles=patches,
-        fontsize=1.0 * self.chartProp,
+        fontsize=1.0 * self.chart_prop,
         loc="upper right",
-        markerscale=0.5 * self.chartProp,
+        markerscale=0.5 * self.chart_prop,
         ncol=1,
         bbox_to_anchor=bbox,
     )
 
     # label font color
     for text in leg.get_texts():
-        plt.setp(text, color="Grey")
+        plt.setp(text, color="grey")
 
     plt.show()

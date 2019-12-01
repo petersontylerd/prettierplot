@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from matplotlib.patches import Patch
+from matplotlib.patches import patch
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 
 from scipy.stats import linregress
@@ -11,44 +11,44 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yTicks=None, plotBuffer=True,
-                    size=5, axisLimits=True, color=style.styleGrey, facecolor="w", ax=None):
+def pretty2d_scatter(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None, plot_buffer=True,
+                    size=5, axis_limits=True, color=style.style_grey, facecolor="w", ax=None):
     """
-    Documentation:
-        Description:
-            Create 2-dimensional scatter plot.
-        Parameters:
+    documentation:
+        description:
+            create 2_dimensional scatter plot.
+        parameters:
             x : array or string
-                Either 1-dimensional array of values or a column name in a Pandas DataFrame.
+                either 1_dimensional array of values or a column name in a pandas DataFrame.
             y : array or string
-                Either 1-dimensional array of values or a column name in a Pandas DataFrame.
-            df : Pandas DataFrame, default = None
-                Dataset containing data to be plotted. Can be any size - plotted columns will be
+                either 1_dimensional array of values or a column name in a pandas DataFrame.
+            df : pandas DataFrame, default =None
+                dataset containing data to be plotted. can be any size - plotted columns will be
                 chosen by columns names specified in x, y.
-            xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            xTicks : array, default = None
-                Specify custom x-tick labels.
-            yUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            yTicks : array, default = None
-                Specify custom y-tick labels.
-            plotBuffer : boolean, default = True
-                Switch for determining whether dynamic plot buffer function is executed.
+            x_units : string, default = 'f'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            x_ticks : array, default =None
+                specify custom x_tick labels.
+            y_units : string, default = 'f'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            y_ticks : array, default =None
+                specify custom y_tick labels.
+            plot_buffer : boolean, default=True
+                switch for determining whether dynamic plot buffer function is executed.
             size : int or float, default = 5
-                Determines scatter dot size.
-            axisLimits : boolean, default = True
-                Switch for determining whether dynamic axis limit setting function is executed.
-            color : string (color code of some sort), default = style.styleGrey
-                Determine color of scatter dots
+                determines scatter dot size.
+            axis_limits : boolean, default=True
+                switch for determining whether dynamic axis limit setting function is executed.
+            color : string (color code of some sort), default = style.style_grey
+                determine color of scatter dots
             facecolor : string (color code of some sort), default = 'w'
-                Determine face color of scatter dots.
-            ax : Axes object, default = None
-                Axis on which to place visual.
+                determine face color of scatter dots.
+            ax : axes object, default =None
+                axis on which to place visual.
     """
-    # if a Pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
+    # if a pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
     if df is not None:
         x = df[x].values.reshape(-1, 1)
         y = df[y].values.reshape(-1, 1)
@@ -59,128 +59,128 @@ def pretty2dScatter(self, x, y, df=None, xUnits="f", xTicks=None, yUnits="f", yT
 
     # generate color
 
-    # plot 2-d scatter.
+    # plot 2_d scatter.
     plt.scatter(
         x=x,
-        y=y * 100 if "p" in yUnits else y,
+        y=y * 100 if "p" in y_units else y,
         color=color,
-        s=size * self.chartProp,
+        s=size * self.chart_prop,
         alpha=0.7,
         facecolor=facecolor,
-        linewidth=0.167 * self.chartProp,
+        linewidth=0.167 * self.chart_prop,
     )
 
     # dynamically set axis lower / upper limits.
-    if axisLimits:
-        xMin, xMax, yMin, yMax = util.utilSetAxes(x=x, y=y)
-        plt.axis([xMin, xMax, yMin, yMax])
+    if axis_limits:
+        x_min, x_max, y_min, y_max = util.util_set_axes(x=x, y=y)
+        plt.axis([x_min, x_max, y_min, y_max])
 
     # vreate smaller buffer around plot area to prevent cutting off elements.
-    if plotBuffer:
-        util.utilPlotBuffer(ax=ax, x=0.02, y=0.02)
+    if plot_buffer:
+        util.util_plot_buffer(ax=ax, x=0.02, y=0.02)
 
     # tick label control
-    if xTicks is not None:
-        ax.set_xticks(xTicks)
+    if x_ticks is not None:
+        ax.set_xticks(x_ticks)
 
-    if yTicks is not None:
-        ax.set_yticks(yTicks)
+    if y_ticks is not None:
+        ax.set_yticks(y_ticks)
 
     # format x and y ticklabels
     ax.set_yticklabels(
-        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=1.0 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=1.0 * self.chart_prop,
+        color=style.style_grey,
     )
 
     ax.set_xticklabels(
-        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=1.0 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=1.0 * self.chart_prop,
+        color=style.style_grey,
     )
 
     # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
+    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=None, yUnits="f", yTicks=None, plotBuffer=True, size=10,
-                        axisLimits=True, color=style.styleGrey, facecolor="w", bbox=(1.2, 0.9), colorMap="viridis", ax=None):
+def pretty2d_scatter_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None, plot_buffer=True, size=10,
+                        axis_limits=True, color=style.style_grey, facecolor="w", bbox=(1.2, 0.9), color_map="viridis", ax=None):
     """
-    Documentation:
-        Description:
-            Create 2-dimensional scatter plot with a third dimension represented as a color hue in the
+    documentation:
+        description:
+            create 2_dimensional scatter plot with a third dimension represented as a color hue in the
             scatter dots.
-        Parameters:
+        parameters:
             x : array or string
-                Either 1-dimensional array of values or a column name in a Pandas DataFrame.
+                either 1_dimensional array of values or a column name in a pandas DataFrame.
             y : array or string
-                Either 1-dimensional array of values or a column name in a Pandas DataFrame.
+                either 1_dimensional array of values or a column name in a pandas DataFrame.
             target : array or string
-                Either 1-dimensional array of values or a column name in a Pandas DataFrame.
+                either 1_dimensional array of values or a column name in a pandas DataFrame.
             label : list
-                List of labels describing hue.
-            df : Pandas DataFrame, default = None
-                Dataset containing data to be plotted. Can be any size - plotted columns will be
+                list of labels describing hue.
+            df : pandas DataFrame, default =None
+                dataset containing data to be plotted. can be any size - plotted columns will be
                 chosen by columns names specified in x, y.
-            xUnits : string, default = 'd'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            xTicks : array, default = None
-                Specify custom x-tick labels.
-            yUnits : string, default = 'd'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            yTicks : array, default = None
-                Specify custom y-tick labels.
-            plotBuffer : boolean, default = True
-                Switch for determining whether dynamic plot buffer function is executed.
+            x_units : string, default = 'd'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            x_ticks : array, default =None
+                specify custom x_tick labels.
+            y_units : string, default = 'd'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            y_ticks : array, default =None
+                specify custom y_tick labels.
+            plot_buffer : boolean, default=True
+                switch for determining whether dynamic plot buffer function is executed.
             size : int or float, default = 10
-                Determines scatter dot size.
-            axisLimits : boolean, default = True
-                Switch for determining whether dynamic axis limit setting function is executed.
-            color : string (color code of some sort), default = style.styleGrey
-                Determine color of scatter dots.
+                determines scatter dot size.
+            axis_limits : boolean, default=True
+                switch for determining whether dynamic axis limit setting function is executed.
+            color : string (color code of some sort), default = style.style_grey
+                determine color of scatter dots.
             facecolor : string (color code of some sort), default = 'w'
-                Determine face color of scatter dots.
+                determine face color of scatter dots.
             bbox : tuple of floats, default = (1.2, 0.9)
-                Coordinates for determining legend position.
-            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
-                Colormap from which to draw plot colors.
-            ax : Axes object, default = None
-                Axis on which to place visual.
+                coordinates for determining legend position.
+            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+                colormap from which to draw plot colors.
+            ax : axes object, default =None
+                axis on which to place visual.
     """
-    # if a Pandas DataFrame is passed to function, create x, y and target arrays using columns names
-    # passed into function. Also create X, which is a matrix containing the x, y and target columns.
+    # if a pandas DataFrame is passed to function, create x, y and target arrays using columns names
+    # passed into function. also create x, which is a matrix containing the x, y and target columns.
     if df is not None:
-        X = df[[x, y, target]].values
+        x = df[[x, y, target]].values
         x = df[x].values
         y = df[y].values
         target = df[target].values
     # concatenate the x, y and target arrays.
     else:
-        X = np.c_[x, y, target]
+        x = np.c_[x, y, target]
 
     # unique target values.
-    targetIds = np.unique(X[:, 2])
+    target_ids = np.unique(x[:, 2])
 
     # generate color list
-    colorList = style.colorGen(name=colorMap, num=len(targetIds))
+    color_list = style.color_gen(name=color_map, num=len(target_ids))
 
-    # loop through sets of target values, labels and colors to create 2-d scatter with hue.
-    for targetId, targetName, color in zip(
-        targetIds, label, colorList
+    # loop through sets of target values, labels and colors to create 2_d scatter with hue.
+    for target_id, target_name, color in zip(
+        target_ids, label, color_list
     ):
         plt.scatter(
-            x=X[X[:, 2] == targetId][:, 0],
-            y=X[X[:, 2] == targetId][:, 1],
+            x=x[x[:, 2] == target_id][:, 0],
+            y=x[x[:, 2] == target_id][:, 1],
             color=color,
-            label=targetName,
-            s=size * self.chartProp,
+            label=target_name,
+            s=size * self.chart_prop,
             alpha=0.7,
             facecolor="w",
-            linewidth=0.234 * self.chartProp,
+            linewidth=0.234 * self.chart_prop,
         )
 
     # add legend to figure.
@@ -190,164 +190,164 @@ def pretty2dScatterHue(self, x, y, target, label, df=None, xUnits="f", xTicks=No
             bbox_to_anchor=bbox,
             ncol=1,
             frameon=True,
-            fontsize=1.1 * self.chartProp,
+            fontsize=1.1 * self.chart_prop,
         )
 
     # dynamically set axis lower / upper limits.
-    if axisLimits:
-        xMin, xMax, yMin, yMax = util.utilSetAxes(x=x, y=y)
-        plt.axis([xMin, xMax, yMin, yMax])
+    if axis_limits:
+        x_min, x_max, y_min, y_max = util.util_set_axes(x=x, y=y)
+        plt.axis([x_min, x_max, y_min, y_max])
 
     # create smaller buffer around plot area to prevent cutting off elements.
-    if plotBuffer:
-        util.utilPlotBuffer(ax=ax, x=0.02, y=0.02)
+    if plot_buffer:
+        util.util_plot_buffer(ax=ax, x=0.02, y=0.02)
 
     # tick label control
-    if xTicks is not None:
-        ax.set_xticks(xTicks)
+    if x_ticks is not None:
+        ax.set_xticks(x_ticks)
 
-    if yTicks is not None:
-        ax.set_yticks(yTicks)
+    if y_ticks is not None:
+        ax.set_yticks(y_ticks)
 
     # format x and y ticklabels
     ax.set_yticklabels(
-        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=1.0 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=1.0 * self.chart_prop,
+        color=style.style_grey,
     )
 
     ax.set_xticklabels(
-        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=1.0 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=1.0 * self.chart_prop,
+        color=style.style_grey,
     )
 
     # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
+    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def prettyDistPlot(self, x, color, xUnits="f", yUnits="f", fit=None, xRotate=None, ax=None):
+def pretty_dist_plot(self, x, color, x_units="f", y_units="f", fit=None, x_rotate=None, ax=None):
     """
-    Documentation:
-        Description:
-            Creates distribution plot for numeric variables, showing counts of a single
-            variable. Also overlays a kernel density estimation curve.
-        Parameters:
+    documentation:
+        description:
+            creates distribution plot for numeric variables, showing counts of a single
+            variable. also overlays a kernel density estimation curve.
+        parameters:
             x : array
-                Data to be plotted.
+                data to be plotted.
             color : string (some sort of color code)
-                Determines color of bars, KDE lines.
-            xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            yUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            fit : random variabe object, default = None
-                Allows for the addition of another curve. Utilizing 'norm' overlays a normal distribution
-                over the distribution bar chart. Useful for seeing how well, or not, the distribution tracks
+                determines color of bars, kde lines.
+            x_units : string, default = 'f'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            y_units : string, default = 'f'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            fit : random variabe object, default =None
+                allows for the addition of another curve. utilizing 'norm' overlays a normal distribution
+                over the distribution bar chart. useful for seeing how well, or not, the distribution tracks
                 with a normal distrbution.
-            xRotate : int, default = None
-                Rotates x-axis tick mark labels X degrees.
-            ax : Axes object, default = None
-                Axis on which to place visual.
+            x_rotate : int, default =None
+                rotates x_axis tick mark labels x degrees.
+            ax : axes object, default =None
+                axis on which to place visual.
     """
     # create distribution plot with an optional fit curve
     g = sns.distplot(a=x, kde=False, color=color, axlabel=False, fit=fit, ax=ax)
 
     # format x and y ticklabels
     ax.set_yticklabels(
-        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=0.9 * self.chart_prop,
+        color=style.style_grey,
     )
 
     ax.set_xticklabels(
-        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=0.9 * self.chart_prop,
+        color=style.style_grey,
     )
 
     # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits, xRotate=xRotate)
+    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate)
 
 
-def prettyKdePlot(self, x, color, yUnits="f", xUnits="f", ax=None):
+def pretty_kde_plot(self, x, color, y_units="f", x_units="f", ax=None):
     """
-    Documentation:
-        Description:
-            Create kernel density curve for a feature.
-        Parameters:
+    documentation:
+        description:
+            create kernel density curve for a feature.
+        parameters:
             x : array
-                Data to be plotted.
+                data to be plotted.
             color : string (some sort of color code)
-                Determines color of KDE lines.
-            xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            yUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            ax : Axes object, default = None
-                Axis on which to place visual.
+                determines color of kde lines.
+            x_units : string, default = 'f'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            y_units : string, default = 'f'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            ax : axes object, default =None
+                axis on which to place visual.
     """
     # create kernel density estimation line
     g = sns.kdeplot(data=x, shade=True, color=color, legend=None, ax=ax)
 
     # format x and y ticklabels
     ax.set_yticklabels(
-        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=0.9 * self.chart_prop,
+        color=style.style_grey,
     )
 
     ax.set_xticklabels(
-        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=0.9 * self.chart_prop,
+        color=style.style_grey,
     )
     # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
+    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def prettyRegPlot(self, x, y, data, dotColor=style.styleGrey, lineColor=style.styleBlue, x_jitter=None, xUnits="f", yUnits="f",
-                    xRotate=None, ax=None):
+def pretty_reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.style_blue, x_jitter=None, x_units="f", y_units="f",
+                    x_rotate=None, ax=None):
     """
-    Documentation:
-        Description:
-            Create scatter plot with regression line.
-        Parameters:
+    documentation:
+        description:
+            create scatter plot with regression line.
+        parameters:
             x : string
-                Name of independent variable in dataframe. Represents a category
+                name of independent variable in dataframe. represents a category
             y : string
-                Name of numeric target variable.
-            data : Pandas DataFrame
-                Pandas DataFrame including both indepedent variable and target variable.
-            dotColor : string
-                Determines color of dots.
-            lineColor : string
-                Determines color of regression line.
-            x_jitter : float, default = None
-                Optional paramter for randomly displacing dots along the x-axis to enable easier visibility
+                name of numeric target variable.
+            data : pandas DataFrame
+                pandas DataFrame including both indepedent variable and target variable.
+            dot_color : string
+                determines color of dots.
+            line_color : string
+                determines color of regression line.
+            x_jitter : float, default =None
+                optional paramter for randomly displacing dots along the x_axis to enable easier visibility
                 of dots.
-            labelRotate : float or int, default = 45
-                Degrees by which the xtick labels are rotated.
-            xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            yUnits : string, default = 'f'
-                Determines units of y-axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            xRotate : int, default = None
-                Rotates x-axis tick mark labels X degrees.
-            ax : Axes object, default = None
-                Axis on which to place visual.
+            label_rotate : float or int, default = 45
+                degrees by which the xtick labels are rotated.
+            x_units : string, default = 'f'
+                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            y_units : string, default = 'f'
+                determines units of y_axis tick labels. 'f' displays float. 'p' displays percentages,
+                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            x_rotate : int, default =None
+                rotates x_axis tick mark labels x degrees.
+            ax : axes object, default =None
+                axis on which to place visual.
     """
     # create regression plot.
     g = sns.regplot(
@@ -355,69 +355,69 @@ def prettyRegPlot(self, x, y, data, dotColor=style.styleGrey, lineColor=style.st
         y=y,
         data=data,
         x_jitter=x_jitter,
-        scatter_kws={"alpha": 0.3, "color": dotColor},
-        line_kws={"color": lineColor},
+        scatter_kws={"alpha": 0.3, "color": dot_color},
+        line_kws={"color": line_color},
         ax=ax,
     ).set(xlabel=None, ylabel=None)
 
     # format x and y ticklabels
     ax.set_yticklabels(
-        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=0.9 * self.chart_prop,
+        color=style.style_grey,
     )
 
     ax.set_xticklabels(
-        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=0.9 * self.chart_prop,
+        color=style.style_grey,
     )
 
     # use label formatter utility function to customize chart labels
-    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits, xRotate=xRotate)
+    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate)
 
 
-def prettyPairPlotCustom(self, df, cols=None, color = style.styleBlue, gradientCol=None):
+def pretty_pair_plot_custom(self, df, cols=None, color = style.style_blue, gradient_col=None):
     """
-    Documentation:
-        Description:
-            Create pair plot that produces a grid of scatter plots for all unique pairs of
-            numeric features and a series of KDE or histogram plots along the diagonal.
-        Parameters:
-            df : Pandas DataFrame
-                Pandas DataFrame containing data of interest.
-            cols : list, default = None
-                List of strings describing columns in Pandas DataFrame to be visualized.
-            color : string, default = style.styleBlue
-                Color to serve as high end of gradient when gradientCol is specified.
-            gradientCol : string, default = None
-                Introduce third dimension to scatter plots through a color hue that differentiates
+    documentation:
+        description:
+            create pair plot that produces a grid of scatter plots for all unique pairs of
+            numeric features and a series of kde or histogram plots along the diagonal.
+        parameters:
+            df : pandas DataFrame
+                pandas DataFrame containing data of interest.
+            cols : list, default =None
+                list of strings describing columns in pandas DataFrame to be visualized.
+            color : string, default = style.style_blue
+                color to serve as high end of gradient when gradient_col is specified.
+            gradient_col : string, default =None
+                introduce third dimension to scatter plots through a color hue that differentiates
                 dots based on the target's value.
             diag_kind : string, default = 'auto.
-                Type of plot created along diagonal.
+                type of plot created along diagonal.
     """
-    # Custom plot formatting settings for this particular chart.
+    # custom plot formatting settings for this particular chart.
     with plt.rc_context(
         {
-            "axes.titlesize": 3.5 * self.chartProp,
-            "axes.labelsize": 0.9 * self.chartProp,  # Axis title font size
-            "xtick.labelsize": 0.8 * self.chartProp,
-            "xtick.major.size": 0.5 * self.chartProp,
-            "xtick.major.width": 0.05 * self.chartProp,
-            "xtick.color": style.styleGrey,
-            "ytick.labelsize": 0.8 * self.chartProp,
-            "ytick.major.size": 0.5 * self.chartProp,
-            "ytick.major.width": 0.05 * self.chartProp,
-            "ytick.color": style.styleGrey,
-            "figure.facecolor": style.styleWhite,
-            "axes.facecolor": style.styleWhite,
+            "axes.titlesize": 3.5 * self.chart_prop,
+            "axes.labelsize": 0.9 * self.chart_prop,  # axis title font size
+            "xtick.labelsize": 0.8 * self.chart_prop,
+            "xtick.major.size": 0.5 * self.chart_prop,
+            "xtick.major.width": 0.05 * self.chart_prop,
+            "xtick.color": style.style_grey,
+            "ytick.labelsize": 0.8 * self.chart_prop,
+            "ytick.major.size": 0.5 * self.chart_prop,
+            "ytick.major.width": 0.05 * self.chart_prop,
+            "ytick.color": style.style_grey,
+            "figure.facecolor": style.style_white,
+            "axes.facecolor": style.style_white,
             "axes.spines.left": False,
             "axes.spines.bottom": False,
             "axes.spines.top": False,
             "axes.spines.right": False,
-            "axes.edgecolor": style.styleGrey,
+            "axes.edgecolor": style.style_grey,
             "axes.grid": False,
         }
     ):
@@ -426,7 +426,7 @@ def prettyPairPlotCustom(self, df, cols=None, color = style.styleBlue, gradientC
         if cols is not None:
             df = df[cols]
 
-        df = util.numericCoerce(df, cols=cols)
+        df = util.numeric_coerce(df, cols=cols)
 
 
         # create figure and axes
@@ -443,7 +443,7 @@ def prettyPairPlotCustom(self, df, cols=None, color = style.styleBlue, gradientC
             # if i < j:
             #     plt.setp(ax.get_xticklabels(), visible=False)
             #     plt.setp(ax.get_yticklabels(), visible=False)
-            # set diagonal plots as KDE plots
+            # set diagonal plots as kde plots
             if i == j:
                 sns.kdeplot(df.iloc[:, i], ax=ax, legend=False, shade=True, color=color)
             # set lower triangle plots as scatter plots
@@ -451,7 +451,7 @@ def prettyPairPlotCustom(self, df, cols=None, color = style.styleBlue, gradientC
                 sns.scatterplot(
                     x=df.iloc[:, j],
                     y=df.iloc[:, i],
-                    hue=gradientCol if gradientCol is None else df[gradientCol],
+                    hue=gradient_col if gradient_col is None else df[gradient_col],
                     data=df,
                     palette=LinearSegmentedColormap.from_list(
                         name="", colors=["white", color]
@@ -462,47 +462,47 @@ def prettyPairPlotCustom(self, df, cols=None, color = style.styleBlue, gradientC
         plt.show()
 
 
-def prettyPairPlot(self, df, cols=None, target=None, diag_kind="auto", legendLabels=None, bbox=None, colorMap="viridis"):
+def pretty_pair_plot(self, df, cols=None, target=None, diag_kind="auto", legend_labels=None, bbox=None, color_map="viridis"):
     """
-    Documentation:
-        Description:
-            Create pair plot that produces a grid of scatter plots for all unique pairs of
-            numeric features and a series of KDE or histogram plots along the diagonal.
-        Parameters:
-            df : Pandas DataFrame
-                Pandas DataFrame containing data of interest.
-            cols : list, default = None
-                List of strings describing columns in Pandas DataFrame to be visualized.
-            target : Pandas Series, default = None
-                Introduce third dimension to scatter plots through a color hue that differentiates
+    documentation:
+        description:
+            create pair plot that produces a grid of scatter plots for all unique pairs of
+            numeric features and a series of kde or histogram plots along the diagonal.
+        parameters:
+            df : pandas DataFrame
+                pandas DataFrame containing data of interest.
+            cols : list, default =None
+                list of strings describing columns in pandas DataFrame to be visualized.
+            target : pandas series, default =None
+                introduce third dimension to scatter plots through a color hue that differentiates
                 dots based on the target's value.
             diag_kind : string, default = 'auto.
-                Type of plot created along diagonal.
-            legendLabels : list, default = None
-                List containing strings of custom labels to display in legend.
-            bbox : tuple of floats, default = None
-                Coordinates for determining legend position.
-            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
-                Colormap from which to draw plot colors.
+                type of plot created along diagonal.
+            legend_labels : list, default =None
+                list containing strings of custom labels to display in legend.
+            bbox : tuple of floats, default =None
+                coordinates for determining legend position.
+            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+                colormap from which to draw plot colors.
     """
-    # Custom plot formatting settings for this particular chart.
+    # custom plot formatting settings for this particular chart.
     with plt.rc_context(
         {
-            "axes.titlesize": 3.5 * self.chartProp,
-            "axes.labelsize": 1.5 * self.chartProp,  # Axis title font size
-            "xtick.labelsize": 1.2 * self.chartProp,
-            "xtick.major.size": 0.5 * self.chartProp,
-            "xtick.major.width": 0.05 * self.chartProp,
-            "xtick.color": style.styleGrey,
-            "ytick.labelsize": 1.2 * self.chartProp,
-            "ytick.major.size": 0.5 * self.chartProp,
-            "ytick.major.width": 0.05 * self.chartProp,
-            "ytick.color": style.styleGrey,
-            "figure.facecolor": style.styleWhite,
-            "axes.facecolor": style.styleWhite,
+            "axes.titlesize": 3.5 * self.chart_prop,
+            "axes.labelsize": 1.5 * self.chart_prop,  # axis title font size
+            "xtick.labelsize": 1.2 * self.chart_prop,
+            "xtick.major.size": 0.5 * self.chart_prop,
+            "xtick.major.width": 0.05 * self.chart_prop,
+            "xtick.color": style.style_grey,
+            "ytick.labelsize": 1.2 * self.chart_prop,
+            "ytick.major.size": 0.5 * self.chart_prop,
+            "ytick.major.width": 0.05 * self.chart_prop,
+            "ytick.color": style.style_grey,
+            "figure.facecolor": style.style_white,
+            "axes.facecolor": style.style_white,
             "axes.spines.left": False,
             "axes.spines.bottom": False,
-            "axes.edgecolor": style.styleGrey,
+            "axes.edgecolor": style.style_grey,
             "axes.grid": False,
         }
     ):
@@ -525,17 +525,17 @@ def prettyPairPlot(self, df, cols=None, target=None, diag_kind="auto", legendLab
             else [x for x in df.columns if x is not target.name],
             hue=target if target is None else target.name,
             diag_kind=diag_kind,
-            height=0.2 * self.chartProp,
+            height=0.2 * self.chart_prop,
             plot_kws={
-                "s": 2.0 * self.chartProp,
+                "s": 2.0 * self.chart_prop,
                 "edgecolor": None,
                 "linewidth": 1,
                 "alpha": 0.4,
                 "marker": "o",
-                "facecolor": style.styleGrey if target is None else None,
+                "facecolor": style.style_grey if target is None else None,
             },
-            diag_kws={"facecolor": style.styleGrey if target is None else None},
-            palette=None if target is None else sns.color_palette(style.colorGen(colorMap, num = len(np.unique(target)))),
+            diag_kws={"facecolor": style.style_grey if target is None else None},
+            palette=None if target is None else sns.color_palette(style.color_gen(color_map, num = len(np.unique(target)))),
         )
 
         # plot formatting
@@ -546,8 +546,8 @@ def prettyPairPlot(self, df, cols=None, target=None, diag_kind="auto", legendLab
             _ = ax.set_xlabel(ax.get_xlabel(), rotation=40, ha="right")
             _ = ax.xaxis.labelpad = 20
             _ = ax.yaxis.labelpad = 40
-            _ = ax.xaxis.label.set_color(style.styleGrey)
-            _ = ax.yaxis.label.set_color(style.styleGrey)
+            _ = ax.xaxis.label.set_color(style.style_grey)
+            _ = ax.yaxis.label.set_color(style.style_grey)
             # _ = ax.set_xticklabels(ax.get_xticklabels(), rotation=40, ha="right")
 
         plt.subplots_adjust(hspace=0.0, wspace=0.0)
@@ -558,53 +558,53 @@ def prettyPairPlot(self, df, cols=None, target=None, diag_kind="auto", legendLab
 
             ## create custom legend
             # create labels
-            if legendLabels is None:
-                legendLabels = np.unique(df[df[target.name].notnull()][target.name])
+            if legend_labels is None:
+                legend_labels = np.unique(df[df[target.name].notnull()][target.name])
             else:
-                legendLabels = np.array(legendLabels)
+                legend_labels = np.array(legend_labels)
 
             # generate colors
-            colorList = style.colorGen("viridis", num = len(legendLabels))
+            color_list = style.color_gen("viridis", num = len(legend_labels))
 
-            labelColor = {}
-            for ix, i in enumerate(legendLabels):
-                labelColor[i] = colorList[ix]
+            label_color = {}
+            for ix, i in enumerate(legend_labels):
+                label_color[i] = color_list[ix]
 
             # create patches
-            patches = [Patch(color=v, label=k) for k, v in labelColor.items()]
+            patches = [patch(color=v, label=k) for k, v in label_color.items()]
 
             # draw legend
             leg = plt.legend(
                 handles=patches,
-                fontsize=1.3 * self.chartProp,
+                fontsize=1.3 * self.chart_prop,
                 loc="upper right",
-                markerscale=0.5 * self.chartProp,
+                markerscale=0.5 * self.chart_prop,
                 ncol=1,
                 bbox_to_anchor=bbox,
             )
 
             # label font color
             for text in leg.get_texts():
-                plt.setp(text, color="Grey")
+                plt.setp(text, color="grey")
 
 
-def prettyHist(self, x, color, label, alpha=0.8):
+def pretty_hist(self, x, color, label, alpha=0.8):
     """
-    Documentation:
-        Description:
-            Create histogram of numeric variable. Simple function capable of easy
+    documentation:
+        description:
+            create histogram of numeric variable. simple function capable of easy
             iteration through several groupings of a numeric variable that is
-            separated out based on a categorical label. This results in several overlapping
+            separated out based on a categorical label. this results in several overlapping
             histograms and can reveal differences in distributions.
-        Parameters:
+        parameters:
             x : array
-                1-dimensional array of values to be plotted on x-axis.
+                1_dimensional array of values to be plotted on x_axis.
             color : string (some sort of color code)
-                Determines color of histogram.
+                determines color of histogram.
             label : string
-                Category value label.
+                category value label.
             alpha : float, default = 0.8
-                Fades histogram bars to create transparent bars.
+                fades histogram bars to create transparent bars.
     """
-    # Create histogram.
+    # create histogram.
     plt.hist(x=x, color=color, label=label, alpha=alpha)

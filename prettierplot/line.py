@@ -7,54 +7,54 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def prettyLine(self, x, y, label=None, df=None, linecolor=style.styleGrey, linestyle=None, bbox=(1.2, 0.9), xUnits="f", xTicks=None,
-                yUnits="f", yTicks=None, markerOn=False, plotBuffer=False, axisLimits=False, ax=None,):
+def pretty_line(self, x, y, label=None, df=None, linecolor=style.style_grey, linestyle=None, bbox=(1.2, 0.9), x_units="f", x_ticks=None,
+                y_units="f", y_ticks=None, marker_on=False, plot_buffer=False, axis_limits=False, ax=None,):
     """
-    Documentation:
-        Description:
-            Create line plot. Capable of plotting multile lines on the same figure. Also capable of
+    documentation:
+        description:
+            create line plot. capable of plotting multile lines on the same figure. also capable of
             adjusting which axis will have the same data for each line and which will have different
             data for each line.
-        Parameters:
+        parameters:
             x : list, array or string
-                Either 1-dimensional array of values, a multidimensional array of values, a list of columns
-                in a Pandas DataFrame, or a column name in a Pandas DataFrame.
+                either 1_dimensional array of values, a multidimensional array of values, a list of columns
+                in a pandas DataFrame, or a column name in a pandas DataFrame.
             y : list, array or string
-                Either 1-dimensional array of values, a multidimensional array of values, a list of columns
-                in a Pandas DataFrame, or a column name in a Pandas DataFrame.
-            label : string : default = None
-                Name to create legend entry.
-            df : Pandas DataFrame, default = None
-                Dataset containing data to be plotted. Can be any size, as plotted columns will be chosen
+                either 1_dimensional array of values, a multidimensional array of values, a list of columns
+                in a pandas DataFrame, or a column name in a pandas DataFrame.
+            label : string : default =None
+                name to create legend entry.
+            df : pandas DataFrame, default =None
+                dataset containing data to be plotted. can be any size, as plotted columns will be chosen
                 by columns names specified in x, y.
             linecolor : string, default = reference to list
-                Determine color of line.
+                determine color of line.
             linestyle : string, default = reference to list
-                Determine style of line.
+                determine style of line.
             bbox : tuple, default = (1.2, 0.9)
-                Override bbox value for legend
-            xUnits : string, default = 'f'
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                override bbox value for legend
+            x_units : string, default = 'f'
+                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            xTicks : array, default = None
-                Specify custom x-tick labels.
-            yUnits : string, default = 'f'
-                Determines units of y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+            x_ticks : array, default =None
+                specify custom x_tick labels.
+            y_units : string, default = 'f'
+                determines units of y_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            yTicks : array, default = None
-                Specify custom y-tick labels.
-            markerOn : boolean, default = False
-                Determines whether to show line with markers at each element.
-            plotBuffer : boolean, default = False
-                Switch for determining whether dynamic plot buffer function is executed.
-            axisLimits : boolean, default = False
-                Switch for determining whether dynamic axis limit setting function is executed.
-            ax : Axes object, default = None
-                Axis on which to place visual.
+            y_ticks : array, default =None
+                specify custom y_tick labels.
+            marker_on : boolean, default=False
+                determines whether to show line with markers at each element.
+            plot_buffer : boolean, default=False
+                switch for determining whether dynamic plot buffer function is executed.
+            axis_limits : boolean, default=False
+                switch for determining whether dynamic axis limit setting function is executed.
+            ax : axes object, default =None
+                axis on which to place visual.
     """
-    # if a Pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
+    # if a pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
     if df is not None:
         if isinstance(df.index, pd.core.indexes.base.Index):
             x = df.index.values
@@ -74,15 +74,15 @@ def prettyLine(self, x, y, label=None, df=None, linecolor=style.styleGrey, lines
     # add line to plot
     plt.plot(
         x,
-        y * 100 if "p" in yUnits else y,
+        y * 100 if "p" in y_units else y,
         color=linecolor,
         linestyle=linestyle,
-        linewidth=0.247 * self.chartProp,
+        linewidth=0.247 * self.chart_prop,
         label=label,
-        marker="." if markerOn else None,
-        markersize=17 if markerOn else None,
-        markerfacecolor="w" if markerOn else None,
-        markeredgewidth=2.2 if markerOn else None,
+        marker="." if marker_on else None,
+        markersize=17 if marker_on else None,
+        markerfacecolor="w" if marker_on else None,
+        markeredgewidth=2.2 if marker_on else None,
     )
 
     # add legend to figure
@@ -92,94 +92,94 @@ def prettyLine(self, x, y, label=None, df=None, linecolor=style.styleGrey, lines
             bbox_to_anchor=bbox,
             ncol=1,
             frameon=True,
-            fontsize=1.1 * self.chartProp,
+            fontsize=1.1 * self.chart_prop,
         )
 
     # dynamically set axis lower / upper limits
-    if axisLimits:
-        xMin, xMax, yMin, yMax = util.utilSetAxes(x=x, y=y)
-        plt.axis([xMin, xMax, yMin, yMax])
+    if axis_limits:
+        x_min, x_max, y_min, y_max = util.util_set_axes(x=x, y=y)
+        plt.axis([x_min, x_max, y_min, y_max])
 
     # create smaller buffer around plot area to prevent cutting off elements
-    if plotBuffer:
-        util.utilPlotBuffer(ax=ax, x=0.02, y=0.02)
+    if plot_buffer:
+        util.util_plot_buffer(ax=ax, x=0.02, y=0.02)
 
     # tick label control
-    if xTicks is not None:
-        ax.set_xticks(xTicks)
+    if x_ticks is not None:
+        ax.set_xticks(x_ticks)
 
-    if yTicks is not None:
-        ax.set_yticks(yTicks)
+    if y_ticks is not None:
+        ax.set_yticks(y_ticks)
 
     # format x and y ticklabels
     ax.set_yticklabels(
-        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=1.0 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=1.0 * self.chart_prop,
+        color=style.style_grey,
     )
 
     ax.set_xticklabels(
-        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=1.0 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=1.0 * self.chart_prop,
+        color=style.style_grey,
     )
 
     # axis tick label formatting
-    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
+    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def prettyMultiLine(self, x, y, label=None, df=None, linecolor=None, linestyle=None, bbox=(1.2, 0.9), xUnits="f", xTicks=None,
-                    yUnits="f", yTicks=None, markerOn=False, plotBuffer=False, axisLimits=False, colorMap="viridis", ax=None,):
+def pretty_multi_line(self, x, y, label=None, df=None, linecolor=None, linestyle=None, bbox=(1.2, 0.9), x_units="f", x_ticks=None,
+                    y_units="f", y_ticks=None, marker_on=False, plot_buffer=False, axis_limits=False, color_map="viridis", ax=None,):
     """
-    Documentation:
-        Description:
-            Create line plot. Capable of plotting multile lines on the same figure. Also capable of
+    documentation:
+        description:
+            create line plot. capable of plotting multile lines on the same figure. also capable of
             adjusting which axis will have the same data for each line and which will have different
             data for each line.
-        Parameters:
+        parameters:
             x : array or string
-                Either 1-dimensional array of values, a multidimensional array of values, a list of columns
-                in a Pandas DataFrame, or a column name in a Pandas DataFrame.
+                either 1_dimensional array of values, a multidimensional array of values, a list of columns
+                in a pandas DataFrame, or a column name in a pandas DataFrame.
             y : array or string
-                Either 1-dimensional array of values, a multidimensional array of values, a list of columns
-                in a Pandas DataFrame, or a column name in a Pandas DataFrame.
-            label : list of strings : default = None
-                List of names of used to create legend entries for each line.
-            df : Pandas DataFrame, default = None
-                Dataset containing data to be plotted. Can be any size, as plotted columns will be chosen
+                either 1_dimensional array of values, a multidimensional array of values, a list of columns
+                in a pandas DataFrame, or a column name in a pandas DataFrame.
+            label : list of strings : default =None
+                list of names of used to create legend entries for each line.
+            df : pandas DataFrame, default =None
+                dataset containing data to be plotted. can be any size, as plotted columns will be chosen
                 by columns names specified in x, y.
             linecolor : string, default = reference to list
-                Determine color of line.
+                determine color of line.
             linestyle : string, default = reference to list
-                Determine style of line.
+                determine style of line.
             bbox : tuple, default = (1.2, 0.9)
-                Override bbox value for legend
-            xUnits : string, default = 'd'
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                override bbox value for legend
+            x_units : string, default = 'd'
+                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            xTicks : array, default = None
-                Specify custom x-tick labels.
-            yUnits : string, default = 'd'
-                Determines units of x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+            x_ticks : array, default =None
+                specify custom x_tick labels.
+            y_units : string, default = 'd'
+                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            yTicks : array, default = None
-                Specify custom y-tick labels.
-            markerOn : boolean, default = False
-                Determines whether to show line with markers at each element.
-            plotBuffer : boolean, default = False
-                Switch for determining whether dynamic plot buffer function is executed.
-            axisLimits : boolean, default = False
-                Switch for determining whether dynamic axis limit setting function is executed.
-            colorMap : string specifying built-in matplotlib colormap, default = "viridis"
-                Colormap from which to draw plot colors.
-            ax : Axes object, default = None
-                Axis on which to place visual.
+            y_ticks : array, default =None
+                specify custom y_tick labels.
+            marker_on : boolean, default=False
+                determines whether to show line with markers at each element.
+            plot_buffer : boolean, default=False
+                switch for determining whether dynamic plot buffer function is executed.
+            axis_limits : boolean, default=False
+                switch for determining whether dynamic axis limit setting function is executed.
+            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+                colormap from which to draw plot colors.
+            ax : axes object, default =None
+                axis on which to place visual.
     """
-    # if a Pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
+    # if a pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
     if df is not None:
         if isinstance(df.index, pd.core.indexes.base.Index):
             x = df.index.values
@@ -196,22 +196,22 @@ def prettyMultiLine(self, x, y, label=None, df=None, linecolor=None, linestyle=N
         y = y.reshape(-1, 1) if len(y.shape) == 1 else y
 
     # generate color list
-    colorList = style.colorGen(name=colorMap, num=y.shape[1])
+    color_list = style.color_gen(name=color_map, num=y.shape[1])
 
     # add multiple lines
     for ix in np.arange(y.shape[1]):
-        yCol = y[:, ix]
+        y_col = y[:, ix]
         plt.plot(
             x,
-            yCol * 100 if "p" in yUnits else yCol,
-            color=linecolor if linecolor is not None else colorList[ix],
-            linestyle=linestyle if linestyle is not None else style.styleLineStyle[0],
-            linewidth=0.247 * self.chartProp,
+            y_col * 100 if "p" in y_units else y_col,
+            color=linecolor if linecolor is not None else color_list[ix],
+            linestyle=linestyle if linestyle is not None else style.style_line_style[0],
+            linewidth=0.247 * self.chart_prop,
             label=label[ix] if label is not None else None,
-            marker="." if markerOn else None,
-            markersize=17 if markerOn else None,
-            markerfacecolor="w" if markerOn else None,
-            markeredgewidth=2.2 if markerOn else None,
+            marker="." if marker_on else None,
+            markersize=17 if marker_on else None,
+            markerfacecolor="w" if marker_on else None,
+            markeredgewidth=2.2 if marker_on else None,
         )
 
     # add legend to figure
@@ -221,39 +221,39 @@ def prettyMultiLine(self, x, y, label=None, df=None, linecolor=None, linestyle=N
             bbox_to_anchor=bbox,
             ncol=1,
             frameon=True,
-            fontsize=1.1 * self.chartProp,
+            fontsize=1.1 * self.chart_prop,
         )
 
     # dynamically set axis lower / upper limits
-    if axisLimits:
-        xMin, xMax, yMin, yMax = util.utilSetAxes(x=x, y=y)
-        plt.axis([xMin, xMax, yMin, yMax])
+    if axis_limits:
+        x_min, x_max, y_min, y_max = util.util_set_axes(x=x, y=y)
+        plt.axis([x_min, x_max, y_min, y_max])
 
     # create smaller buffer around plot area to prevent cutting off elements
-    if plotBuffer:
-        util.utilPlotBuffer(ax=ax, x=0.02, y=0.02)
+    if plot_buffer:
+        util.util_plot_buffer(ax=ax, x=0.02, y=0.02)
 
     # tick label control
-    if xTicks is not None:
-        ax.set_xticks(xTicks)
+    if x_ticks is not None:
+        ax.set_xticks(x_ticks)
 
-    if yTicks is not None:
-        ax.set_yticks(yTicks)
+    if y_ticks is not None:
+        ax.set_yticks(y_ticks)
 
     # format x and y ticklabels
     ax.set_yticklabels(
-        ax.get_yticklabels() * 100 if "p" in yUnits else ax.get_yticklabels(),
+        ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=1.1 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=1.1 * self.chart_prop,
+        color=style.style_grey,
     )
 
     ax.set_xticklabels(
-        ax.get_xticklabels() * 100 if "p" in yUnits else ax.get_xticklabels(),
+        ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=1.1 * self.chartProp,
-        color=style.styleGrey,
+        fontsize=1.1 * self.chart_prop,
+        color=style.style_grey,
     )
 
     # axis tick label formatting
-    util.utilLabelFormatter(ax=ax, xUnits=xUnits, yUnits=yUnits)
+    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)

@@ -3,87 +3,87 @@ import matplotlib.cm
 import matplotlib.colors
 
 
-def colorGen(name="viridis", num=2):
+def color_gen(name="viridis", num=2):
     """
-    Documentation:
-        Description:
-            Generates a list of hex color codes of a specified length from a specified
+    documentation:
+        description:
+            generates a list of hex color codes of a specified length from a specified
              color map.
-        Parameters
+        parameters
             name: string, default = "viridis"
-                Name of built-in colormap
+                name of built_in colormap
             num : int, default = 2
-                An integer specifying the number of entries desired in the lookup table.
-        Returns:
-            colorList : list
-                List containing specified number of hex codes.
+                an integer specifying the number of entries desired in the lookup table.
+        returns:
+            color_list : list
+                list containing specified number of hex codes.
     """
     cmap = matplotlib.cm.get_cmap(name=name, lut=num)
 
-    colorList = []
-    for i in range(cmap.N):
+    color_list = []
+    for i in range(cmap.n):
         rgb = cmap(i)[:3]
-        colorList.append(matplotlib.colors.rgb2hex(rgb))
-    return colorList
+        color_list.append(matplotlib.colors.rgb2hex(rgb))
+    return color_list
 
-styleLineStyle = ["-", "--", "-.", ":", "-", "--", "-.", ":", "-", "--", "-.", ":"]
+style_line_style = ["_", "__", "_.", ":", "_", "__", "_.", ":", "_", "__", "_.", ":"]
 
-styleMarkers = ("s", "o", "v", "x", "^")
+style_markers = ("s", "o", "v", "x", "^")
 
-styleWhite = (255 / 255, 255 / 255, 255 / 255)
-styleGrey = (105 / 255, 105 / 255, 105 / 255)
-styleBlue = (20 / 255, 73 / 255, 187 / 255)
-styleGreen = (2 / 255, 226 / 255, 24 / 255)
-styleOrange = (255 / 255, 115 / 255, 1 / 255)
+style_white = (255 / 255, 255 / 255, 255 / 255)
+style_grey = (105 / 255, 105 / 255, 105 / 255)
+style_blue = (20 / 255, 73 / 255, 187 / 255)
+style_green = (2 / 255, 226 / 255, 24 / 255)
+style_orange = (255 / 255, 115 / 255, 1 / 255)
 
 
-def genCmap(nColors, colorList):
-    cmap = matplotlib.colors.LinearSegmentedColormap.from_list("", colorList)
+def gen_cmap(n_colors, color_list):
+    cmap = matplotlib.colors.LinearSegmentedColormap.from_list("", color_list)
     matplotlib.cm.register_cmap("mycolormap", cmap)
-    cpal = sns.color_palette("mycolormap", n_colors=nColors, desat=1.0)
+    cpal = sns.color_palette("mycolormap", n_colors=n_colors, desat=1.0)
     return cpal
 
 
 # rc parameters
-rcGrey = {
+rc_grey = {
     "axes.titlesize": 50.0,
-    "axes.labelsize": 40.0,  # Axis title font size
+    "axes.labelsize": 40.0,  # axis title font size
     "axes.facecolor": "white",
-    "axes.edgecolor": styleWhite,
+    "axes.edgecolor": style_white,
     "axes.grid": False,
     "axes.axisbelow": True,
-    "axes.labelcolor": styleGrey,
+    "axes.labelcolor": style_grey,
     "axes.spines.left": True,
     "axes.spines.bottom": True,
     "axes.spines.right": False,
     "axes.spines.top": False,
     "grid.color": "white",
     "xtick.labelsize": 15.0,
-    "xtick.color": styleGrey,
+    "xtick.color": style_grey,
     "xtick.direction": "out",
     "xtick.bottom": True,
     "xtick.top": False,
     "xtick.major.size": 6.0,
     "xtick.major.width": 1.25,
     "ytick.labelsize": 15.0,
-    "ytick.color": styleGrey,
+    "ytick.color": style_grey,
     "ytick.direction": "out",
     "ytick.left": True,
     "ytick.right": False,
     "ytick.major.size": 6.0,
     "ytick.major.width": 1.25,
     "figure.facecolor": "white",
-    "font.family": ["DejaVu Sans"]
-    # ,'font.family': ['Arial']
+    "font.family": ["deja_vu sans"]
+    # ,'font.family': ['arial']
 }
 
-# styleHexLight = ["#8BA4D9", "#D8F894", "#FFC799", "#E78BC1", "#BC86D9", "#7DD1D1"]
-# styleHexMidLight = ["#466DC1", "#BCF347", "#FF9C4B", "#D84099", "#9340C1", "#35B4B4"]
-# styleHexMid = ["#1449BB", "#02e218", "#FF7401", "#D5017D", "#7C0BBB", "#01ADAD"]
-# styleHexMidDark = ["#0A3389", "#82C000", "#CD5D00", "#A3005F", "#5A0589", "#007B7B"]
-# styleHexDark = ["#04215D", "#588200", "#8B3F00", "#6E0041", "#3D025D", "#005353"]
+# style_hex_light = ["#8_ba4_d9", "#d8_f894", "#ffc799", "#e78_bc1", "#bc86_d9", "#7_dd1_d1"]
+# style_hex_mid_light = ["#466_dc1", "#bcf347", "#ff9_c4_b", "#d84099", "#9340_c1", "#35_b4_b4"]
+# style_hex_mid = ["#1449_bb", "#02e218", "#ff7401", "#d5017_d", "#7_c0_bbb", "#01_adad"]
+# style_hex_mid_dark = ["#0_a3389", "#82_c000", "#cd5_d00", "#a3005_f", "#5_a0589", "#007_b7_b"]
+# style_hex_dark = ["#04215_d", "#588200", "#8_b3_f00", "#6_e0041", "#3_d025_d", "#005353"]
 
-# styleRgbLight = [
+# style_rgb_light = [
 #     (139, 164, 217),
 #     (216, 248, 148),
 #     (255, 199, 153),
@@ -91,7 +91,7 @@ rcGrey = {
 #     (188, 134, 217),
 #     (125, 209, 209),
 # ]
-# styleRgbMidLight = [
+# style_rgb_mid_light = [
 #     (70, 109, 193),
 #     (188, 243, 71),
 #     (255, 156, 75),
@@ -99,7 +99,7 @@ rcGrey = {
 #     (147, 64, 193),
 #     (53, 180, 180),
 # ]
-# styleRgbMid = [
+# style_rgb_mid = [
 #     (20, 73, 187),
 #     (2, 226, 24),
 #     (255, 116, 1),
@@ -107,7 +107,7 @@ rcGrey = {
 #     (124, 11, 187),
 #     (1, 173, 173),
 # ]
-# styleRgbMidDark = [
+# style_rgb_mid_dark = [
 #     (10, 51, 137),
 #     (130, 192, 0),
 #     (205, 93, 0),
@@ -115,7 +115,7 @@ rcGrey = {
 #     (90, 5, 137),
 #     (0, 123, 123),
 # ]
-# styleRgbDark = [
+# style_rgb_dark = [
 #     (4, 33, 93),
 #     (88, 130, 0),
 #     (139, 63, 0),
@@ -124,7 +124,7 @@ rcGrey = {
 #     (0, 83, 83),
 # ]
 
-# styleRgb0Light = [
+# style_rgb0_light = [
 #     (0.545, 0.643, 0.851),
 #     (0.847, 0.973, 0.58),
 #     (1, 0.78, 0.6),
@@ -132,7 +132,7 @@ rcGrey = {
 #     (0.737, 0.525, 0.851),
 #     (0.49, 0.82, 0.82),
 # ]
-# styleRgb0MidLight = [
+# style_rgb0_mid_light = [
 #     (0.275, 0.427, 0.757),
 #     (0.737, 0.953, 0.278),
 #     (1, 0.612, 0.294),
@@ -140,7 +140,7 @@ rcGrey = {
 #     (0.576, 0.251, 0.757),
 #     (0.208, 0.706, 0.706),
 # ]
-# styleRgb0Mid = [
+# style_rgb0_mid = [
 #     (0.078, 0.286, 0.733),
 #     (0.643, 0.949, 0.004),
 #     (1, 0.455, 0.004),
@@ -148,7 +148,7 @@ rcGrey = {
 #     (0.486, 0.043, 0.733),
 #     (0.004, 0.678, 0.678),
 # ]
-# styleRgb0MidDark = [
+# style_rgb0_mid_dark = [
 #     (0.039, 0.2, 0.537),
 #     (0.51, 0.753, 0),
 #     (0.804, 0.365, 0),
@@ -156,7 +156,7 @@ rcGrey = {
 #     (0.353, 0.02, 0.537),
 #     (0, 0.482, 0.482),
 # ]
-# styleRgb0Dark = [
+# style_rgb0_dark = [
 #     (0.016, 0.129, 0.365),
 #     (0.345, 0.51, 0),
 #     (0.545, 0.247, 0),
