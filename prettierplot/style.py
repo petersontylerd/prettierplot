@@ -26,6 +26,7 @@ def color_gen(name="viridis", num=2):
         color_list.append(matplotlib.colors.rgb2hex(rgb))
     return color_list
 
+
 style_line_style = ["_", "__", "_.", ":", "_", "__", "_.", ":", "_", "__", "_.", ":"]
 
 style_markers = ("s", "o", "v", "x", "^")

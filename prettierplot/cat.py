@@ -10,8 +10,17 @@ import prettierplot.util as util
 import textwrap
 
 
-def pretty_bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=True, label_rotate=0,
-                y_units="f", ax=None):
+def pretty_bar_v(
+    self,
+    x,
+    counts,
+    color=style.style_grey,
+    x_labels=None,
+    x_tick_wrap=True,
+    label_rotate=0,
+    y_units="f",
+    ax=None,
+):
     """
     documentation:
         description:
@@ -41,11 +50,7 @@ def pretty_bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_
 
     # create vertical bar plot.
     plt.bar(
-        x=x,
-        height=counts,
-        color=color,
-        tick_label=labels,
-        alpha=0.8,
+        x=x, height=counts, color=color, tick_label=labels, alpha=0.8,
     )
 
     # rotate x_tick labels.
@@ -53,15 +58,21 @@ def pretty_bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_
 
     # resize x_axis labels as needed.
     if len(x) > 10 and len(x) <= 20:
-        ax.tick_params(axis="x", colors=style.style_grey, labelsize=1.0 * self.chart_prop)
+        ax.tick_params(
+            axis="x", colors=style.style_grey, labelsize=1.0 * self.chart_prop
+        )
     elif len(x) > 20:
-        ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.9 * self.chart_prop)
+        ax.tick_params(
+            axis="x", colors=style.style_grey, labelsize=0.9 * self.chart_prop
+        )
     else:
-        ax.tick_params(axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
+        ax.tick_params(
+            axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_prop
+        )
 
     if x_tick_wrap and type(labels):
         try:
-            x = ['\n'.join(textwrap.wrap(i.replace('_'," "),12)) for i in labels]
+            x = ["\n".join(textwrap.wrap(i.replace("_", " "), 12)) for i in labels]
             ax.set_xticklabels(x)
         except AttributeError:
             pass
@@ -78,7 +89,9 @@ def pretty_bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_
     util.util_label_formatter(ax=ax, y_units=y_units)
 
 
-def pretty_bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f", ax=None):
+def pretty_bar_h(
+    self, y, counts, color=style.style_grey, label_rotate=45, x_units="f", ax=None
+):
     """
     documentation:
         description:
@@ -116,7 +129,9 @@ def pretty_bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_uni
     util.util_label_formatter(ax=ax, x_units=x_units)
 
 
-def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", ax=None):
+def pretty_box_plot_v(
+    self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", ax=None
+):
     """
     documentation:
         description:
@@ -150,7 +165,10 @@ def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", colo
         y=y,
         data=data,
         orient="v",
-        palette=sns.color_palette(style.color_gen(color_map, num=len(np.unique(data[x].values)))), ax=ax
+        palette=sns.color_palette(
+            style.color_gen(color_map, num=len(np.unique(data[x].values)))
+        ),
+        ax=ax,
     ).set(xlabel=None, ylabel=None)
 
     # # resize x_axis labels as needed.
@@ -160,15 +178,20 @@ def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", colo
     # elif len(unique) > 20:
     #     ax.tick_params(axis="x", labelsize=0.9 * self.chart_prop)
 
-
     # resize x_axis labels as needed.
     unique = np.unique(data[x])
     if len(unique) > 10 and len(unique) <= 20:
-        ax.tick_params(axis="x", colors=style.style_grey, labelsize=1.0 * self.chart_prop)
+        ax.tick_params(
+            axis="x", colors=style.style_grey, labelsize=1.0 * self.chart_prop
+        )
     elif len(unique) > 20:
-        ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.9 * self.chart_prop)
+        ax.tick_params(
+            axis="x", colors=style.style_grey, labelsize=0.9 * self.chart_prop
+        )
     else:
-        ax.tick_params(axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
+        ax.tick_params(
+            axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_prop
+        )
 
     # resize y_axis
     ax.tick_params(axis="y", labelsize=0.9 * self.chart_prop)
@@ -184,7 +207,17 @@ def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", colo
     util.util_label_formatter(ax=ax, y_units=y_units)
 
 
-def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05, 1), color_map="viridis", ax=None):
+def pretty_box_plot_h(
+    self,
+    x,
+    y,
+    data,
+    color=style.style_grey,
+    x_units="f",
+    bbox=(1.05, 1),
+    color_map="viridis",
+    ax=None,
+):
     """
     documentation:
         description:
@@ -219,7 +252,9 @@ def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbo
         hue=y,
         data=data,
         orient="h",
-        palette=sns.color_palette(style.color_gen(color_map, num=len(np.unique(data[y].values)))),
+        palette=sns.color_palette(
+            style.color_gen(color_map, num=len(np.unique(data[y].values)))
+        ),
         # palette=sns.color_palette(style.color_gen(color_map, num=len(np.unique(y)))),
         ax=ax,
     ).set(xlabel=None, ylabel=None)

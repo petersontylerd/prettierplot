@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from matplotlib.patches import patch
+from matplotlib.patches import Patch
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 
 from scipy.stats import linregress
@@ -11,8 +11,22 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def pretty2d_scatter(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None, plot_buffer=True,
-                    size=5, axis_limits=True, color=style.style_grey, facecolor="w", ax=None):
+def pretty2d_scatter(
+    self,
+    x,
+    y,
+    df=None,
+    x_units="f",
+    x_ticks=None,
+    y_units="f",
+    y_ticks=None,
+    plot_buffer=True,
+    size=5,
+    axis_limits=True,
+    color=style.style_grey,
+    facecolor="w",
+    ax=None,
+):
     """
     documentation:
         description:
@@ -105,8 +119,26 @@ def pretty2d_scatter(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f"
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def pretty2d_scatter_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None, plot_buffer=True, size=10,
-                        axis_limits=True, color=style.style_grey, facecolor="w", bbox=(1.2, 0.9), color_map="viridis", ax=None):
+def pretty2d_scatter_hue(
+    self,
+    x,
+    y,
+    target,
+    label,
+    df=None,
+    x_units="f",
+    x_ticks=None,
+    y_units="f",
+    y_ticks=None,
+    plot_buffer=True,
+    size=10,
+    axis_limits=True,
+    color=style.style_grey,
+    facecolor="w",
+    bbox=(1.2, 0.9),
+    color_map="viridis",
+    ax=None,
+):
     """
     documentation:
         description:
@@ -169,9 +201,7 @@ def pretty2d_scatter_hue(self, x, y, target, label, df=None, x_units="f", x_tick
     color_list = style.color_gen(name=color_map, num=len(target_ids))
 
     # loop through sets of target values, labels and colors to create 2_d scatter with hue.
-    for target_id, target_name, color in zip(
-        target_ids, label, color_list
-    ):
+    for target_id, target_name, color in zip(target_ids, label, color_list):
         plt.scatter(
             x=x[x[:, 2] == target_id][:, 0],
             y=x[x[:, 2] == target_id][:, 1],
@@ -228,7 +258,9 @@ def pretty2d_scatter_hue(self, x, y, target, label, df=None, x_units="f", x_tick
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def pretty_dist_plot(self, x, color, x_units="f", y_units="f", fit=None, x_rotate=None, ax=None):
+def pretty_dist_plot(
+    self, x, color, x_units="f", y_units="f", fit=None, x_rotate=None, ax=None
+):
     """
     documentation:
         description:
@@ -273,7 +305,9 @@ def pretty_dist_plot(self, x, color, x_units="f", y_units="f", fit=None, x_rotat
     )
 
     # use label formatter utility function to customize chart labels
-    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate)
+    util.util_label_formatter(
+        ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate
+    )
 
 
 def pretty_kde_plot(self, x, color, y_units="f", x_units="f", ax=None):
@@ -316,8 +350,19 @@ def pretty_kde_plot(self, x, color, y_units="f", x_units="f", ax=None):
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def pretty_reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.style_blue, x_jitter=None, x_units="f", y_units="f",
-                    x_rotate=None, ax=None):
+def pretty_reg_plot(
+    self,
+    x,
+    y,
+    data,
+    dot_color=style.style_grey,
+    line_color=style.style_blue,
+    x_jitter=None,
+    x_units="f",
+    y_units="f",
+    x_rotate=None,
+    ax=None,
+):
     """
     documentation:
         description:
@@ -376,10 +421,14 @@ def pretty_reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=sty
     )
 
     # use label formatter utility function to customize chart labels
-    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate)
+    util.util_label_formatter(
+        ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate
+    )
 
 
-def pretty_pair_plot_custom(self, df, cols=None, color = style.style_blue, gradient_col=None):
+def pretty_pair_plot_custom(
+    self, df, cols=None, color=style.style_blue, gradient_col=None
+):
     """
     documentation:
         description:
@@ -428,7 +477,6 @@ def pretty_pair_plot_custom(self, df, cols=None, color = style.style_blue, gradi
 
         df = util.numeric_coerce(df, cols=cols)
 
-
         # create figure and axes
         fig, axes = plt.subplots(
             ncols=len(df.columns),
@@ -462,7 +510,16 @@ def pretty_pair_plot_custom(self, df, cols=None, color = style.style_blue, gradi
         plt.show()
 
 
-def pretty_pair_plot(self, df, cols=None, target=None, diag_kind="auto", legend_labels=None, bbox=None, color_map="viridis"):
+def pretty_pair_plot(
+    self,
+    df,
+    cols=None,
+    target=None,
+    diag_kind="auto",
+    legend_labels=None,
+    bbox=None,
+    color_map="viridis",
+):
     """
     documentation:
         description:
@@ -535,7 +592,11 @@ def pretty_pair_plot(self, df, cols=None, target=None, diag_kind="auto", legend_
                 "facecolor": style.style_grey if target is None else None,
             },
             diag_kws={"facecolor": style.style_grey if target is None else None},
-            palette=None if target is None else sns.color_palette(style.color_gen(color_map, num = len(np.unique(target)))),
+            palette=None
+            if target is None
+            else sns.color_palette(
+                style.color_gen(color_map, num=len(np.unique(target)))
+            ),
         )
 
         # plot formatting
@@ -564,14 +625,14 @@ def pretty_pair_plot(self, df, cols=None, target=None, diag_kind="auto", legend_
                 legend_labels = np.array(legend_labels)
 
             # generate colors
-            color_list = style.color_gen("viridis", num = len(legend_labels))
+            color_list = style.color_gen("viridis", num=len(legend_labels))
 
             label_color = {}
             for ix, i in enumerate(legend_labels):
                 label_color[i] = color_list[ix]
 
             # create patches
-            patches = [patch(color=v, label=k) for k, v in label_color.items()]
+            patches = [Patch(color=v, label=k) for k, v in label_color.items()]
 
             # draw legend
             leg = plt.legend(

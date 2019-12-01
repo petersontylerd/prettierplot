@@ -22,7 +22,15 @@ def util_plot_buffer(ax, x, y):
     ax.set_ylim(y_lim[0] - y_margin, y_lim[1] + y_margin)
 
 
-def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=None, x_rotate=None, y_rotate=None):
+def util_label_formatter(
+    ax,
+    x_units=None,
+    y_units=None,
+    x_size=None,
+    y_size=None,
+    x_rotate=None,
+    y_rotate=None,
+):
     """
     documentation:
         description:
@@ -79,7 +87,7 @@ def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=Non
         fmt = "{x:,.4f}"
 
     if x_units is not None and x_units != "s":
-        tick = tkr.str_method_formatter(fmt)
+        tick = tkr.StrMethodFormatter(fmt)
         ax.xaxis.set_major_formatter(tick)
 
     if x_units is not None and x_rotate is not None:
@@ -127,7 +135,7 @@ def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=Non
         fmt = "{x:,.4f}"
 
     if y_units is not None and y_units != "s":
-        tick = tkr.str_method_formatter(fmt)
+        tick = tkr.StrMethodFormatter(fmt)
         ax.yaxis.set_major_formatter(tick)
 
     if y_units is not None and y_rotate is not None:

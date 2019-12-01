@@ -43,7 +43,9 @@ def pretty_prob_plot(self, x, plot):
     plot.get_lines()[1].set_color(style.style_grey)
 
 
-def pretty_corr_heatmap(self, df, annot=False, cols=None, mask=False, ax=None, vmin=_1.0, vmax=1.0):
+def pretty_corr_heatmap(
+    self, df, annot=False, cols=None, mask=False, ax=None, vmin=-1.0, vmax=1.0
+):
     """
     documentation:
         description:
@@ -74,7 +76,7 @@ def pretty_corr_heatmap(self, df, annot=False, cols=None, mask=False, ax=None, v
 
     # generate a mask for the upper triangle
     mask_grid = np.zeros_like(corr_matrix, dtype=np.bool)
-    mask_grid[np.triu_indices_from(mask_grid)]=True
+    mask_grid[np.triu_indices_from(mask_grid)] = True
 
     # adjust font size as needed
     if len(cols) <= 5:
@@ -111,7 +113,7 @@ def pretty_corr_heatmap(self, df, annot=False, cols=None, mask=False, ax=None, v
 
     # workaround for matplotlib 3.1.1 bug
     if matplotlib.__version__ == "3.1.1":
-        g.set_ylim(corr_matrix.shape[1] + 0.1, _0.1)
+        g.set_ylim(corr_matrix.shape[1] + 0.1, -0.1)
 
     # customize color bar formatting and labeling.
     cbar = g.collections[0].colorbar
@@ -121,7 +123,9 @@ def pretty_corr_heatmap(self, df, annot=False, cols=None, mask=False, ax=None, v
     cbar.set_ticks([vmax, 0.0, vmin])
 
 
-def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, ax=None, vmin=_1.0, vmax=1.0):
+def pretty_corr_heatmap_target(
+    self, df, target=None, annot=False, thresh=0.2, ax=None, vmin=-1.0, vmax=1.0
+):
     """
     documentation:
         description:
@@ -172,8 +176,8 @@ def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, a
 
     # create heatmap using correlation matrix.
     g = sns.heatmap(
-        df[corr_top.index].corr().iloc[:,:1],
-        vmin=_1.0,
+        df[corr_top.index].corr().iloc[:, :1],
+        vmin=-1.0,
         vmax=1.0,
         annot=annot,
         annot_kws={"size": font_adjust * self.chart_prop},
@@ -204,8 +208,18 @@ def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, a
     plt.show()
 
 
-def pretty_confusion_matrix(self, y_pred, y_True, labels, cmap="viridis", ax=None, textcolors=["black", "white"],
-                            threshold=None, reverse_labels=False, valfmt="{x:.0f}"):
+def pretty_confusion_matrix(
+    self,
+    y_pred,
+    y_True,
+    labels,
+    cmap="viridis",
+    ax=None,
+    textcolors=["black", "white"],
+    threshold=None,
+    reverse_labels=False,
+    valfmt="{x:.0f}",
+):
     """
     documentation:
         description:
@@ -279,23 +293,26 @@ def pretty_confusion_matrix(self, y_pred, y_True, labels, cmap="viridis", ax=Non
 
     #
     ax.set_ylabel(
-        ax.get_ylabel(),
-        rotation=-90,
-        fontsize=18,
-        color=style.style_grey,
+        ax.get_ylabel(), rotation=-90, fontsize=18, color=style.style_grey,
     )
     ax.set_xlabel(
-        ax.get_xlabel(),
-        rotation=0,
-        fontsize=18,
-        color=style.style_grey,
+        ax.get_xlabel(), rotation=0, fontsize=18, color=style.style_grey,
     )
 
     plt.show()
 
 
-def pretty_roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, linecolor=style.style_grey,
-                    bbox=(1.0, 0.4), ax=None):
+def pretty_roc_curve(
+    self,
+    model,
+    x_train,
+    y_train,
+    x_valid=None,
+    y_valid=None,
+    linecolor=style.style_grey,
+    bbox=(1.0, 0.4),
+    ax=None,
+):
     """
     documentation:
         description:
@@ -371,7 +388,18 @@ def pretty_roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, 
         ax=ax,
     )
 
-def pretty_decision_region(self, x, y, classifier, test_idx=None, resolution=0.1, bbox=(1.2, 0.9), color_map="viridis", ax=None):
+
+def pretty_decision_region(
+    self,
+    x,
+    y,
+    classifier,
+    test_idx=None,
+    resolution=0.1,
+    bbox=(1.2, 0.9),
+    color_map="viridis",
+    ax=None,
+):
     """
     documentation:
         description:
@@ -417,7 +445,6 @@ def pretty_decision_region(self, x, y, classifier, test_idx=None, resolution=0.1
     plt.contourf(xx1, xx2, z, alpha=0.3, cmap=cmap)
     plt.xlim(xx1.min(), xx1.max())
     plt.ylim(xx2.min(), xx2.max())
-
 
     # plot samples
     for idx, cl in enumerate(np.unique(y)):
