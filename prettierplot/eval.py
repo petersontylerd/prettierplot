@@ -211,7 +211,7 @@ def pretty_corr_heatmap_target(
 def pretty_confusion_matrix(
     self,
     y_pred,
-    y_True,
+    y_true,
     labels,
     cmap="viridis",
     ax=None,
@@ -234,7 +234,7 @@ def pretty_confusion_matrix(
         ax = plt.gca()
 
     # create confusion matrix using predictions and True labels
-    cm = pd.DataFrame(metrics.confusion_matrix(y_True=y_True, y_pred=y_pred))
+    cm = pd.DataFrame(metrics.confusion_matrix(y_true=y_true, y_pred=y_pred))
 
     # sort rows and columns in descending order
     # cm.sort_index(axis = 1, ascending=False, inplace=True)
@@ -279,7 +279,7 @@ def pretty_confusion_matrix(
 
     # get the formatter in case a string is supplied
     if isinstance(valfmt, str):
-        valfmt = tkr.str_method_formatter(valfmt)
+        valfmt = tkr.StrMethodFormatter(valfmt)
 
     # loop over the cm and create a `text` for each "pixel".
     # change the text's color depending on the cm.
@@ -288,7 +288,7 @@ def pretty_confusion_matrix(
         for j in range(cm.shape[1]):
             kw.update(color=textcolors[int(im.norm(cm[i, j]) < threshold)])
             # kw.update(color=textcolors[int(im.norm(cm[i, j]) > threshold)])
-            text = im.axes.text(j, i, valfmt(cm[i, j], none), **kw)
+            text = im.axes.text(j, i, valfmt(cm[i, j], None), **kw)
             texts.append(text)
 
     #
@@ -342,13 +342,13 @@ def pretty_roc_curve(
     if x_valid is None:
         probas = model.fit(x_train, y_train).predict_proba(x_train)
         fpr, tpr, thresholds = metrics.roc_curve(
-            y_True=y_train, y_score=probas[:, 1], pos_label=1
+            y_true=y_train, y_score=probas[:, 1], pos_label=1
         )
     # otherwise fit the model using training data and return roc curve for test data.
     else:
         probas = model.fit(x_train, y_train).predict_proba(x_valid)
         fpr, tpr, thresholds = metrics.roc_curve(
-            y_True=y_valid, y_score=probas[:, 1], pos_label=1
+            y_true=y_valid, y_score=probas[:, 1], pos_label=1
         )
 
     # calculate area under the curve using fpr and tpr.
@@ -438,7 +438,7 @@ def pretty_decision_region(
     )
 
     # generate predictions using classifier for all points on grid
-    z = classifier.predict(np.array([xx1.ravel(), xx2.ravel()]).t)
+    z = classifier.predict(np.array([xx1.ravel(), xx2.ravel()]).T)
 
     # reshape the predictions and apply coloration
     z = z.reshape(xx1.shape)
