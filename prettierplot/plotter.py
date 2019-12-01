@@ -19,15 +19,8 @@ class PrettierPlot:
             create a subplot arrangement.
     """
 
-    from .cat import (
-        prettyBarV,
-        prettyBarH,
-        prettyBoxPlotV,
-        prettyBoxPlotH
-    )
-    from .data import (
-        titanic,
-    )
+    from .cat import prettyBarV, prettyBarH, prettyBoxPlotV, prettyBoxPlotH
+    from .data import titanic
     from .eval import (
         prettyProbPlot,
         prettyCorrHeatmap,
@@ -44,10 +37,7 @@ class PrettierPlot:
         prettyFacetTwoCatPoint,
         prettyFacetCatNumScatter,
     )
-    from .line import (
-        prettyLine,
-        prettyMultiLine
-    )
+    from .line import prettyLine, prettyMultiLine
     from .num import (
         pretty2dScatter,
         pretty2dScatterHue,
@@ -101,8 +91,21 @@ class PrettierPlot:
         self.fig.set_figheight(chartHeight)
         self.fig.set_figwidth(chartWidth)
 
-    def makeCanvas(self, title="", xLabel="", xShift=0.0, yLabel="", yShift=0.8, position=111, nrows=None,
-                    ncols=None, index=None, sharex=None, sharey=None, titleScale=1.0):
+    def makeCanvas(
+        self,
+        title="",
+        xLabel="",
+        xShift=0.0,
+        yLabel="",
+        yShift=0.8,
+        position=111,
+        nrows=None,
+        ncols=None,
+        index=None,
+        sharex=None,
+        sharey=None,
+        titleScale=1.0,
+    ):
         """
         Documentation:
             Description:
