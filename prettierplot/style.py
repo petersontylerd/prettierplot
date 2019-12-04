@@ -27,7 +27,7 @@ def color_gen(name="viridis", num=2):
     return color_list
 
 
-style_line_style = ["_", "__", "_.", ":", "_", "__", "_.", ":", "_", "__", "_.", ":"]
+style_line_style = ["-", "--", "-.", ":","-", "--", "-.", ":","-", "--", "-.", ":"]
 
 style_markers = ("s", "o", "v", "x", "^")
 

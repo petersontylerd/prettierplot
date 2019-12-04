@@ -427,7 +427,7 @@ def pretty_reg_plot(
 
 
 def pretty_pair_plot_custom(
-    self, df, cols=None, color=style.style_blue, gradient_col=None
+    self, df, columns=None, color=style.style_blue, gradient_col=None
 ):
     """
     documentation:
@@ -437,7 +437,7 @@ def pretty_pair_plot_custom(
         parameters:
             df : pandas DataFrame
                 pandas DataFrame containing data of interest.
-            cols : list, default =None
+            columns : list, default =None
                 list of strings describing columns in pandas DataFrame to be visualized.
             color : string, default = style.style_blue
                 color to serve as high end of gradient when gradient_col is specified.
@@ -472,10 +472,10 @@ def pretty_pair_plot_custom(
     ):
 
         # limit to columns of interest if provided
-        if cols is not None:
-            df = df[cols]
+        if columns is not None:
+            df = df[columns]
 
-        df = util.numeric_coerce(df, cols=cols)
+        df = util.numeric_coerce(df, columns=columns)
 
         # create figure and axes
         fig, axes = plt.subplots(
@@ -513,7 +513,7 @@ def pretty_pair_plot_custom(
 def pretty_pair_plot(
     self,
     df,
-    cols=None,
+    columns=None,
     target=None,
     diag_kind="auto",
     legend_labels=None,
@@ -528,7 +528,7 @@ def pretty_pair_plot(
         parameters:
             df : pandas DataFrame
                 pandas DataFrame containing data of interest.
-            cols : list, default =None
+            columns : list, default =None
                 list of strings describing columns in pandas DataFrame to be visualized.
             target : Pandas Series, default =None
                 introduce third dimension to scatter plots through a color hue that differentiates
@@ -567,8 +567,8 @@ def pretty_pair_plot(
         df = df.select_dtypes(exclude=[object])
 
         # limit to columns of interest if provided
-        if cols is not None:
-            df = df[cols]
+        if columns is not None:
+            df = df[columns]
 
         # merge df with target if target is provided
         if target is not None:

@@ -166,7 +166,7 @@ def util_set_axes(x, y, x_thresh=0.75, y_thresh=0.75):
     return x_min, x_max, y_min, y_max
 
 
-def numeric_coerce(df, cols=None):
+def numeric_coerce(df, columns=None):
     """
     documentation:
         description:
@@ -175,16 +175,16 @@ def numeric_coerce(df, cols=None):
         paramters:
             df : pandas DataFrame
                 input dataset
-            cols : list of strings
+            columns : list of strings
                 list of column names to convert.
         returns:
             pandas DataFrame with converted columns.
     """
-    # if no columns specified, set cols equal to all non object columns
-    if cols is None:
-        cols = df.columns
+    # if no columns specified, set columns equal to all non object columns
+    if columns is None:
+        columns = df.columns
 
-    for col in cols:
+    for col in columns:
         # exclude columsn that contain only nulls
         if not df[col].isnull().all():
             try:

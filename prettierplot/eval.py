@@ -44,13 +44,13 @@ def pretty_prob_plot(self, x, plot):
 
 
 def pretty_corr_heatmap(
-    self, df, annot=False, cols=None, mask=False, ax=None, vmin=-1.0, vmax=1.0
+    self, df, annot=False, columns=None, mask=False, ax=None, vmin=-1.0, vmax=1.0
 ):
     """
     documentation:
         description:
             using numeric features, create correlation heatmap. produces correlation
-            with all numerical features, and can be limited to certain features using 'cols'.
+            with all numerical features, and can be limited to certain features using 'columns'.
         parameters:
             df : pandas DataFrame
                 pandas DataFrame containing all features of interest. will be transformed into
@@ -58,7 +58,7 @@ def pretty_corr_heatmap(
             annot : boolean, default=False
                 determines whether or not correlation table is annotated with correlation
                 value or not.
-            cols : list, default =None
+            columns : list, default =None
                 list of strings describing dataframe columns. limits dataframe to select columns.
             mask : boolean, default=False
                 determines whether or not correlation table is masked such that only the lower
@@ -71,23 +71,23 @@ def pretty_corr_heatmap(
                 maximum anchor value for color map.
     """
     # create correlation matrix
-    corr_matrix = df[cols].corr() if cols is not None else df.corr()
-    cols = corr_matrix.columns
+    corr_matrix = df[columns].corr() if columns is not None else df.corr()
+    columns = corr_matrix.columns
 
     # generate a mask for the upper triangle
     mask_grid = np.zeros_like(corr_matrix, dtype=np.bool)
     mask_grid[np.triu_indices_from(mask_grid)] = True
 
     # adjust font size as needed
-    if len(cols) <= 5:
+    if len(columns) <= 5:
         font_adjust = 1.25
-    elif len(cols) > 5 and len(cols) <= 10:
+    elif len(columns) > 5 and len(columns) <= 10:
         font_adjust = 0.95
-    elif len(cols) > 10 and len(cols) <= 20:
+    elif len(columns) > 10 and len(columns) <= 20:
         font_adjust = 0.85
-    elif len(cols) > 20 and len(cols) <= 30:
+    elif len(columns) > 20 and len(columns) <= 30:
         font_adjust = 0.75
-    elif len(cols) > 30 and len(cols) <= 40:
+    elif len(columns) > 30 and len(columns) <= 40:
         font_adjust = 0.65
     else:
         font_adjust = 0.45
@@ -139,7 +139,7 @@ def pretty_corr_heatmap_target(
             annot : boolean, default=False
                 determines whether or not correlation table is annotated with correlation
                 value or not.
-            cols : list, default =None
+            columns : list, default =None
                 list of strings describing dataframe columns. limits dataframe to select columns.
             thresh : float, default = 0.2
                 minimum correlation coefficient value needed.
