@@ -39,8 +39,8 @@ class PrettierPlot:
     )
     from .line import pretty_line, pretty_multi_line
     from .num import (
-        pretty2d_scatter,
-        pretty2d_scatter_hue,
+        pretty_2d_scatter,
+        pretty_2d_scatter_hue,
         pretty_dist_plot,
         pretty_kde_plot,
         pretty_reg_plot,

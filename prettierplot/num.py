@@ -11,7 +11,7 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def pretty2d_scatter(
+def pretty_2d_scatter(
     self,
     x,
     y,
@@ -119,7 +119,7 @@ def pretty2d_scatter(
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def pretty2d_scatter_hue(
+def pretty_2d_scatter_hue(
     self,
     x,
     y,
@@ -530,7 +530,7 @@ def pretty_pair_plot(
                 pandas DataFrame containing data of interest.
             cols : list, default =None
                 list of strings describing columns in pandas DataFrame to be visualized.
-            target : pandas series, default =None
+            target : Pandas Series, default =None
                 introduce third dimension to scatter plots through a color hue that differentiates
                 dots based on the target's value.
             diag_kind : string, default = 'auto.
