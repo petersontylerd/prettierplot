@@ -183,7 +183,7 @@ def pretty_facet_two_cat_bar(
     )
     g.set_ylabel(
         g.get_ylabel(),
-        rotation=-90,
+        rotation=90,
         fontsize=1.35 * self.chart_prop,
         color=style.style_grey,
     )
@@ -328,7 +328,7 @@ def pretty_facet_cat_num_scatter(
         )
         _ = ax.set_ylabel(
             ax.get_ylabel(),
-            rotation=-90,
+            rotation=90,
             fontsize=1.05 * self.chart_prop,
             color=style.style_grey,
         )
@@ -481,7 +481,7 @@ def pretty_facet_cat_num_hist(
     for i, ax in enumerate(g.axes.flat):
         _ = ax.set_ylabel(
             ax.get_ylabel(),
-            rotation=-90,
+            rotation=90,
             fontsize=1.05 * self.chart_prop,
             color=style.style_grey,
         )
@@ -636,7 +636,7 @@ def pretty_facet_two_cat_point(
     for ax in g.axes.flat:
         _ = ax.set_ylabel(
             ax.get_ylabel(),
-            rotation=-90,
+            rotation=90,
             fontsize=1.05 * self.chart_prop,
             color=style.style_grey,
         )
