@@ -38,9 +38,9 @@ def pretty_line(
             y : list, array or string
                 either 1_dimensional array of values, a multidimensional array of values, a list of columns
                 in a pandas DataFrame, or a column name in a pandas DataFrame.
-            label : string : default =None
+            label : string : default=None
                 name to create legend entry.
-            df : pandas DataFrame, default =None
+            df : pandas DataFrame, default=None
                 dataset containing data to be plotted. can be any size, as plotted columns will be chosen
                 by columns names specified in x, y.
             linecolor : string, default = reference to list
@@ -53,21 +53,21 @@ def pretty_line(
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            x_ticks : array, default =None
+            x_ticks : array, default=None
                 specify custom x_tick labels.
             y_units : string, default = 'f'
                 determines units of y_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            y_ticks : array, default =None
+            y_ticks : array, default=None
                 specify custom y_tick labels.
-            marker_on : boolean, default=False
+            marker_on : bool, default=False
                 determines whether to show line with markers at each element.
-            plot_buffer : boolean, default=False
+            plot_buffer : bool, default=False
                 switch for determining whether dynamic plot buffer function is executed.
-            axis_limits : boolean, default=False
+            axis_limits : bool, default=False
                 switch for determining whether dynamic axis limit setting function is executed.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     # if a pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
@@ -178,9 +178,9 @@ def pretty_multi_line(
             y : array or string
                 either 1_dimensional array of values, a multidimensional array of values, a list of columns
                 in a pandas DataFrame, or a column name in a pandas DataFrame.
-            label : list of strings : default =None
+            label : list of strings : default=None
                 list of names of used to create legend entries for each line.
-            df : pandas DataFrame, default =None
+            df : pandas DataFrame, default=None
                 dataset containing data to be plotted. can be any size, as plotted columns will be chosen
                 by columns names specified in x, y.
             linecolor : string, default = reference to list
@@ -193,23 +193,23 @@ def pretty_multi_line(
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            x_ticks : array, default =None
+            x_ticks : array, default=None
                 specify custom x_tick labels.
             y_units : string, default = 'd'
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            y_ticks : array, default =None
+            y_ticks : array, default=None
                 specify custom y_tick labels.
-            marker_on : boolean, default=False
+            marker_on : bool, default=False
                 determines whether to show line with markers at each element.
-            plot_buffer : boolean, default=False
+            plot_buffer : bool, default=False
                 switch for determining whether dynamic plot buffer function is executed.
-            axis_limits : boolean, default=False
+            axis_limits : bool, default=False
                 switch for determining whether dynamic axis limit setting function is executed.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     # if a pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.

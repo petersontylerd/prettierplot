@@ -59,7 +59,7 @@ class PrettierPlot:
                 chart_prop : float or int, default = 15
                     chart proportionality control. determines relative size of figure size, axis labels,
                     chart title, tick labels, tick marks.
-                plot_orientation : string, default =None
+                plot_orientation : string, default=None
                     default value produces a plot that is wider than it is tall. specifying 'tall' will
                     produce a taller, less wide plot. 'square' produces a square plot. 'wide' produces a
                     plot that is much wide than it is tall.
@@ -126,13 +126,13 @@ class PrettierPlot:
                     intent is to align with top of axis.
                 position : int (nrows, ncols, index), default = 111
                     determine subplot position of plot.
-                nrows : int, default =None
+                nrows : int, default=None
                     number of rows in subplot grid.
-                ncols : int, default =None
+                ncols : int, default=None
                     number of columns in subplot grid.
-                sharex : boolean or none, default =None
+                sharex : bool or none, default=None
                     conditional controlling whether to share x_axis across all subplots in a column.
-                sharey : boolean or none, default =None
+                sharey : bool or none, default=None
                     conditional controlling whether to share y_axis across all subplots in a row.
                 title_scale : float, default = 1.0
                     controls the scaling up (higher value) and scaling down (lower value) of the size of

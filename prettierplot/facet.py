@@ -23,8 +23,8 @@ def pretty_facet_cat(
     """
     documentation:
         description:
-            creates a count plot for a categorical variable and facets the variable by a
-            categorical label.
+            creates a count plot for a object variable and facets the variable by a
+            object label.
         parameters:
             df : pandas DataFrame
                 pandas DataFrame
@@ -44,7 +44,7 @@ def pretty_facet_cat(
                 coordinates for determining legend position.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     ixs = np.arange(df.shape[0])
@@ -120,33 +120,33 @@ def pretty_facet_two_cat_bar(
     documentation:
         description:
             creates a series of bar plots that count a variable along the y_axis and separate the counts
-            into bins based on by two categorical variables.
+            into bins based on by two object variables.
         parameters:
             df : pandas DataFrame
                 pandas DataFrame
             x : string
-                categorical variable to be plotted along x_axis.
+                object variable to be plotted along x_axis.
             y : string
                 variable to be counted along y_axis.
             split : string
-                categorical variable on which to differentiate the num_col variable.
-            x_units : string, default =None
+                object variable on which to differentiate the num_col variable.
+            x_units : string, default=None
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            y_units : string, default =None
+            y_units : string, default=None
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            bbox : tuple of floats, default =None
+            bbox : tuple of floats, default=None
                 coordinates for determining legend position.
-            legend_labels : list, default =None
+            legend_labels : list, default=None
                 custom legend labels.
-            filter_nan : boolean, default=True
+            filter_nan : bool, default=True
                 remove record that have a null value in the column specified by the 'x' parameter.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     if filter_na_n:
@@ -262,29 +262,29 @@ def pretty_facet_cat_num_scatter(
     """
     documentation:
         description:
-            creates scatter plots of two numeric variables and allows for faceting by up to two
-            categorical variables along the column and/or row axes of the figure.
+            creates scatter plots of two number variables and allows for faceting by up to two
+            object variables along the column and/or row axes of the figure.
         parameters:
             df : pandas DataFrame
                 pandas DataFrame
             x : string
-                numeric variable to be plotted along x_axis.
+                number variable to be plotted along x_axis.
             y : string
-                numeric variable to be plotted along y_axis.
+                number variable to be plotted along y_axis.
             cat_row : string
-                categorical variable faceted along the row axis.
+                object variable faceted along the row axis.
             cat_col : string
-                categorical variable faceted along the column axis.
+                object variable faceted along the column axis.
             split : string
-                categorical variable on which to differentiate the num_col variable.
-            bbox : tuple of floats, default =None
+                object variable on which to differentiate the num_col variable.
+            bbox : tuple of floats, default=None
                 coordinates for determining legend position.
             aspect : float, default = 1
                 higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             height : float, default = 4
                 height in inches of each facet.
-            legend_labels : list, default =None
+            legend_labels : list, default=None
                 custom legend labels.
             x_units : string, default = 'f'
                 determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
@@ -422,28 +422,28 @@ def pretty_facet_cat_num_hist(
     """
     documentation:
         description:
-            creates histograms of one numeric variable, and each can optionally be split by a categorical to
-            show two or more distributions. allows for faceting by up to two categorical variables along the
+            creates histograms of one number variable, and each can optionally be split by a object to
+            show two or more distributions. allows for faceting by up to two object variables along the
             column and/or row axes of the figure.
         parameters:
             df : pandas DataFrame
                 pandas DataFrame
             cat_row : string
-                categorical variable faceted along the row axis.
+                object variable faceted along the row axis.
             cat_col : string
-                categorical variable faceted along the column axis.
+                object variable faceted along the column axis.
             num_col : string
-                numeric variable to be plotted along x_axis.
+                number variable to be plotted along x_axis.
             split : string
-                categorical variable on which to differentiate the num_col variable.
-            bbox : tuple of floats, default =None
+                object variable on which to differentiate the num_col variable.
+            bbox : tuple of floats, default=None
                 coordinates for determining legend position.
             aspect : float, default = 1
                 higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             height : float, default = 4
                 height in inches of each facet.
-            legend_labels : list, default =None
+            legend_labels : list, default=None
                 custom legend labels.
             x_units : string, default = 'f'
                 determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
@@ -595,23 +595,23 @@ def pretty_facet_two_cat_point(
             df : pandas DataFrame
                 pandas DataFrame
             x : string
-                categorical variable to be plotted along x_axis.
+                object variable to be plotted along x_axis.
             y : string
                 variable to be counted along y_axis.
             split : string
-                categorical variable on which to differentiate the 'x' variable.
+                object variable on which to differentiate the 'x' variable.
             cat_row : string
-                categorical variable faceted along the row axis.
+                object variable faceted along the row axis.
             cat_col : string
-                categorical variable faceted along the column axis.
-            bbox : tuple of floats, default =None
+                object variable faceted along the column axis.
+            bbox : tuple of floats, default=None
                 coordinates for determining legend position.
             aspect : float, default = 1
                 higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             height : float, default = 4
                 height in inches of each facet.
-            legend_labels : list, default =None
+            legend_labels : list, default=None
                 custom legend labels.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.

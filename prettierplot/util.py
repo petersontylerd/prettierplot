@@ -36,17 +36,17 @@ def util_label_formatter(
         description:
             formats tick labels as dolloars, percentages, or decimals.
         parameters:
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual..
-            x_units : str, default =None
+            x_units : str, default=None
                 determines units of x_axis tick labels. none displays float. 'p' displays percentages,
                 '$' displays dollars.
-            x_size : int or float, default =None
+            x_size : int or float, default=None
                 x_axis label size.
-            y_units : str, default =None
+            y_units : str, default=None
                 determines units of y_axis tick labels. none displays float. 'p' displays percentages,
                 '$' displays dollars.
-            y_size : int or float, default =None
+            y_size : int or float, default=None
                 y_axis label size.
     """
     ## x_axis
@@ -166,11 +166,11 @@ def util_set_axes(x, y, x_thresh=0.75, y_thresh=0.75):
     return x_min, x_max, y_min, y_max
 
 
-def numeric_coerce(df, columns=None):
+def number_coerce(df, columns=None):
     """
     documentation:
         description:
-            convert object columns that include numeric data to float or int
+            convert object columns that include number data to float or int
             data type.
         paramters:
             df : pandas DataFrame
@@ -188,7 +188,7 @@ def numeric_coerce(df, columns=None):
         # exclude columsn that contain only nulls
         if not df[col].isnull().all():
             try:
-                df[col] = df[col].apply(pd.to_numeric)
+                df[col] = df[col].apply(pd.to_number)
             except ValueError:
                 pass
         else:

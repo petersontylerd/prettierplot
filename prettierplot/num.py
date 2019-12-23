@@ -36,30 +36,30 @@ def pretty_2d_scatter(
                 either 1_dimensional array of values or a column name in a pandas DataFrame.
             y : array or string
                 either 1_dimensional array of values or a column name in a pandas DataFrame.
-            df : pandas DataFrame, default =None
+            df : pandas DataFrame, default=None
                 dataset containing data to be plotted. can be any size - plotted columns will be
                 chosen by columns names specified in x, y.
             x_units : string, default = 'f'
                 determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            x_ticks : array, default =None
+            x_ticks : array, default=None
                 specify custom x_tick labels.
             y_units : string, default = 'f'
                 determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            y_ticks : array, default =None
+            y_ticks : array, default=None
                 specify custom y_tick labels.
-            plot_buffer : boolean, default=True
+            plot_buffer : bool, default=True
                 switch for determining whether dynamic plot buffer function is executed.
             size : int or float, default = 5
                 determines scatter dot size.
-            axis_limits : boolean, default=True
+            axis_limits : bool, default=True
                 switch for determining whether dynamic axis limit setting function is executed.
             color : string (color code of some sort), default = style.style_grey
                 determine color of scatter dots
             facecolor : string (color code of some sort), default = 'w'
                 determine face color of scatter dots.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     # if a pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
@@ -153,24 +153,24 @@ def pretty_2d_scatter_hue(
                 either 1_dimensional array of values or a column name in a pandas DataFrame.
             label : list
                 list of labels describing hue.
-            df : pandas DataFrame, default =None
+            df : pandas DataFrame, default=None
                 dataset containing data to be plotted. can be any size - plotted columns will be
                 chosen by columns names specified in x, y.
             x_units : string, default = 'd'
                 determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            x_ticks : array, default =None
+            x_ticks : array, default=None
                 specify custom x_tick labels.
             y_units : string, default = 'd'
                 determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            y_ticks : array, default =None
+            y_ticks : array, default=None
                 specify custom y_tick labels.
-            plot_buffer : boolean, default=True
+            plot_buffer : bool, default=True
                 switch for determining whether dynamic plot buffer function is executed.
             size : int or float, default = 10
                 determines scatter dot size.
-            axis_limits : boolean, default=True
+            axis_limits : bool, default=True
                 switch for determining whether dynamic axis limit setting function is executed.
             color : string (color code of some sort), default = style.style_grey
                 determine color of scatter dots.
@@ -180,7 +180,7 @@ def pretty_2d_scatter_hue(
                 coordinates for determining legend position.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     # if a pandas DataFrame is passed to function, create x, y and target arrays using columns names
@@ -264,7 +264,7 @@ def pretty_dist_plot(
     """
     documentation:
         description:
-            creates distribution plot for numeric variables, showing counts of a single
+            creates distribution plot for number variables, showing counts of a single
             variable. also overlays a kernel density estimation curve.
         parameters:
             x : array
@@ -277,13 +277,13 @@ def pretty_dist_plot(
             y_units : string, default = 'f'
                 determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            fit : random variabe object, default =None
+            fit : random variabe object, default=None
                 allows for the addition of another curve. utilizing 'norm' overlays a normal distribution
                 over the distribution bar chart. useful for seeing how well, or not, the distribution tracks
                 with a normal distrbution.
-            x_rotate : int, default =None
+            x_rotate : int, default=None
                 rotates x_axis tick mark labels x degrees.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     # create distribution plot with an optional fit curve
@@ -326,7 +326,7 @@ def pretty_kde_plot(self, x, color, y_units="f", x_units="f", ax=None):
             y_units : string, default = 'f'
                 determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     # create kernel density estimation line
@@ -371,14 +371,14 @@ def pretty_reg_plot(
             x : string
                 name of independent variable in dataframe. represents a category
             y : string
-                name of numeric target variable.
+                name of number target variable.
             data : pandas DataFrame
                 pandas DataFrame including both indepedent variable and target variable.
             dot_color : string
                 determines color of dots.
             line_color : string
                 determines color of regression line.
-            x_jitter : float, default =None
+            x_jitter : float, default=None
                 optional paramter for randomly displacing dots along the x_axis to enable easier visibility
                 of dots.
             label_rotate : float or int, default = 45
@@ -389,9 +389,9 @@ def pretty_reg_plot(
             y_units : string, default = 'f'
                 determines units of y_axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            x_rotate : int, default =None
+            x_rotate : int, default=None
                 rotates x_axis tick mark labels x degrees.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     # create regression plot.
@@ -433,15 +433,15 @@ def pretty_pair_plot_custom(
     documentation:
         description:
             create pair plot that produces a grid of scatter plots for all unique pairs of
-            numeric features and a series of kde or histogram plots along the diagonal.
+            number features and a series of kde or histogram plots along the diagonal.
         parameters:
             df : pandas DataFrame
                 pandas DataFrame containing data of interest.
-            columns : list, default =None
+            columns : list, default=None
                 list of strings describing columns in pandas DataFrame to be visualized.
             color : string, default = style.style_blue
                 color to serve as high end of gradient when gradient_col is specified.
-            gradient_col : string, default =None
+            gradient_col : string, default=None
                 introduce third dimension to scatter plots through a color hue that differentiates
                 dots based on the target's value.
             diag_kind : string, default = 'auto.
@@ -475,7 +475,7 @@ def pretty_pair_plot_custom(
         if columns is not None:
             df = df[columns]
 
-        df = util.numeric_coerce(df, columns=columns)
+        df = util.number_coerce(df, columns=columns)
 
         # create figure and axes
         fig, axes = plt.subplots(
@@ -524,20 +524,20 @@ def pretty_pair_plot(
     documentation:
         description:
             create pair plot that produces a grid of scatter plots for all unique pairs of
-            numeric features and a series of kde or histogram plots along the diagonal.
+            number features and a series of kde or histogram plots along the diagonal.
         parameters:
             df : pandas DataFrame
                 pandas DataFrame containing data of interest.
-            columns : list, default =None
+            columns : list, default=None
                 list of strings describing columns in pandas DataFrame to be visualized.
-            target : Pandas Series, default =None
+            target : Pandas Series, default=None
                 introduce third dimension to scatter plots through a color hue that differentiates
                 dots based on the target's value.
             diag_kind : string, default = 'auto.
                 type of plot created along diagonal.
-            legend_labels : list, default =None
+            legend_labels : list, default=None
                 list containing strings of custom labels to display in legend.
-            bbox : tuple of floats, default =None
+            bbox : tuple of floats, default=None
                 coordinates for determining legend position.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
@@ -653,9 +653,9 @@ def pretty_hist(self, x, color, label, alpha=0.8):
     """
     documentation:
         description:
-            create histogram of numeric variable. simple function capable of easy
-            iteration through several groupings of a numeric variable that is
-            separated out based on a categorical label. this results in several overlapping
+            create histogram of number variable. simple function capable of easy
+            iteration through several groupings of a number variable that is
+            separated out based on a object label. this results in several overlapping
             histograms and can reveal differences in distributions.
         parameters:
             x : array

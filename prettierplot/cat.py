@@ -32,9 +32,9 @@ def pretty_bar_v(
                 1_dimensional array of value counts for categories.
             color : string (some sort of color code), default = style.style_hex_mid[0]
                 bar color.
-            x_labels : list, default =None
+            x_labels : list, default=None
                 custom x_axis text labels.
-            x_tick_wrap : boolean, default=True
+            x_tick_wrap : bool, default=True
                 wrap x_axis tick labels.
             label_rotate : float or int, default = 0
                 degrees by which the xtick labels are rotated.
@@ -42,7 +42,7 @@ def pretty_bar_v(
                 determines units of y_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     # custom labela
@@ -109,7 +109,7 @@ def pretty_bar_h(
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     # plot horizontal bar plot.
@@ -135,13 +135,13 @@ def pretty_box_plot_v(
     """
     documentation:
         description:
-            create vertical box plots. useful for evaluated a numeric target on the y_axis
+            create vertical box plots. useful for evaluated a number target on the y_axis
             vs. several different category segments on the x_axis
         parameters:
             x : string
                 name of independent variable in dataframe. represents a category.
             y : string
-                name of numeric target variable.
+                name of number target variable.
             data : pandas DataFrame
                 pandas DataFrame including both indpedent variable and target variable.
             color : string
@@ -156,7 +156,7 @@ def pretty_box_plot_v(
                 decimal places.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     # create vertical box plot.
@@ -221,13 +221,13 @@ def pretty_box_plot_h(
     """
     documentation:
         description:
-            create horizontal box plots. useful for evaluating a categorical target on the y_axis
-            vs. a numeric independent variable on the x_axis.
+            create horizontal box plots. useful for evaluating a object target on the y_axis
+            vs. a number independent variable on the x_axis.
         parameters:
             x : string
                 name of independent variable in dataframe. represents a category.
             y : string
-                name of numeric target variable.
+                name of number target variable.
             data : pandas DataFrame
                 pandas DataFrame including both indpedent variable and target variable.
             color : string (some sort of color code), default = style.style_hex_mid
@@ -242,7 +242,7 @@ def pretty_box_plot_h(
                 coordinates for determining legend position.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     # create horizontal box plot.

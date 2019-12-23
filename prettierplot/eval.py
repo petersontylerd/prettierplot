@@ -18,11 +18,11 @@ def pretty_prob_plot(self, x, plot):
     """
         documentation:
             description:
-                create plot that visualizes how well a numeric feature's distribution
+                create plot that visualizes how well a number feature's distribution
                 conforms to a normal distribution
             parameters:
                 x : array
-                    1_dimensional array containing data of a numeric feature.
+                    1_dimensional array containing data of a number feature.
                 plot : plot object
                     plotting object for applying additional formatting.
         """
@@ -49,21 +49,21 @@ def pretty_corr_heatmap(
     """
     documentation:
         description:
-            using numeric features, create correlation heatmap. produces correlation
-            with all numerical features, and can be limited to certain features using 'columns'.
+            using number features, create correlation heatmap. produces correlation
+            with all numberal features, and can be limited to certain features using 'columns'.
         parameters:
             df : pandas DataFrame
                 pandas DataFrame containing all features of interest. will be transformed into
                 a correlation matrix.
-            annot : boolean, default=False
+            annot : bool, default=False
                 determines whether or not correlation table is annotated with correlation
                 value or not.
-            columns : list, default =None
+            columns : list, default=None
                 list of strings describing dataframe columns. limits dataframe to select columns.
-            mask : boolean, default=False
+            mask : bool, default=False
                 determines whether or not correlation table is masked such that only the lower
                 triangle appears.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
             vmin : float, default = _1.0
                 minimum anchor value for color map.
@@ -129,17 +129,17 @@ def pretty_corr_heatmap_target(
     """
     documentation:
         description:
-            using numeric features, create correlation heatmap. capable of dropping
+            using number features, create correlation heatmap. capable of dropping
             zeros in select features, where zeros potentially indicate a complete absence
             of the feature.
         parameters:
             df : pandas DataFrame
                 pandas DataFrame containing all features of interest. will be transformed into
                 a correlation matrix.
-            annot : boolean, default=False
+            annot : bool, default=False
                 determines whether or not correlation table is annotated with correlation
                 value or not.
-            columns : list, default =None
+            columns : list, default=None
                 list of strings describing dataframe columns. limits dataframe to select columns.
             thresh : float, default = 0.2
                 minimum correlation coefficient value needed.
@@ -147,7 +147,7 @@ def pretty_corr_heatmap_target(
                 the feature of focus in the supplemental correlation visualization. used
                 to determine the feature for which the nlargest correlation coefficients
                 are returned.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
             vmin : float, default = _1.0
                 minimum anchor value for color map.
@@ -225,7 +225,7 @@ def pretty_confusion_matrix(
         description:
 
         parameters:
-            reverse_labels : boolean, default=False
+            reverse_labels : bool, default=False
                 reverse the direction of the labels. puts the True positives in the upper left hand corner in
                 binary classification problems.
 
@@ -326,15 +326,15 @@ def pretty_roc_curve(
             y_train : array
                 training labels for model fitting. also used to create roc curve when
                 x_valid is None.
-            x_valid : array, default =None
+            x_valid : array, default=None
                 test data for returning predict_probas.
-            y_valid : array, default =None
+            y_valid : array, default=None
                 test data for creating roc curve
             linecolor : str, default = style.style_hex_mid[0]
                 curve line color
             bbox : tuple of floats, default = (1.2, 0.8)
                 coordinates for determining legend position
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     ## return prediction probabilities.
@@ -411,7 +411,7 @@ def pretty_decision_region(
                 m x 1 array containing labels for observations.
             classifier : sklearn model or pipeline
                 classifier used to create decision regions.
-            test_idx :  tuple, default =None
+            test_idx :  tuple, default=None
                 optional parameter for specifying observations to be highlighted as test examples.
             resolution : float, default = 0.1
                 controls clarity of the graph by setting interval of the arrays passed into np.meshgrid.
@@ -419,7 +419,7 @@ def pretty_decision_region(
                 coordinates for determining legend position.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
-            ax : axes object, default =None
+            ax : axes object, default=None
                 axis on which to place visual.
     """
     # generate color list
