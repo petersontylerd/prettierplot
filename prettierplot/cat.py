@@ -10,17 +10,8 @@ import prettierplot.util as util
 import textwrap
 
 
-def pretty_bar_v(
-    self,
-    x,
-    counts,
-    color=style.style_grey,
-    x_labels=None,
-    x_tick_wrap=True,
-    label_rotate=0,
-    y_units="f",
-    ax=None,
-):
+def pretty_bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=True, label_rotate=0,
+                    y_units="f", ax=None):
     """
     documentation:
         description:
@@ -89,9 +80,7 @@ def pretty_bar_v(
     util.util_label_formatter(ax=ax, y_units=y_units)
 
 
-def pretty_bar_h(
-    self, y, counts, color=style.style_grey, label_rotate=45, x_units="f", ax=None
-):
+def pretty_bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f", ax=None):
     """
     documentation:
         description:
@@ -129,9 +118,7 @@ def pretty_bar_h(
     util.util_label_formatter(ax=ax, x_units=x_units)
 
 
-def pretty_box_plot_v(
-    self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", ax=None
-):
+def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", ax=None):
     """
     documentation:
         description:
@@ -207,17 +194,8 @@ def pretty_box_plot_v(
     util.util_label_formatter(ax=ax, y_units=y_units)
 
 
-def pretty_box_plot_h(
-    self,
-    x,
-    y,
-    data,
-    color=style.style_grey,
-    x_units="f",
-    bbox=(1.05, 1),
-    color_map="viridis",
-    ax=None,
-):
+def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05, 1),
+                        color_map="viridis", ax=None):
     """
     documentation:
         description:
