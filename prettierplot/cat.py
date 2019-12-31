@@ -1,7 +1,9 @@
 import numpy as np
 import seaborn as sns
+import squarify
 import matplotlib.pyplot as plt
 import matplotlib.cm
+from matplotlib.patches import Patch
 
 import prettierplot.style as style
 import prettierplot.util as util
@@ -11,7 +13,7 @@ import textwrap
 
 
 def pretty_bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=True, label_rotate=0,
-                    y_units="f", ax=None):
+                    y_units="f", alpha=0.8, ax=None):
     """
     documentation:
         description:
@@ -33,6 +35,8 @@ def pretty_bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_
                 determines units of y_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
+            alpha : float, default = 0.8
+                controls transparency of bars. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -80,17 +84,17 @@ def pretty_bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_
     util.util_label_formatter(ax=ax, y_units=y_units)
 
 
-def pretty_bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f", ax=None):
+def pretty_bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f", alpha=0.8, ax=None):
     """
     documentation:
         description:
             create vertical bar plot.
         parameters:
             y : array
-                1_dimensional array of values to be plotted on x_axis representing distinct categories.
+                1_dimensional array of values to be plotted on y-axis representing distinct categories.
             counts : array or string
                 1_dimensional array of value counts for categories.
-            color : string (some sort of color code), default = style.style_hex_mid[0]
+            color : string (some sort of color code), default=style.style_grey
                 bar color.
             label_rotate : float or int, default = 45
                 degrees by which the xtick labels are rotated.
@@ -98,6 +102,8 @@ def pretty_bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_uni
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
+            alpha : float, default = 0.8
+                control transparency of bars. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -116,6 +122,101 @@ def pretty_bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_uni
 
     # use label formatter utility function to customize chart labels.
     util.util_label_formatter(ax=ax, x_units=x_units)
+
+
+def pretty_stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="viridis", bbox=(1.2,0.9),
+                        legend_labels=None, ax=None):
+    """
+    documentation:
+        description:
+            create vertical bar plot.
+        parameters:
+            df : Pandas DataFrame
+                1_dimensional array of values to be plotted on y-axis representing distinct categories.
+            label_rotate : float or int, default = 45
+                degrees by which the xtick labels are rotated.
+            x_units : string, default = 'f'
+                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
+            alpha : float, default = 0.8
+                control transparency of bars. accepts value between 0.0 and 1.0.
+            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+                colormap from which to draw plot colors.
+            bbox : tuple of floats, default = (1.2, 0.9)
+                coordinates for determining legend position.
+            legend_labels : list, default=None
+                custom legend labels.
+            ax : axes object, default=None
+                axis on which to place visual.
+    """
+
+    # define class label count and bar color list
+    y = np.arange(len(df.index))
+    color_list = style.color_gen(color_map, num=len(y))
+
+    # define category labels
+    category_levels = np.arange(len(df.columns))
+
+    # plot stacked bars
+    for class_label, color in zip(np.arange(len(y)), color_list):
+        if class_label == 0:
+            plt.barh(
+                y=category_levels,
+                width=df.loc[class_label],
+                color=color,
+                alpha=alpha,
+            )
+        else:
+            plt.barh(
+                y=category_levels,
+                width=df.loc[class_label],
+                left=df.loc[class_label-1],
+                color=color,
+                alpha=alpha,
+            )
+
+    # convert x-axis tick labels to percentages
+    ax.set_xticklabels(
+        ax.get_xticklabels() * 100 if "p" in x_units else ax.get_xticklabels(),
+        rotation=0,
+        fontsize=0.9 * self.chart_prop,
+        color=style.style_grey,
+    )
+
+    ## create custom legend
+    if legend_labels is None:
+        legend_labels = np.arange(len(color_list))
+    else:
+        legend_labels = np.array(legend_labels)
+
+    # define colors
+    label_color = {}
+    for ix, i in enumerate(legend_labels):
+        label_color[i] = color_list[ix]
+
+    # create patches
+    patches = [Patch(color=v, label=k) for k, v in label_color.items()]
+
+    # draw legend
+    leg = plt.legend(
+        handles=patches,
+        fontsize=0.95 * self.chart_prop,
+        loc="upper right",
+        markerscale=0.3 * self.chart_prop,
+        ncol=1,
+        bbox_to_anchor=bbox,
+    )
+
+    # label font color
+    for text in leg.get_texts():
+        plt.setp(text, color="grey")
+
+    # use label formatter utility function to customize chart labels.
+    util.util_label_formatter(ax=ax, x_units=x_units)
+
+    # overwrite y-axis labels with category labels
+    plt.yticks(category_levels, df.columns)
 
 
 def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", ax=None):
@@ -246,3 +347,14 @@ def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbo
 
     # legend placement.
     plt.legend(bbox_to_anchor=bbox, loc=2, borderaxespad=0.0)
+
+
+def pretty_tree_map(self, ):
+    squarify.plot(
+        sizes=uni_summ_df["count"].values,
+        label=uni_summ_df[feature].values,
+        color=style.color_gen(name=color_map, num=len(uni_summ_df[feature].values)),
+        alpha=0.7,
+        ax=ax
+    )
+    plt.axis('off')

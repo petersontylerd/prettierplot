@@ -9,17 +9,8 @@ import prettierplot.util as util
 import textwrap
 
 
-def pretty_facet_cat(
-    self,
-    df,
-    feature,
-    label_rotate=0,
-    y_units="f",
-    x_units="s",
-    bbox=(1.2, 0.9),
-    color_map="viridis",
-    ax=None,
-):
+def pretty_facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=(1.2, 0.9),
+                        legend_labels=None, color_map="viridis", ax=None):
     """
     documentation:
         description:
@@ -77,15 +68,37 @@ def pretty_facet_cat(
     )
     plt.xticks(rotation=label_rotate)
 
-    # add legend to figure.
-    plt.legend(
+
+    ## create custom legend
+    # create labels
+    if legend_labels is None:
+        legend_labels = np.arange(len(color_list))
+    else:
+        legend_labels = np.array(legend_labels)
+
+    # define colors
+    label_color = {}
+    for ix, i in enumerate(legend_labels):
+        label_color[i] = color_list[ix]
+
+    # create patches
+    patches = [Patch(color=v, label=k) for k, v in label_color.items()]
+
+    # draw legend
+    leg = plt.legend(
+        handles=patches,
+        fontsize=0.95 * self.chart_prop,
         loc="upper right",
-        bbox_to_anchor=bbox,
+        markerscale=0.3 * self.chart_prop,
         ncol=1,
-        frameon=True,
-        fontsize=1.1 * self.chart_prop,
+        bbox_to_anchor=bbox,
     )
 
+    # label font color
+    for text in leg.get_texts():
+        plt.setp(text, color="grey")
+
+    ### general formatting
     # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
@@ -99,23 +112,11 @@ def pretty_facet_cat(
             axis="x", colors=style.style_grey, labelsize=0.6 * self.chart_prop
         )
 
-    plt.show()
+    #plt.show()
 
 
-def pretty_facet_two_cat_bar(
-    self,
-    df,
-    x,
-    y,
-    split,
-    x_units=None,
-    y_units=None,
-    bbox=None,
-    legend_labels=None,
-    filter_na_n=True,
-    color_map="viridis",
-    ax=None,
-):
+def pretty_facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=None,
+                        legend_labels=None, filter_na_n=True, color_map="viridis", ax=None):
     """
     documentation:
         description:
@@ -240,7 +241,7 @@ def pretty_facet_two_cat_bar(
         # use label formatter utility function to customize chart labels
         util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
-    plt.show()
+    #plt.show()
 
 
 def pretty_facet_cat_num_scatter(
@@ -401,7 +402,7 @@ def pretty_facet_cat_num_scatter(
         for text in leg.get_texts():
             plt.setp(text, color="grey")
 
-    plt.show()
+    #plt.show()
 
 
 def pretty_facet_cat_num_hist(
@@ -570,7 +571,7 @@ def pretty_facet_cat_num_hist(
         for text in leg.get_texts():
             plt.setp(text, color="grey")
 
-    plt.show()
+    #plt.show()
 
 
 def pretty_facet_two_cat_point(
@@ -720,4 +721,4 @@ def pretty_facet_two_cat_point(
     for text in leg.get_texts():
         plt.setp(text, color="grey")
 
-    plt.show()
+    #plt.show()

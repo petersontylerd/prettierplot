@@ -665,7 +665,7 @@ def pretty_hist(self, x, color, label, alpha=0.8):
             label : string
                 category value label.
             alpha : float, default = 0.8
-                fades histogram bars to create transparent bars.
+                controls transparency of bars. accepts value between 0.0 and 1.0.
     """
     # create histogram.
     plt.hist(x=x, color=color, label=label, alpha=alpha)

@@ -19,7 +19,13 @@ class PrettierPlot:
             create a subplot arrangement.
     """
 
-    from .cat import pretty_bar_v, pretty_bar_h, pretty_box_plot_v, pretty_box_plot_h
+    from .cat import (
+        pretty_bar_v,
+        pretty_bar_h,
+        pretty_box_plot_v,
+        pretty_box_plot_h,
+        pretty_stacked_bar_h
+    )
     from .data import titanic
     from .eval import (
         pretty_prob_plot,
