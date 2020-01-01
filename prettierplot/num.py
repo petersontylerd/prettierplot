@@ -11,22 +11,8 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def pretty_2d_scatter(
-    self,
-    x,
-    y,
-    df=None,
-    x_units="f",
-    x_ticks=None,
-    y_units="f",
-    y_ticks=None,
-    plot_buffer=True,
-    size=5,
-    axis_limits=True,
-    color=style.style_grey,
-    facecolor="w",
-    ax=None,
-):
+def pretty_2d_scatter(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None, plot_buffer=True,
+                        size=5, axis_limits=True, color=style.style_grey, facecolor="w", alpha=0.8, ax=None):
     """
     documentation:
         description:
@@ -59,6 +45,8 @@ def pretty_2d_scatter(
                 determine color of scatter dots
             facecolor : string (color code of some sort), default = 'w'
                 determine face color of scatter dots.
+            alpha : float, default = 0.8
+                controls transparency of objects. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -79,7 +67,7 @@ def pretty_2d_scatter(
         y=y * 100 if "p" in y_units else y,
         color=color,
         s=size * self.chart_prop,
-        alpha=0.7,
+        alpha=alpha,
         facecolor=facecolor,
         linewidth=0.167 * self.chart_prop,
     )
@@ -119,26 +107,9 @@ def pretty_2d_scatter(
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def pretty_2d_scatter_hue(
-    self,
-    x,
-    y,
-    target,
-    label,
-    df=None,
-    x_units="f",
-    x_ticks=None,
-    y_units="f",
-    y_ticks=None,
-    plot_buffer=True,
-    size=10,
-    axis_limits=True,
-    color=style.style_grey,
-    facecolor="w",
-    bbox=(1.2, 0.9),
-    color_map="viridis",
-    ax=None,
-):
+def pretty_2d_scatter_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None,
+                        plot_buffer=True, size=10, axis_limits=True, color=style.style_grey, facecolor="w",
+                        bbox=(1.2, 0.9), color_map="viridis", alpha=0.8, ax=None):
     """
     documentation:
         description:
@@ -180,6 +151,8 @@ def pretty_2d_scatter_hue(
                 coordinates for determining legend position.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
+            alpha : float, default = 0.8
+                controls transparency of objects. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -208,7 +181,7 @@ def pretty_2d_scatter_hue(
             color=color,
             label=target_name,
             s=size * self.chart_prop,
-            alpha=0.7,
+            alpha=alpha,
             facecolor="w",
             linewidth=0.234 * self.chart_prop,
         )
@@ -258,9 +231,8 @@ def pretty_2d_scatter_hue(
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def pretty_dist_plot(
-    self, x, color, x_units="f", y_units="f", fit=None, x_rotate=None, ax=None
-):
+def pretty_dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_rotate=None, alpha=0.8,
+                    bbox=(1.2, 0.9), legend_labels=None, color_map="viridis", ax=None):
     """
     documentation:
         description:
@@ -281,13 +253,34 @@ def pretty_dist_plot(
                 allows for the addition of another curve. utilizing 'norm' overlays a normal distribution
                 over the distribution bar chart. useful for seeing how well, or not, the distribution tracks
                 with a normal distrbution.
+            kde : boolean, default=False
+                plot kernel density over plot.
             x_rotate : int, default=None
                 rotates x_axis tick mark labels x degrees.
+            bbox : tuple of floats, default = (1.2, 0.9)
+                coordinates for determining legend position.
+            legend_labels : list, default=None
+                custom legend labels.
+            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+                colormap from which to draw plot colors.
             ax : axes object, default=None
                 axis on which to place visual.
     """
     # create distribution plot with an optional fit curve
-    g = sns.distplot(a=x, kde=False, color=color, axlabel=False, fit=fit, ax=ax)
+    g = sns.distplot(
+        a=x,
+        kde=kde,
+        color=color,
+        axlabel=False,
+        fit=fit,
+        kde_kws={
+            "lw": 3,
+            },
+        hist_kws={
+            "alpha": alpha,
+            },
+        ax=ax,
+    )
 
     # format x and y ticklabels
     ax.set_yticklabels(
@@ -309,8 +302,37 @@ def pretty_dist_plot(
         ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate
     )
 
+    if legend_labels is None:
+        legend_labels = []
+    else:
+        legend_labels = np.array(legend_labels)
 
-def pretty_kde_plot(self, x, color, y_units="f", x_units="f", ax=None):
+    # generate colors
+    color_list = style.color_gen(color_map, num=len(legend_labels))
+
+    label_color = {}
+    for ix, i in enumerate(legend_labels):
+        label_color[i] = color_list[ix]
+
+    # create patches
+    patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
+
+    # draw legend
+    leg = plt.legend(
+        handles=patches,
+        fontsize=1.0 * self.chart_prop,
+        loc="upper right",
+        markerscale=0.5 * self.chart_prop,
+        ncol=1,
+        bbox_to_anchor=bbox,
+    )
+
+    # label font color
+    for text in leg.get_texts():
+        plt.setp(text, color="grey")
+
+
+def pretty_kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):
     """
     documentation:
         description:
@@ -326,11 +348,19 @@ def pretty_kde_plot(self, x, color, y_units="f", x_units="f", ax=None):
             y_units : string, default = 'f'
                 determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+            shade : boolean, default=True
+                shade area under KDe curve
             ax : axes object, default=None
                 axis on which to place visual.
     """
     # create kernel density estimation line
-    g = sns.kdeplot(data=x, shade=True, color=color, legend=None, ax=ax)
+    g = sns.kdeplot(
+        data=x,
+        shade=shade,
+        color=color,
+        legend=None,
+        ax=ax
+    )
 
     # format x and y ticklabels
     ax.set_yticklabels(
@@ -350,19 +380,8 @@ def pretty_kde_plot(self, x, color, y_units="f", x_units="f", ax=None):
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def pretty_reg_plot(
-    self,
-    x,
-    y,
-    data,
-    dot_color=style.style_grey,
-    line_color=style.style_blue,
-    x_jitter=None,
-    x_units="f",
-    y_units="f",
-    x_rotate=None,
-    ax=None,
-):
+def pretty_reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.style_blue, x_jitter=None,
+                    x_units="f", y_units="f", x_rotate=None, alpha=0.3, ax=None):
     """
     documentation:
         description:
@@ -391,6 +410,8 @@ def pretty_reg_plot(
                 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             x_rotate : int, default=None
                 rotates x_axis tick mark labels x degrees.
+            alpha : float, default = 0.3
+                controls transparency of objects. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -400,7 +421,7 @@ def pretty_reg_plot(
         y=y,
         data=data,
         x_jitter=x_jitter,
-        scatter_kws={"alpha": 0.3, "color": dot_color},
+        scatter_kws={"alpha": alpha, "color": dot_color},
         line_kws={"color": line_color},
         ax=ax,
     ).set(xlabel=None, ylabel=None)
@@ -426,9 +447,7 @@ def pretty_reg_plot(
     )
 
 
-def pretty_pair_plot_custom(
-    self, df, columns=None, color=style.style_blue, gradient_col=None
-):
+def pretty_pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_col=None):
     """
     documentation:
         description:
@@ -510,16 +529,8 @@ def pretty_pair_plot_custom(
         plt.show()
 
 
-def pretty_pair_plot(
-    self,
-    df,
-    columns=None,
-    target=None,
-    diag_kind="auto",
-    legend_labels=None,
-    bbox=None,
-    color_map="viridis",
-):
+def pretty_pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labels=None,
+                    bbox=None, alpha=0.8, color_map="viridis"):
     """
     documentation:
         description:
@@ -539,6 +550,8 @@ def pretty_pair_plot(
                 list containing strings of custom labels to display in legend.
             bbox : tuple of floats, default=None
                 coordinates for determining legend position.
+            alpha : float, default = 0.8
+                controls transparency of objects. accepts value between 0.0 and 1.0.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
     """
@@ -587,7 +600,7 @@ def pretty_pair_plot(
                 "s": 2.0 * self.chart_prop,
                 "edgecolor": None,
                 "linewidth": 1,
-                "alpha": 0.4,
+                "alpha": alpha,
                 "marker": "o",
                 "facecolor": style.style_grey if target is None else None,
             },
@@ -632,7 +645,7 @@ def pretty_pair_plot(
                 label_color[i] = color_list[ix]
 
             # create patches
-            patches = [Patch(color=v, label=k) for k, v in label_color.items()]
+            patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
             # draw legend
             leg = plt.legend(

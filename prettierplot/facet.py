@@ -10,7 +10,7 @@ import textwrap
 
 
 def pretty_facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=(1.2, 0.9),
-                        legend_labels=None, color_map="viridis", ax=None):
+                        alpha=0.8, legend_labels=None, color_map="viridis", ax=None):
     """
     documentation:
         description:
@@ -33,6 +33,10 @@ def pretty_facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s"
                 decimal places.
             bbox : tuple of floats, default = (1.2, 0.9)
                 coordinates for determining legend position.
+            alpha : float, default = 0.8
+                controls transparency of objects. accepts value between 0.0 and 1.0.
+            legend_labels : list, default=None
+                custom legend labels.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
             ax : axes object, default=None
@@ -53,7 +57,7 @@ def pretty_facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s"
             ixs + (bar_width * feature_ix),
             feature_dict[k],
             bar_width,
-            alpha=0.75,
+            alpha=alpha,
             color=color_list[feature_ix],
             label=str(k),
         )
@@ -82,7 +86,7 @@ def pretty_facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s"
         label_color[i] = color_list[ix]
 
     # create patches
-    patches = [Patch(color=v, label=k) for k, v in label_color.items()]
+    patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
     # draw legend
     leg = plt.legend(
@@ -115,7 +119,7 @@ def pretty_facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s"
     #plt.show()
 
 
-def pretty_facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=None,
+def pretty_facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=None, alpha=0.8,
                         legend_labels=None, filter_na_n=True, color_map="viridis", ax=None):
     """
     documentation:
@@ -139,6 +143,8 @@ def pretty_facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, 
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
+            alpha : float, default = 0.8
+                controls transparency of objects. accepts value between 0.0 and 1.0.
             bbox : tuple of floats, default=None
                 coordinates for determining legend position.
             legend_labels : list, default=None
@@ -222,7 +228,7 @@ def pretty_facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, 
             label_color[i] = color_list[ix]
 
         # create patches
-        patches = [Patch(color=v, label=k) for k, v in label_color.items()]
+        patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
         # draw legend
         leg = plt.legend(
@@ -244,22 +250,8 @@ def pretty_facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, 
     #plt.show()
 
 
-def pretty_facet_cat_num_scatter(
-    self,
-    df,
-    x,
-    y,
-    cat_row=None,
-    cat_col=None,
-    split=None,
-    bbox=None,
-    aspect=1,
-    height=4,
-    legend_labels=None,
-    x_units="f",
-    y_units="f",
-    color_map="viridis",
-):
+def pretty_facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None, bbox=None, aspect=1, alpha=0.8,
+                                height=4, legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
     """
     documentation:
         description:
@@ -283,6 +275,8 @@ def pretty_facet_cat_num_scatter(
             aspect : float, default = 1
                 higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
+            alpha : float, default = 0.8
+                controls transparency of objects. accepts value between 0.0 and 1.0.
             height : float, default = 4
                 height in inches of each facet.
             legend_labels : list, default=None
@@ -386,7 +380,7 @@ def pretty_facet_cat_num_scatter(
             label_color[i] = color_list[ix]
 
         # create patches
-        patches = [Patch(color=v, label=k) for k, v in label_color.items()]
+        patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
         # draw legend
         leg = plt.legend(
@@ -405,21 +399,8 @@ def pretty_facet_cat_num_scatter(
     #plt.show()
 
 
-def pretty_facet_cat_num_hist(
-    self,
-    df,
-    cat_row,
-    cat_col,
-    num_col,
-    split,
-    bbox=None,
-    aspect=1,
-    height=4,
-    legend_labels=None,
-    x_units="f",
-    y_units="f",
-    color_map="viridis",
-):
+def pretty_facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, aspect=1, height=4, alpha=0.8,
+                                legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
     """
     documentation:
         description:
@@ -444,6 +425,8 @@ def pretty_facet_cat_num_hist(
                 keeping height constant.
             height : float, default = 4
                 height in inches of each facet.
+            alpha : float, default = 0.8
+                controls transparency of objects. accepts value between 0.0 and 1.0.
             legend_labels : list, default=None
                 custom legend labels.
             x_units : string, default = 'f'
@@ -473,10 +456,8 @@ def pretty_facet_cat_num_hist(
     )
     g.map(
         plt.hist,
-        num_col
-        #  ,bins = np.arange(0, 20)
-        ,
-        alpha=0.5,
+        num_col,
+        alpha=alpha,
     )
 
     for i, ax in enumerate(g.axes.flat):
@@ -555,7 +536,7 @@ def pretty_facet_cat_num_hist(
             label_color[i] = color_list[ix]
 
         # create patches
-        patches = [Patch(color=v, label=k) for k, v in label_color.items()]
+        patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
         # draw legend
         leg = plt.legend(
@@ -574,20 +555,8 @@ def pretty_facet_cat_num_hist(
     #plt.show()
 
 
-def pretty_facet_two_cat_point(
-    self,
-    df,
-    x,
-    y,
-    split,
-    cat_col=None,
-    cat_row=None,
-    bbox=None,
-    aspect=1,
-    height=4,
-    legend_labels=None,
-    color_map="viridis",
-):
+def pretty_facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=None, aspect=1,
+                                alpha=0.8, height=4, legend_labels=None, color_map="viridis"):
     """
     documentation:
         description:
@@ -610,6 +579,8 @@ def pretty_facet_two_cat_point(
             aspect : float, default = 1
                 higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
+            alpha : float, default = 0.8
+                controls transparency of objects. accepts value between 0.0 and 1.0.
             height : float, default = 4
                 height in inches of each facet.
             legend_labels : list, default=None
@@ -630,7 +601,7 @@ def pretty_facet_two_cat_point(
         palette=sns.color_palette(
             style.color_gen(color_map, num=len(np.unique(df[split].values)))
         ),
-        alpha=0.75,
+        alpha=alpha,
         ci=None,
     )
 
@@ -705,7 +676,7 @@ def pretty_facet_two_cat_point(
         label_color[i] = color_list[ix]
 
     # create patches
-    patches = [Patch(color=v, label=k) for k, v in label_color.items()]
+    patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
     # draw legend
     leg = plt.legend(

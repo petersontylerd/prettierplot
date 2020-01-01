@@ -24,7 +24,8 @@ class PrettierPlot:
         pretty_bar_h,
         pretty_box_plot_v,
         pretty_box_plot_h,
-        pretty_stacked_bar_h
+        pretty_stacked_bar_h,
+        pretty_tree_map,
     )
     from .data import titanic
     from .eval import (
@@ -97,21 +98,8 @@ class PrettierPlot:
         self.fig.set_figheight(chart_height)
         self.fig.set_figwidth(chart_width)
 
-    def make_canvas(
-        self,
-        title="",
-        x_label="",
-        x_shift=0.0,
-        y_label="",
-        y_shift=0.8,
-        position=111,
-        nrows=None,
-        ncols=None,
-        index=None,
-        sharex=None,
-        sharey=None,
-        title_scale=1.0,
-    ):
+    def make_canvas(self, title="", x_label="", x_shift=0.0, y_label="", y_shift=0.8, position=111, nrows=None,
+                    ncols=None, index=None, sharex=None, sharey=None, title_scale=1.0):
         """
         documentation:
             description:

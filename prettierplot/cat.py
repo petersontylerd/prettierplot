@@ -45,7 +45,11 @@ def pretty_bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_
 
     # create vertical bar plot.
     plt.bar(
-        x=x, height=counts, color=color, tick_label=labels, alpha=0.8,
+        x=x,
+        height=counts,
+        color=color,
+        tick_label=labels,
+        alpha=alpha,
     )
 
     # rotate x_tick labels.
@@ -108,7 +112,7 @@ def pretty_bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_uni
                 axis on which to place visual.
     """
     # plot horizontal bar plot.
-    plt.barh(y=y, width=counts, color=color, tick_label=y, alpha=0.8)
+    plt.barh(y=y, width=counts, color=color, tick_label=y, alpha=alpha)
 
     # rotate x_tick labels.
     plt.xticks(rotation=label_rotate)
@@ -196,7 +200,7 @@ def pretty_stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color
         label_color[i] = color_list[ix]
 
     # create patches
-    patches = [Patch(color=v, label=k) for k, v in label_color.items()]
+    patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
     # draw legend
     leg = plt.legend(
@@ -218,8 +222,7 @@ def pretty_stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color
     # overwrite y-axis labels with category labels
     plt.yticks(category_levels, df.columns)
 
-
-def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", ax=None):
+def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", alpha=0.8, ax=None):
     """
     documentation:
         description:
@@ -244,6 +247,8 @@ def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", colo
                 decimal places.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
+            alpha : float, default = 0.8
+                controls transparency of objects. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -285,7 +290,7 @@ def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", colo
     ax.tick_params(axis="y", labelsize=0.9 * self.chart_prop)
 
     # fade box plot figures by reducing alpha.
-    plt.setp(ax.artists, alpha=0.8)
+    plt.setp(ax.artists, alpha=alpha)
 
     # rotate x_tick labels.
     plt.xticks(rotation=label_rotate)
@@ -296,7 +301,7 @@ def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", colo
 
 
 def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05, 1),
-                        color_map="viridis", ax=None):
+                        color_map="viridis", alpha=0.8, legend_labels=None, ax=None):
     """
     documentation:
         description:
@@ -321,6 +326,8 @@ def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbo
                 coordinates for determining legend position.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
+            alpha : float, default = 0.8
+                controls transparency of bars. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -334,27 +341,63 @@ def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbo
         palette=sns.color_palette(
             style.color_gen(color_map, num=len(np.unique(data[y].values)))
         ),
-        # palette=sns.color_palette(style.color_gen(color_map, num=len(np.unique(y)))),
         ax=ax,
     ).set(xlabel=None, ylabel=None)
 
     # fade box plot figures by reducing alpha.
-    plt.setp(ax.artists, alpha=0.8)
+    plt.setp(ax.artists, alpha=alpha)
     ax.yaxis.set_visible(False)
 
     # use label formatter utility function to customize chart labels.
     util.util_label_formatter(ax=ax, x_units=x_units)
 
-    # legend placement.
-    plt.legend(bbox_to_anchor=bbox, loc=2, borderaxespad=0.0)
+    # legend placement
+    # plt.legend(bbox_to_anchor=bbox, loc=2, borderaxespad=0.0)
+    if legend_labels is None:
+        legend_labels = []
+    else:
+        legend_labels = np.array(legend_labels)
+
+    # generate colors
+    color_list = style.color_gen(color_map, num=len(legend_labels))
+
+    label_color = {}
+    for ix, i in enumerate(legend_labels):
+        label_color[i] = color_list[ix]
+
+    # create patches
+    patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
+
+    # draw legend
+    leg = plt.legend(
+        handles=patches,
+        fontsize=1.0 * self.chart_prop,
+        loc="upper right",
+        markerscale=0.5 * self.chart_prop,
+        ncol=1,
+        bbox_to_anchor=bbox,
+    )
+
+    # label font color
+    for text in leg.get_texts():
+        plt.setp(text, color="grey")
 
 
-def pretty_tree_map(self, ):
+def pretty_tree_map(self, counts, labels, colors, alpha=0.8, ax=None):
+    """
+
+    """
+
     squarify.plot(
-        sizes=uni_summ_df["count"].values,
-        label=uni_summ_df[feature].values,
-        color=style.color_gen(name=color_map, num=len(uni_summ_df[feature].values)),
-        alpha=0.7,
-        ax=ax
+        sizes=counts,
+        label=labels,
+        color=colors,
+        alpha=alpha,
+        text_kwargs={
+            "fontsize" : 1.2 * self.chart_prop,
+            "color" : style.style_grey,
+            'weight' : 'bold',
+            },
+        ax=ax,
     )
     plt.axis('off')

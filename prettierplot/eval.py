@@ -43,9 +43,7 @@ def pretty_prob_plot(self, x, plot):
     plot.get_lines()[1].set_color(style.style_grey)
 
 
-def pretty_corr_heatmap(
-    self, df, annot=False, columns=None, mask=False, ax=None, vmin=-1.0, vmax=1.0
-):
+def pretty_corr_heatmap(self, df, annot=False, columns=None, mask=False, ax=None, vmin=-1.0, vmax=1.0):
     """
     documentation:
         description:
@@ -109,7 +107,7 @@ def pretty_corr_heatmap(
 
     # format x_tick and y_tick labels
     g.set_yticklabels(g.get_yticklabels(), rotation=0, fontsize=0.8 * self.chart_prop)
-    g.set_xticklabels(g.get_xticklabels(), rotation=-90, fontsize=0.8 * self.chart_prop)
+    g.set_xticklabels(g.get_xticklabels(), rotation=90, fontsize=0.8 * self.chart_prop)
 
     # workaround for matplotlib 3.1.1 bug
     if matplotlib.__version__ == "3.1.1":
@@ -123,9 +121,7 @@ def pretty_corr_heatmap(
     cbar.set_ticks([vmax, 0.0, vmin])
 
 
-def pretty_corr_heatmap_target(
-    self, df, target=None, annot=False, thresh=0.2, ax=None, vmin=-1.0, vmax=1.0
-):
+def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, ax=None, vmin=-1.0, vmax=1.0):
     """
     documentation:
         description:
@@ -208,18 +204,8 @@ def pretty_corr_heatmap_target(
     plt.show()
 
 
-def pretty_confusion_matrix(
-    self,
-    y_pred,
-    y_true,
-    labels,
-    cmap="viridis",
-    ax=None,
-    textcolors=["black", "white"],
-    threshold=None,
-    reverse_labels=False,
-    valfmt="{x:.0f}",
-):
+def pretty_confusion_matrix(self, y_pred, y_true, labels, cmap="viridis", ax=None, textcolors=["black", "white"],
+                            threshold=None, reverse_labels=False, valfmt="{x:.0f}"):
     """
     documentation:
         description:
@@ -302,17 +288,8 @@ def pretty_confusion_matrix(
     plt.show()
 
 
-def pretty_roc_curve(
-    self,
-    model,
-    x_train,
-    y_train,
-    x_valid=None,
-    y_valid=None,
-    linecolor=style.style_grey,
-    bbox=(1.0, 0.4),
-    ax=None,
-):
+def pretty_roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, linecolor=style.style_grey,
+                        bbox=(1.0, 0.4), ax=None):
     """
     documentation:
         description:
@@ -389,17 +366,8 @@ def pretty_roc_curve(
     )
 
 
-def pretty_decision_region(
-    self,
-    x,
-    y,
-    classifier,
-    test_idx=None,
-    resolution=0.1,
-    bbox=(1.2, 0.9),
-    color_map="viridis",
-    ax=None,
-):
+def pretty_decision_region(self, x, y, classifier, test_idx=None, resolution=0.1, bbox=(1.2, 0.9),
+                            color_map="viridis", ax=None):
     """
     documentation:
         description:
