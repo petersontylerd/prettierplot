@@ -222,7 +222,8 @@ def pretty_stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color
     # overwrite y-axis labels with category labels
     plt.yticks(category_levels, df.columns)
 
-def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", alpha=0.8, ax=None):
+def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", alpha=0.8,
+                        suppress_outliers=False, ax=None):
     """
     documentation:
         description:
@@ -249,6 +250,8 @@ def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", colo
                 colormap from which to draw plot colors.
             alpha : float, default = 0.8
                 controls transparency of objects. accepts value between 0.0 and 1.0.
+            suppress_outliers : boolean, default=False
+                controls removal of outliers from box/whisker plots
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -261,6 +264,7 @@ def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", colo
         palette=sns.color_palette(
             style.color_gen(color_map, num=len(np.unique(data[x].values)))
         ),
+        showfliers=suppress_outliers,
         ax=ax,
     ).set(xlabel=None, ylabel=None)
 
@@ -300,8 +304,8 @@ def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", colo
     util.util_label_formatter(ax=ax, y_units=y_units)
 
 
-def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05, 1),
-                        color_map="viridis", alpha=0.8, legend_labels=None, ax=None):
+def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05, 1), color_map="viridis",
+                        suppress_outliers=False, alpha=0.8, legend_labels=None, ax=None):
     """
     documentation:
         description:
@@ -326,6 +330,8 @@ def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbo
                 coordinates for determining legend position.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
+            suppress_outliers : boolean, default=False
+                controls removal of outliers from box/whisker plots
             alpha : float, default = 0.8
                 controls transparency of bars. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
@@ -341,6 +347,7 @@ def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbo
         palette=sns.color_palette(
             style.color_gen(color_map, num=len(np.unique(data[y].values)))
         ),
+        showfliers=suppress_outliers,
         ax=ax,
     ).set(xlabel=None, ylabel=None)
 
