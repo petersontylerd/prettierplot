@@ -22,15 +22,8 @@ def util_plot_buffer(ax, x, y):
     ax.set_ylim(y_lim[0] - y_margin, y_lim[1] + y_margin)
 
 
-def util_label_formatter(
-    ax,
-    x_units=None,
-    y_units=None,
-    x_size=None,
-    y_size=None,
-    x_rotate=None,
-    y_rotate=None,
-):
+def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=None, x_rotate=None,
+                            y_rotate=None):
     """
     documentation:
         description:

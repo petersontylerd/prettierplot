@@ -104,6 +104,12 @@ def pretty_facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s"
 
     ### general formatting
     # use label formatter utility function to customize chart labels
+
+    if df.iloc[:, 0].values.dtype == np.float:
+        x_units = "f"
+    else:
+        x_units = "s"
+
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
     # resize x_axis labels as needed.

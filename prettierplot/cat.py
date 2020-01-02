@@ -220,7 +220,12 @@ def pretty_stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color
     util.util_label_formatter(ax=ax, x_units=x_units)
 
     # overwrite y-axis labels with category labels
-    plt.yticks(category_levels, df.columns)
+    try:
+        columns = df.columns.map(np.int)
+    except ValueError:
+        columns = df.columns
+
+    plt.yticks(category_levels, columns)
 
 def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", alpha=0.8,
                         suppress_outliers=False, ax=None):
@@ -402,8 +407,8 @@ def pretty_tree_map(self, counts, labels, colors, alpha=0.8, ax=None):
         alpha=alpha,
         text_kwargs={
             "fontsize" : 1.2 * self.chart_prop,
-            "color" : style.style_grey,
-            'weight' : 'bold',
+            "color" : "black",
+            # 'weight' : 'bold',
             },
         ax=ax,
     )
