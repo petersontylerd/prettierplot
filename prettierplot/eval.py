@@ -43,7 +43,8 @@ def pretty_prob_plot(self, x, plot):
     plot.get_lines()[1].set_color(style.style_grey)
 
 
-def pretty_corr_heatmap(self, df, annot=False, columns=None, mask=False, ax=None, vmin=-1.0, vmax=1.0):
+def pretty_corr_heatmap(self, df, annot=False, columns=None, mask=False, color_map="viridis", vmin=-1.0, vmax=1.0,
+                        ax=None):
     """
     documentation:
         description:
@@ -61,12 +62,14 @@ def pretty_corr_heatmap(self, df, annot=False, columns=None, mask=False, ax=None
             mask : bool, default=False
                 determines whether or not correlation table is masked such that only the lower
                 triangle appears.
-            ax : axes object, default=None
-                axis on which to place visual.
+            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+                colormap from which to draw plot colors.
             vmin : float, default = _1.0
                 minimum anchor value for color map.
             vmax : float, default = 1.0
                 maximum anchor value for color map.
+            ax : axes object, default=None
+                axis on which to place visual.
     """
     # create correlation matrix
     corr_matrix = df[columns].corr() if columns is not None else df.corr()
@@ -102,16 +105,12 @@ def pretty_corr_heatmap(self, df, annot=False, columns=None, mask=False, ax=None
         ax=ax,
         xticklabels=True,
         yticklabels=True,
-        cmap="viridis",
+        cmap=color_map,
     )
 
     # format x_tick and y_tick labels
-    g.set_yticklabels(g.get_yticklabels(), rotation=0, fontsize=0.8 * self.chart_prop)
-    g.set_xticklabels(g.get_xticklabels(), rotation=90, fontsize=0.8 * self.chart_prop)
-
-    # workaround for matplotlib 3.1.1 bug
-    if matplotlib.__version__ == "3.1.1":
-        g.set_ylim(corr_matrix.shape[1] + 0.1, -0.1)
+    g.set_yticklabels(g.get_yticklabels(), rotation=0, fontsize=font_adjust * self.chart_prop)
+    g.set_xticklabels(g.get_xticklabels(), rotation=90, fontsize=font_adjust * self.chart_prop)
 
     # customize color bar formatting and labeling.
     cbar = g.collections[0].colorbar
@@ -121,7 +120,8 @@ def pretty_corr_heatmap(self, df, annot=False, columns=None, mask=False, ax=None
     cbar.set_ticks([vmax, 0.0, vmin])
 
 
-def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, ax=None, vmin=-1.0, vmax=1.0):
+def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, color_map="viridis", vmin=-1.0, vmax=1.0,
+                                ax=None):
     """
     documentation:
         description:
@@ -143,12 +143,14 @@ def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, a
                 the feature of focus in the supplemental correlation visualization. used
                 to determine the feature for which the nlargest correlation coefficients
                 are returned.
-            ax : axes object, default=None
-                axis on which to place visual.
+            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+                colormap from which to draw plot colors.
             vmin : float, default = _1.0
                 minimum anchor value for color map.
             vmax : float, default = 1.0
                 maximum anchor value for color map.
+            ax : axes object, default=None
+                axis on which to place visual.
     """
     df = df.merge(target, left_index=True, right_index=True)
 
@@ -157,18 +159,19 @@ def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, a
     corr_top = corr_matrix[target.name]  # [:_1]
     corr_top = corr_top[abs(corr_top) > thresh].sort_values(ascending=False)
 
+    print(len(corr_top))
     if len(corr_top) <= 5:
-        font_adjust = 1.25
+        font_adjust = 2.25
     elif len(corr_top) > 5 and len(corr_top) <= 10:
-        font_adjust = 1.15
+        font_adjust = 2.15
     elif len(corr_top) > 10 and len(corr_top) <= 20:
-        font_adjust = 1.05
+        font_adjust = 2.05
     elif len(corr_top) > 20 and len(corr_top) <= 30:
-        font_adjust = 0.95
+        font_adjust = 1.95
     elif len(corr_top) > 30 and len(corr_top) <= 40:
-        font_adjust = 0.85
+        font_adjust = 1.85
     else:
-        font_adjust = 0.65
+        font_adjust = 1.65
 
     # create heatmap using correlation matrix.
     g = sns.heatmap(
@@ -181,18 +184,12 @@ def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, a
         ax=ax,
         xticklabels=True,
         yticklabels=True,
-        cmap="viridis",
+        cmap=color_map,
     )
 
     # format y_tick labels and turn off xticks.
-    g.set_yticklabels(
-        g.get_yticklabels(), rotation=0, fontsize=font_adjust * self.chart_prop
-    )
+    g.set_yticklabels(g.get_yticklabels(), rotation=0, fontsize=font_adjust * self.chart_prop)
     plt.xticks([])
-
-    # # workaround for matplotlib 3.1.1 bug
-    # if matplotlib.__version__ == "3.1.1":
-    #     g.set_ylim(corr_matrix.shape[1] + 0.1, _0.1)
 
     # customize color bar formatting and labeling.
     cbar = g.collections[0].colorbar

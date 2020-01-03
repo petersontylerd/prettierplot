@@ -529,8 +529,8 @@ def pretty_pair_plot_custom(self, df, columns=None, color=style.style_blue, grad
         plt.show()
 
 
-def pretty_pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labels=None,
-                    bbox=None, alpha=0.8, color_map="viridis"):
+def pretty_pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labels=None, drop_na=True,
+                    bbox=(1.2, 1.0), alpha=0.7, color_map="viridis"):
     """
     documentation:
         description:
@@ -546,11 +546,13 @@ def pretty_pair_plot(self, df, columns=None, target=None, diag_kind="auto", lege
                 dots based on the target's value.
             diag_kind : string, default = 'auto.
                 type of plot created along diagonal.
+            drop_na : boolean, default=True
+                drop rows containing null values.
             legend_labels : list, default=None
                 list containing strings of custom labels to display in legend.
             bbox : tuple of floats, default=None
                 coordinates for determining legend position.
-            alpha : float, default = 0.8
+            alpha : float, default = 0.7
                 controls transparency of objects. accepts value between 0.0 and 1.0.
             color_map : string specifying built_in matplotlib colormap, default = "viridis"
                 colormap from which to draw plot colors.
@@ -576,8 +578,11 @@ def pretty_pair_plot(self, df, columns=None, target=None, diag_kind="auto", lege
             "axes.grid": False,
         }
     ):
-        # remove object columns
-        df = df.select_dtypes(exclude=[object])
+        # # remove object columns
+        # df = df.select_dtypes(exclude=[object])
+
+        if drop_na:
+            df = df.dropna()
 
         # limit to columns of interest if provided
         if columns is not None:
@@ -650,9 +655,9 @@ def pretty_pair_plot(self, df, columns=None, target=None, diag_kind="auto", lege
             # draw legend
             leg = plt.legend(
                 handles=patches,
-                fontsize=1.3 * self.chart_prop,
+                fontsize=0.9 * self.chart_prop,
                 loc="upper right",
-                markerscale=0.5 * self.chart_prop,
+                markerscale=0.4 * self.chart_prop,
                 ncol=1,
                 bbox_to_anchor=bbox,
             )
