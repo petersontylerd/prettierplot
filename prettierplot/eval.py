@@ -159,7 +159,6 @@ def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, c
     corr_top = corr_matrix[target.name]  # [:_1]
     corr_top = corr_top[abs(corr_top) > thresh].sort_values(ascending=False)
 
-    print(len(corr_top))
     if len(corr_top) <= 5:
         font_adjust = 2.25
     elif len(corr_top) > 5 and len(corr_top) <= 10:
