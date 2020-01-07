@@ -112,6 +112,9 @@ def pretty_facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s"
 
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
+    # tick label font size
+    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
+
     # resize x_axis labels as needed.
     if len(feature_dict[feature]) > 10 and len(feature_dict[feature]) <= 20:
         ax.tick_params(

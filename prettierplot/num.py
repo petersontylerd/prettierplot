@@ -273,27 +273,24 @@ def pretty_dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=Fal
         color=color,
         axlabel=False,
         fit=fit,
-        kde_kws={
-            "lw": 3,
-            },
-        hist_kws={
-            "alpha": alpha,
-            },
+        kde_kws={"lw": 0.2 * self.chart_prop},
+        hist_kws={"alpha": alpha},
         ax=ax,
     )
+
+    # tick label font size
+    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
 
     # format x and y ticklabels
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chart_prop,
         color=style.style_grey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chart_prop,
         color=style.style_grey,
     )
 
@@ -302,34 +299,34 @@ def pretty_dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=Fal
         ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate
     )
 
-    if legend_labels is None:
-        legend_labels = []
-    else:
+    if legend_labels is not None:
+    #     legend_labels = []
+    # else:
         legend_labels = np.array(legend_labels)
 
-    # generate colors
-    color_list = style.color_gen(color_map, num=len(legend_labels))
+        # generate colors
+        color_list = style.color_gen(color_map, num=len(legend_labels))
 
-    label_color = {}
-    for ix, i in enumerate(legend_labels):
-        label_color[i] = color_list[ix]
+        label_color = {}
+        for ix, i in enumerate(legend_labels):
+            label_color[i] = color_list[ix]
 
-    # create patches
-    patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
+        # create patches
+        patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
-    # draw legend
-    leg = plt.legend(
-        handles=patches,
-        fontsize=1.0 * self.chart_prop,
-        loc="upper right",
-        markerscale=0.5 * self.chart_prop,
-        ncol=1,
-        bbox_to_anchor=bbox,
-    )
+        # draw legend
+        leg = plt.legend(
+            handles=patches,
+            fontsize=1.0 * self.chart_prop,
+            loc="upper right",
+            markerscale=0.5 * self.chart_prop,
+            ncol=1,
+            bbox_to_anchor=bbox,
+        )
 
-    # label font color
-    for text in leg.get_texts():
-        plt.setp(text, color="grey")
+        # label font color
+        for text in leg.get_texts():
+            plt.setp(text, color="grey")
 
 
 def pretty_kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):

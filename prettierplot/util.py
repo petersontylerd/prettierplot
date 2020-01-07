@@ -181,7 +181,7 @@ def number_coerce(df, columns=None):
         # exclude columsn that contain only nulls
         if not df[col].isnull().all():
             try:
-                df[col] = df[col].apply(pd.to_number)
+                df[col] = df[col].apply(pd.to_numeric)
             except ValueError:
                 pass
         else:

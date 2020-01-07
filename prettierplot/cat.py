@@ -180,11 +180,14 @@ def pretty_stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color
                 alpha=alpha,
             )
 
+    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
+
+
     # convert x-axis tick labels to percentages
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in x_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chart_prop,
+        # fontsize=0.9 * self.chart_prop,
         color=style.style_grey,
     )
 
@@ -280,6 +283,10 @@ def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", colo
     # elif len(unique) > 20:
     #     ax.tick_params(axis="x", labelsize=0.9 * self.chart_prop)
 
+    # tick label font size
+    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
+
+
     # resize x_axis labels as needed.
     unique = np.unique(data[x])
     if len(unique) > 10 and len(unique) <= 20:
@@ -359,6 +366,9 @@ def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbo
     # fade box plot figures by reducing alpha.
     plt.setp(ax.artists, alpha=alpha)
     ax.yaxis.set_visible(False)
+
+    # tick label font size
+    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
 
     # use label formatter utility function to customize chart labels.
     util.util_label_formatter(ax=ax, x_units=x_units)

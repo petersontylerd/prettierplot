@@ -86,12 +86,12 @@ class PrettierPlot:
         elif plot_orientation == "square":
             chart_width = self.chart_prop
             chart_height = self.chart_prop * 0.8
-        elif plot_orientation == "wide":
-            chart_width = self.chart_prop * 1.7
-            chart_height = self.chart_prop * 0.32
+        elif plot_orientation == "wide_narrow":
+            chart_width = self.chart_prop * 2.0
+            chart_height = self.chart_prop * 0.42
         elif plot_orientation == "wide_standard":
-            chart_width = self.chart_prop * 1.5
-            chart_height = self.chart_prop
+            chart_width = self.chart_prop * 1.6
+            chart_height = self.chart_prop * 0.75
         else:
             chart_width = self.chart_prop
             chart_height = self.chart_prop * 0.5
