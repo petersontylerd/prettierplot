@@ -12,7 +12,7 @@ import prettierplot.util as util
 import textwrap
 
 
-def pretty_bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=True, label_rotate=0,
+def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=True, label_rotate=0,
                     y_units="f", alpha=0.8, ax=None):
     """
     documentation:
@@ -88,7 +88,7 @@ def pretty_bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_
     util.util_label_formatter(ax=ax, y_units=y_units)
 
 
-def pretty_bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f", alpha=0.8, ax=None):
+def bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f", alpha=0.8, ax=None):
     """
     documentation:
         description:
@@ -128,7 +128,7 @@ def pretty_bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_uni
     util.util_label_formatter(ax=ax, x_units=x_units)
 
 
-def pretty_stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="viridis", bbox=(1.2,0.9),
+def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="viridis", bbox=(1.2,0.9),
                         legend_labels=None, ax=None):
     """
     documentation:
@@ -180,14 +180,10 @@ def pretty_stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color
                 alpha=alpha,
             )
 
-    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
-
-
     # convert x-axis tick labels to percentages
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in x_units else ax.get_xticklabels(),
         rotation=0,
-        # fontsize=0.9 * self.chart_prop,
         color=style.style_grey,
     )
 
@@ -228,9 +224,26 @@ def pretty_stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color
     except ValueError:
         columns = df.columns
 
-    plt.yticks(category_levels, columns)
+    #  dynamically size y-labels
+    if 7 < len(category_levels) <= 10:
+        ax.tick_params(axis="y", colors=style.style_grey, labelsize=0.9 * self.chart_prop)
+    elif 10 < len(category_levels) <= 20:
+        ax.tick_params(axis="y", colors=style.style_grey, labelsize=0.75 * self.chart_prop)
+    elif len(category_levels) > 20:
+        ax.tick_params(axis="y", colors=style.style_grey, labelsize=0.6 * self.chart_prop)
 
-def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", alpha=0.8,
+    ax.tick_params(axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
+
+    # custom x_tick labels.
+    plt.yticks(
+        category_levels,
+        [
+            "\n".join(textwrap.wrap(str(i).replace("_", " "), 12))
+            for i in columns
+        ],
+    )
+
+def box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", alpha=0.8,
                         suppress_outliers=False, ax=None):
     """
     documentation:
@@ -316,7 +329,7 @@ def pretty_box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", colo
     util.util_label_formatter(ax=ax, y_units=y_units)
 
 
-def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05, 1), color_map="viridis",
+def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05, 1), color_map="viridis",
                         suppress_outliers=False, alpha=0.8, legend_labels=None, ax=None):
     """
     documentation:
@@ -376,7 +389,7 @@ def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbo
     # legend placement
     # plt.legend(bbox_to_anchor=bbox, loc=2, borderaxespad=0.0)
     if legend_labels is None:
-        legend_labels = []
+        legend_labels = np.unique(data[y].values)
     else:
         legend_labels = np.array(legend_labels)
 
@@ -405,7 +418,7 @@ def pretty_box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbo
         plt.setp(text, color="grey")
 
 
-def pretty_tree_map(self, counts, labels, colors, alpha=0.8, ax=None):
+def tree_map(self, counts, labels, colors, alpha=0.8, ax=None):
     """
 
     """

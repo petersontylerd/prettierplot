@@ -11,7 +11,7 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def pretty_2d_scatter(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None, plot_buffer=True,
+def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None, plot_buffer=True,
                         size=5, axis_limits=True, color=style.style_grey, facecolor="w", alpha=0.8, ax=None):
     """
     documentation:
@@ -107,7 +107,7 @@ def pretty_2d_scatter(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def pretty_2d_scatter_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None,
+def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None,
                         plot_buffer=True, size=10, axis_limits=True, color=style.style_grey, facecolor="w",
                         bbox=(1.2, 0.9), color_map="viridis", alpha=0.8, ax=None):
     """
@@ -231,7 +231,7 @@ def pretty_2d_scatter_hue(self, x, y, target, label, df=None, x_units="f", x_tic
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def pretty_dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_rotate=None, alpha=0.8,
+def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_rotate=None, alpha=0.8,
                     bbox=(1.2, 0.9), legend_labels=None, color_map="viridis", ax=None):
     """
     documentation:
@@ -329,7 +329,7 @@ def pretty_dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=Fal
             plt.setp(text, color="grey")
 
 
-def pretty_kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):
+def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):
     """
     documentation:
         description:
@@ -377,7 +377,7 @@ def pretty_kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=No
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def pretty_reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.style_blue, x_jitter=None,
+def reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.style_blue, x_jitter=None,
                     x_units="f", y_units="f", x_rotate=None, alpha=0.3, ax=None):
     """
     documentation:
@@ -444,7 +444,7 @@ def pretty_reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=sty
     )
 
 
-def pretty_pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_col=None):
+def pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_col=None):
     """
     documentation:
         description:
@@ -526,7 +526,7 @@ def pretty_pair_plot_custom(self, df, columns=None, color=style.style_blue, grad
         plt.show()
 
 
-def pretty_pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labels=None, drop_na=True,
+def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labels=None, drop_na=True,
                     bbox=(1.2, 1.0), alpha=0.7, color_map="viridis"):
     """
     documentation:
@@ -664,7 +664,7 @@ def pretty_pair_plot(self, df, columns=None, target=None, diag_kind="auto", lege
                 plt.setp(text, color="grey")
 
 
-def pretty_hist(self, x, color, label, alpha=0.8):
+def hist(self, x, color, label, alpha=0.8):
     """
     documentation:
         description:

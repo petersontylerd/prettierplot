@@ -20,40 +20,40 @@ class PrettierPlot:
     """
 
     from .cat import (
-        pretty_bar_v,
-        pretty_bar_h,
-        pretty_box_plot_v,
-        pretty_box_plot_h,
-        pretty_stacked_bar_h,
-        pretty_tree_map,
+        bar_v,
+        bar_h,
+        box_plot_v,
+        box_plot_h,
+        stacked_bar_h,
+        tree_map,
     )
     from .data import titanic
     from .eval import (
-        pretty_prob_plot,
-        pretty_corr_heatmap,
-        pretty_corr_heatmap_target,
-        pretty_confusion_matrix,
-        pretty_roc_curve,
-        pretty_decision_region,
-        # pretty_residual_plot,
+        prob_plot,
+        corr_heatmap,
+        corr_heatmap_target,
+        confusion_matrix,
+        roc_curve,
+        decision_region,
+        # residual_plot,
     )
     from .facet import (
-        pretty_facet_cat,
-        pretty_facet_two_cat_bar,
-        pretty_facet_cat_num_hist,
-        pretty_facet_two_cat_point,
-        pretty_facet_cat_num_scatter,
+        facet_cat,
+        facet_two_cat_bar,
+        facet_cat_num_hist,
+        facet_two_cat_point,
+        facet_cat_num_scatter,
     )
-    from .line import pretty_line, pretty_multi_line
+    from .line import line, multi_line
     from .num import (
-        pretty_2d_scatter,
-        pretty_2d_scatter_hue,
-        pretty_dist_plot,
-        pretty_kde_plot,
-        pretty_reg_plot,
-        pretty_pair_plot,
-        pretty_pair_plot_custom,
-        pretty_hist,
+        scatter_2d,
+        scatter_2d_hue,
+        dist_plot,
+        kde_plot,
+        reg_plot,
+        pair_plot,
+        pair_plot_custom,
+        hist,
     )
 
     # foundation
@@ -82,7 +82,7 @@ class PrettierPlot:
         # dynamically set chart width and height parameters
         if plot_orientation == "tall":
             chart_width = self.chart_prop * 0.7
-            chart_height = self.chart_prop * 0.8
+            chart_height = self.chart_prop * 1.2
         elif plot_orientation == "square":
             chart_width = self.chart_prop
             chart_height = self.chart_prop * 0.8

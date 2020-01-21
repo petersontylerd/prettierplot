@@ -14,7 +14,7 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def pretty_prob_plot(self, x, plot):
+def prob_plot(self, x, plot):
     """
         documentation:
             description:
@@ -46,7 +46,7 @@ def pretty_prob_plot(self, x, plot):
     plot.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
 
 
-def pretty_corr_heatmap(self, df, annot=False, columns=None, mask=False, color_map="viridis", vmin=-1.0, vmax=1.0,
+def corr_heatmap(self, df, annot=False, columns=None, mask=False, color_map="viridis", vmin=-1.0, vmax=1.0,
                         ax=None):
     """
     documentation:
@@ -123,7 +123,7 @@ def pretty_corr_heatmap(self, df, annot=False, columns=None, mask=False, color_m
     cbar.set_ticks([vmax, 0.0, vmin])
 
 
-def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, color_map="viridis", vmin=-1.0, vmax=1.0,
+def corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, color_map="viridis", vmin=-1.0, vmax=1.0,
                                 ax=None):
     """
     documentation:
@@ -163,17 +163,17 @@ def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, c
     corr_top = corr_top[abs(corr_top) > thresh].sort_values(ascending=False)
 
     if len(corr_top) <= 5:
-        font_adjust = 2.25
+        font_adjust = 1.90
     elif len(corr_top) > 5 and len(corr_top) <= 10:
-        font_adjust = 2.15
+        font_adjust = 1.80
     elif len(corr_top) > 10 and len(corr_top) <= 20:
-        font_adjust = 2.05
+        font_adjust = 1.70
     elif len(corr_top) > 20 and len(corr_top) <= 30:
-        font_adjust = 1.95
+        font_adjust = 1.60
     elif len(corr_top) > 30 and len(corr_top) <= 40:
-        font_adjust = 1.85
+        font_adjust = 1.50
     else:
-        font_adjust = 1.65
+        font_adjust = 1.40
 
     # create heatmap using correlation matrix.
     g = sns.heatmap(
@@ -203,7 +203,7 @@ def pretty_corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, c
     plt.show()
 
 
-def pretty_confusion_matrix(self, y_pred, y_true, labels, cmap="viridis", ax=None, textcolors=["black", "white"],
+def confusion_matrix(self, y_pred, y_true, labels, cmap="viridis", ax=None, textcolors=["black", "white"],
                             threshold=None, reverse_labels=False, valfmt="{x:.0f}"):
     """
     documentation:
@@ -287,7 +287,7 @@ def pretty_confusion_matrix(self, y_pred, y_true, labels, cmap="viridis", ax=Non
     plt.show()
 
 
-def pretty_roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, linecolor=style.style_grey,
+def roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, linecolor=style.style_grey,
                         bbox=(1.0, 0.4), ax=None):
     """
     documentation:
@@ -331,7 +331,7 @@ def pretty_roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, 
     roc_auc = metrics.auc(fpr, tpr)
 
     # plot roc curve.
-    self.pretty_line(
+    self.line(
         x=fpr,
         y=tpr,
         label="auc: {:.4f}".format(roc_auc),
@@ -343,7 +343,7 @@ def pretty_roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, 
     )
 
     # plot 'random guess' line for reference.
-    self.pretty_line(
+    self.line(
         x=np.array([0, 1]),
         y=np.array([0, 1]),
         linecolor=style.style_grey,
@@ -354,7 +354,7 @@ def pretty_roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, 
     )
 
     # plot 'perfection' line for reference.
-    self.pretty_line(
+    self.line(
         x=np.array([0, 0, 1]),
         y=np.array([0, 1, 1]),
         linecolor=style.style_grey,
@@ -365,7 +365,7 @@ def pretty_roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, 
     )
 
 
-def pretty_decision_region(self, x, y, classifier, test_idx=None, resolution=0.1, bbox=(1.2, 0.9),
+def decision_region(self, x, y, classifier, test_idx=None, resolution=0.1, bbox=(1.2, 0.9),
                             color_map="viridis", ax=None):
     """
     documentation:

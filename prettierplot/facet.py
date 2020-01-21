@@ -9,7 +9,7 @@ import prettierplot.util as util
 import textwrap
 
 
-def pretty_facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=(1.2, 0.9),
+def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=(1.2, 0.9),
                         alpha=0.8, legend_labels=None, color_map="viridis", ax=None):
     """
     documentation:
@@ -116,19 +116,15 @@ def pretty_facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s"
     ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
 
     # resize x_axis labels as needed.
-    if len(feature_dict[feature]) > 10 and len(feature_dict[feature]) <= 20:
-        ax.tick_params(
-            axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_prop
-        )
+    if 7 < len(feature_dict[feature]) <= 10:
+        ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.9 * self.chart_prop)
+    elif 10 < len(feature_dict[feature]) <= 20:
+        ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.75 * self.chart_prop)
     elif len(feature_dict[feature]) > 20:
-        ax.tick_params(
-            axis="x", colors=style.style_grey, labelsize=0.6 * self.chart_prop
-        )
-
-    #plt.show()
+        ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.6 * self.chart_prop)
 
 
-def pretty_facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=None, alpha=0.8,
+def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=None, alpha=0.8,
                         legend_labels=None, filter_na_n=True, color_map="viridis", ax=None):
     """
     documentation:
@@ -259,7 +255,7 @@ def pretty_facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, 
     #plt.show()
 
 
-def pretty_facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None, bbox=None, aspect=1, alpha=0.8,
+def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None, bbox=None, aspect=1, alpha=0.8,
                                 height=4, legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
     """
     documentation:
@@ -408,7 +404,7 @@ def pretty_facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, spl
     #plt.show()
 
 
-def pretty_facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, aspect=1, height=4, alpha=0.8,
+def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, aspect=1, height=4, alpha=0.8,
                                 legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
     """
     documentation:
@@ -564,7 +560,7 @@ def pretty_facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=N
     #plt.show()
 
 
-def pretty_facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=None, aspect=1,
+def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=None, aspect=1,
                                 alpha=0.8, height=4, legend_labels=None, color_map="viridis"):
     """
     documentation:

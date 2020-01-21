@@ -7,7 +7,7 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def pretty_line(
+def line(
     self,
     x,
     y,
@@ -146,7 +146,7 @@ def pretty_line(
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def pretty_multi_line(
+def multi_line(
     self,
     x,
     y,
