@@ -58,15 +58,15 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Tr
     # resize x_axis labels as needed.
     if len(x) > 10 and len(x) <= 20:
         ax.tick_params(
-            axis="x", colors=style.style_grey, labelsize=1.0 * self.chart_prop
+            axis="x", colors=style.style_grey, labelsize=1.0 * self.chart_scale
         )
     elif len(x) > 20:
         ax.tick_params(
-            axis="x", colors=style.style_grey, labelsize=0.9 * self.chart_prop
+            axis="x", colors=style.style_grey, labelsize=0.9 * self.chart_scale
         )
     else:
         ax.tick_params(
-            axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_prop
+            axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_scale
         )
 
     if x_tick_wrap and type(labels):
@@ -80,7 +80,7 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Tr
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chart_prop,
+        fontsize=1.2 * self.chart_scale,
         color=style.style_grey,
     )
 
@@ -120,13 +120,12 @@ def bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f",
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in x_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chart_prop,
+        fontsize=0.9 * self.chart_scale,
         color=style.style_grey,
     )
 
     # use label formatter utility function to customize chart labels.
     util.util_label_formatter(ax=ax, x_units=x_units)
-
 
 def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="viridis", bbox=(1.2,0.9),
                         legend_labels=None, ax=None):
@@ -171,11 +170,12 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
                 color=color,
                 alpha=alpha,
             )
+        # elif class_label == 1:
         else:
             plt.barh(
                 y=category_levels,
                 width=df.loc[class_label],
-                left=df.loc[class_label-1],
+                left=df.drop([x for x in df.index if x >= class_label]).sum(axis=0),
                 color=color,
                 alpha=alpha,
             )
@@ -204,9 +204,9 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
     # draw legend
     leg = plt.legend(
         handles=patches,
-        fontsize=0.95 * self.chart_prop,
+        fontsize=0.95 * self.chart_scale,
         loc="upper right",
-        markerscale=0.3 * self.chart_prop,
+        markerscale=0.3 * self.chart_scale,
         ncol=1,
         bbox_to_anchor=bbox,
     )
@@ -226,13 +226,13 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
 
     #  dynamically size y-labels
     if 7 < len(category_levels) <= 10:
-        ax.tick_params(axis="y", colors=style.style_grey, labelsize=0.9 * self.chart_prop)
+        ax.tick_params(axis="y", colors=style.style_grey, labelsize=0.9 * self.chart_scale)
     elif 10 < len(category_levels) <= 20:
-        ax.tick_params(axis="y", colors=style.style_grey, labelsize=0.75 * self.chart_prop)
+        ax.tick_params(axis="y", colors=style.style_grey, labelsize=0.75 * self.chart_scale)
     elif len(category_levels) > 20:
-        ax.tick_params(axis="y", colors=style.style_grey, labelsize=0.6 * self.chart_prop)
+        ax.tick_params(axis="y", colors=style.style_grey, labelsize=0.6 * self.chart_scale)
 
-    ax.tick_params(axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
+    ax.tick_params(axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_scale)
 
     # custom x_tick labels.
     plt.yticks(
@@ -292,31 +292,31 @@ def box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="
     # # resize x_axis labels as needed.
     # unique = np.unique(data[x])
     # if len(unique) > 10 and len(unique) <= 20:
-    #     ax.tick_params(axis="x", labelsize=0.9 * self.chart_prop)
+    #     ax.tick_params(axis="x", labelsize=0.9 * self.chart_scale)
     # elif len(unique) > 20:
-    #     ax.tick_params(axis="x", labelsize=0.9 * self.chart_prop)
+    #     ax.tick_params(axis="x", labelsize=0.9 * self.chart_scale)
 
     # tick label font size
-    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
+    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_scale)
 
 
     # resize x_axis labels as needed.
     unique = np.unique(data[x])
     if len(unique) > 10 and len(unique) <= 20:
         ax.tick_params(
-            axis="x", colors=style.style_grey, labelsize=1.0 * self.chart_prop
+            axis="x", colors=style.style_grey, labelsize=1.0 * self.chart_scale
         )
     elif len(unique) > 20:
         ax.tick_params(
-            axis="x", colors=style.style_grey, labelsize=0.9 * self.chart_prop
+            axis="x", colors=style.style_grey, labelsize=0.9 * self.chart_scale
         )
     else:
         ax.tick_params(
-            axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_prop
+            axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_scale
         )
 
     # resize y_axis
-    ax.tick_params(axis="y", labelsize=0.9 * self.chart_prop)
+    ax.tick_params(axis="y", labelsize=1.2 * self.chart_scale)
 
     # fade box plot figures by reducing alpha.
     plt.setp(ax.artists, alpha=alpha)
@@ -327,7 +327,6 @@ def box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="
 
     # use label formatter utility function to customize chart labels.
     util.util_label_formatter(ax=ax, y_units=y_units)
-
 
 def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05, 1), color_map="viridis",
                         suppress_outliers=False, alpha=0.8, legend_labels=None, ax=None):
@@ -381,13 +380,12 @@ def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05
     ax.yaxis.set_visible(False)
 
     # tick label font size
-    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
+    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_scale)
 
     # use label formatter utility function to customize chart labels.
     util.util_label_formatter(ax=ax, x_units=x_units)
 
     # legend placement
-    # plt.legend(bbox_to_anchor=bbox, loc=2, borderaxespad=0.0)
     if legend_labels is None:
         legend_labels = np.unique(data[y].values)
     else:
@@ -406,9 +404,9 @@ def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05
     # draw legend
     leg = plt.legend(
         handles=patches,
-        fontsize=1.0 * self.chart_prop,
+        fontsize=1.0 * self.chart_scale,
         loc="upper right",
-        markerscale=0.5 * self.chart_prop,
+        markerscale=0.5 * self.chart_scale,
         ncol=1,
         bbox_to_anchor=bbox,
     )
@@ -416,7 +414,6 @@ def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05
     # label font color
     for text in leg.get_texts():
         plt.setp(text, color="grey")
-
 
 def tree_map(self, counts, labels, colors, alpha=0.8, ax=None):
     """
@@ -429,7 +426,7 @@ def tree_map(self, counts, labels, colors, alpha=0.8, ax=None):
         color=colors,
         alpha=alpha,
         text_kwargs={
-            "fontsize" : 1.2 * self.chart_prop,
+            "fontsize" : 1.2 * self.chart_scale,
             "color" : "black",
             # 'weight' : 'bold',
             },

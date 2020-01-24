@@ -93,7 +93,7 @@ def line(
         y * 100 if "p" in y_units else y,
         color=linecolor,
         linestyle=linestyle,
-        linewidth=0.247 * self.chart_prop,
+        linewidth=0.247 * self.chart_scale,
         label=label,
         marker="." if marker_on else None,
         markersize=17 if marker_on else None,
@@ -108,7 +108,7 @@ def line(
             bbox_to_anchor=bbox,
             ncol=1,
             frameon=True,
-            fontsize=1.1 * self.chart_prop,
+            fontsize=1.1 * self.chart_scale,
         )
 
     # dynamically set axis lower / upper limits
@@ -131,14 +131,14 @@ def line(
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=1.0 * self.chart_prop,
+        fontsize=1.0 * self.chart_scale,
         color=style.style_grey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=1.0 * self.chart_prop,
+        fontsize=1.0 * self.chart_scale,
         color=style.style_grey,
     )
 
@@ -239,7 +239,7 @@ def multi_line(
             y_col * 100 if "p" in y_units else y_col,
             color=linecolor if linecolor is not None else color_list[ix],
             linestyle=linestyle if linestyle is not None else style.style_line_style[0],
-            linewidth=0.247 * self.chart_prop,
+            linewidth=0.247 * self.chart_scale,
             label=label[ix] if label is not None else None,
             marker="." if marker_on else None,
             markersize=17 if marker_on else None,
@@ -254,7 +254,7 @@ def multi_line(
             bbox_to_anchor=bbox,
             ncol=1,
             frameon=True,
-            fontsize=1.1 * self.chart_prop,
+            fontsize=1.1 * self.chart_scale,
         )
 
     # dynamically set axis lower / upper limits
@@ -277,14 +277,14 @@ def multi_line(
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=1.1 * self.chart_prop,
+        fontsize=1.1 * self.chart_scale,
         color=style.style_grey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=1.1 * self.chart_prop,
+        fontsize=1.1 * self.chart_scale,
         color=style.style_grey,
     )
 

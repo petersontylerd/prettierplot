@@ -91,9 +91,9 @@ def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=
     # draw legend
     leg = plt.legend(
         handles=patches,
-        fontsize=0.95 * self.chart_prop,
+        fontsize=0.95 * self.chart_scale,
         loc="upper right",
-        markerscale=0.3 * self.chart_prop,
+        markerscale=0.3 * self.chart_scale,
         ncol=1,
         bbox_to_anchor=bbox,
     )
@@ -113,15 +113,15 @@ def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
     # tick label font size
-    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
+    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_scale)
 
     # resize x_axis labels as needed.
     if 7 < len(feature_dict[feature]) <= 10:
-        ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.9 * self.chart_prop)
+        ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.9 * self.chart_scale)
     elif 10 < len(feature_dict[feature]) <= 20:
-        ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.75 * self.chart_prop)
+        ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.75 * self.chart_scale)
     elif len(feature_dict[feature]) > 20:
-        ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.6 * self.chart_prop)
+        ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.6 * self.chart_scale)
 
 
 def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=None, alpha=0.8,
@@ -184,31 +184,31 @@ def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=No
     g.set_yticklabels(
         g.get_yticklabels() * 100 if "p" in y_units else g.get_yticklabels(),
         rotation=0,
-        fontsize=1.05 * self.chart_prop,
+        fontsize=1.05 * self.chart_scale,
         color=style.style_grey,
     )
     g.set_xticklabels(
         g.get_xticklabels(),
         rotation=0,
-        fontsize=1.05 * self.chart_prop,
+        fontsize=1.05 * self.chart_scale,
         color=style.style_grey,
     )
     g.set_ylabel(
         g.get_ylabel(),
         rotation=90,
-        fontsize=1.35 * self.chart_prop,
+        fontsize=1.35 * self.chart_scale,
         color=style.style_grey,
     )
     g.set_xlabel(
         g.get_xlabel(),
         rotation=0,
-        fontsize=1.35 * self.chart_prop,
+        fontsize=1.35 * self.chart_scale,
         color=style.style_grey,
     )
     g.set_title(
         g.get_title(),
         rotation=0,
-        fontsize=1.5 * self.chart_prop,
+        fontsize=1.5 * self.chart_scale,
         color=style.style_grey,
     )
 
@@ -238,9 +238,9 @@ def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=No
         # draw legend
         leg = plt.legend(
             handles=patches,
-            fontsize=1.25 * self.chart_prop,
+            fontsize=1.25 * self.chart_scale,
             loc="upper right",
-            markerscale=0.5 * self.chart_prop,
+            markerscale=0.5 * self.chart_scale,
             ncol=1,
             bbox_to_anchor=bbox,
         )
@@ -310,38 +310,38 @@ def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None
         aspect=aspect,
         margin_titles=True,
     )
-    g = g.map(plt.scatter, x, y, s=1.2 * self.chart_prop)
+    g = g.map(plt.scatter, x, y, s=1.2 * self.chart_scale)
 
     # format x any y ticklabels, x and y labels, and main title
     for ax in g.axes.flat:
         _ = ax.set_yticklabels(
             ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
             rotation=0,
-            fontsize=0.8 * self.chart_prop,
+            fontsize=0.8 * self.chart_scale,
             color=style.style_grey,
         )
         _ = ax.set_xticklabels(
             ax.get_xticklabels(),
             rotation=0,
-            fontsize=0.8 * self.chart_prop,
+            fontsize=0.8 * self.chart_scale,
             color=style.style_grey,
         )
         _ = ax.set_ylabel(
             ax.get_ylabel(),
             rotation=90,
-            fontsize=1.05 * self.chart_prop,
+            fontsize=1.05 * self.chart_scale,
             color=style.style_grey,
         )
         _ = ax.set_xlabel(
             ax.get_xlabel(),
             rotation=0,
-            fontsize=1.05 * self.chart_prop,
+            fontsize=1.05 * self.chart_scale,
             color=style.style_grey,
         )
         _ = ax.set_title(
             ax.get_title(),
             rotation=0,
-            fontsize=1.05 * self.chart_prop,
+            fontsize=1.05 * self.chart_scale,
             color=style.style_grey,
         )
 
@@ -357,7 +357,7 @@ def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None
                 txt.get_text(),
                 transform=ax.transAxes,
                 va="center",
-                fontsize=1.05 * self.chart_prop,
+                fontsize=1.05 * self.chart_scale,
                 color=style.style_grey,
                 rotation=-90,
             )
@@ -390,9 +390,9 @@ def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None
         # draw legend
         leg = plt.legend(
             handles=patches,
-            fontsize=1.0 * self.chart_prop,
+            fontsize=1.0 * self.chart_scale,
             loc="upper right",
-            markerscale=0.5 * self.chart_prop,
+            markerscale=0.5 * self.chart_scale,
             ncol=1,
             bbox_to_anchor=bbox,
         )
@@ -469,19 +469,19 @@ def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, as
         _ = ax.set_ylabel(
             ax.get_ylabel(),
             rotation=90,
-            fontsize=1.05 * self.chart_prop,
+            fontsize=1.05 * self.chart_scale,
             color=style.style_grey,
         )
         _ = ax.set_xlabel(
             ax.get_xlabel(),
             rotation=0,
-            fontsize=1.05 * self.chart_prop,
+            fontsize=1.05 * self.chart_scale,
             color=style.style_grey,
         )
         _ = ax.set_title(
             ax.get_title(),
             rotation=0,
-            fontsize=1.05 * self.chart_prop,
+            fontsize=1.05 * self.chart_scale,
             color=style.style_grey,
         )
 
@@ -491,7 +491,7 @@ def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, as
             _ = ax.set_yticklabels(
                 ax.get_yticklabels(),
                 rotation=0,
-                fontsize=0.8 * self.chart_prop,
+                fontsize=0.8 * self.chart_scale,
                 color=style.style_grey,
             )
         # resize x tick labels
@@ -500,7 +500,7 @@ def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, as
             _ = ax.set_xticklabels(
                 ax.get_xticklabels(),
                 rotation=0,
-                fontsize=0.8 * self.chart_prop,
+                fontsize=0.8 * self.chart_scale,
                 color=style.style_grey,
             )
 
@@ -513,7 +513,7 @@ def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, as
                 txt.get_text(),
                 transform=ax.transAxes,
                 va="center",
-                fontsize=1.05 * self.chart_prop,
+                fontsize=1.05 * self.chart_scale,
                 color=style.style_grey,
                 rotation=-90,
             )
@@ -546,9 +546,9 @@ def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, as
         # draw legend
         leg = plt.legend(
             handles=patches,
-            fontsize=1.0 * self.chart_prop,
+            fontsize=1.0 * self.chart_scale,
             loc="upper right",
-            markerscale=0.5 * self.chart_prop,
+            markerscale=0.5 * self.chart_scale,
             ncol=1,
             bbox_to_anchor=bbox,
         )
@@ -614,19 +614,19 @@ def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=
         _ = ax.set_ylabel(
             ax.get_ylabel(),
             rotation=90,
-            fontsize=1.05 * self.chart_prop,
+            fontsize=1.05 * self.chart_scale,
             color=style.style_grey,
         )
         _ = ax.set_xlabel(
             ax.get_xlabel(),
             rotation=0,
-            fontsize=1.05 * self.chart_prop,
+            fontsize=1.05 * self.chart_scale,
             color=style.style_grey,
         )
         _ = ax.set_title(
             ax.get_title(),
             rotation=0,
-            fontsize=1.05 * self.chart_prop,
+            fontsize=1.05 * self.chart_scale,
             color=style.style_grey,
         )
 
@@ -636,7 +636,7 @@ def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=
             _ = ax.set_yticklabels(
                 ax.get_yticklabels(),
                 rotation=0,
-                fontsize=0.8 * self.chart_prop,
+                fontsize=0.8 * self.chart_scale,
                 color=style.style_grey,
             )
         # resize x tick labels
@@ -645,7 +645,7 @@ def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=
             _ = ax.set_xticklabels(
                 ax.get_xticklabels(),
                 rotation=0,
-                fontsize=0.8 * self.chart_prop,
+                fontsize=0.8 * self.chart_scale,
                 color=style.style_grey,
             )
 
@@ -659,7 +659,7 @@ def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=
                 txt.get_text(),
                 transform=ax.transAxes,
                 va="center",
-                fontsize=1.05 * self.chart_prop,
+                fontsize=1.05 * self.chart_scale,
                 color=style.style_grey,
                 rotation=-90,
             )
@@ -686,9 +686,9 @@ def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=
     # draw legend
     leg = plt.legend(
         handles=patches,
-        fontsize=1.0 * self.chart_prop,
+        fontsize=1.0 * self.chart_scale,
         loc="upper right",
-        markerscale=0.5 * self.chart_prop,
+        markerscale=0.5 * self.chart_scale,
         ncol=1,
         bbox_to_anchor=bbox,
     )

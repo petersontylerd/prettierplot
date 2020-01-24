@@ -57,13 +57,13 @@ class PrettierPlot:
     )
 
     # foundation
-    def __init__(self, chart_prop=15, plot_orientation=None):
+    def __init__(self, chart_scale=15, plot_orientation=None):
         """
         documentation:
             description:
                 initialize PrettierPlot and dynamically set chart size.
             parameters:
-                chart_prop : float or int, default = 15
+                chart_scale : float or int, default = 15
                     chart proportionality control. determines relative size of figure size, axis labels,
                     chart title, tick labels, tick marks.
                 plot_orientation : string, default=None
@@ -71,7 +71,7 @@ class PrettierPlot:
                     produce a taller, less wide plot. 'square' produces a square plot. 'wide' produces a
                     plot that is much wide than it is tall.
         """
-        self.chart_prop = chart_prop
+        self.chart_scale = chart_scale
         self.plot_orientation = plot_orientation
         self.fig = plt.figure(facecolor="white")
 
@@ -81,20 +81,20 @@ class PrettierPlot:
 
         # dynamically set chart width and height parameters
         if plot_orientation == "tall":
-            chart_width = self.chart_prop * 0.7
-            chart_height = self.chart_prop * 1.2
+            chart_width = self.chart_scale * 0.7
+            chart_height = self.chart_scale * 1.2
         elif plot_orientation == "square":
-            chart_width = self.chart_prop
-            chart_height = self.chart_prop * 0.8
+            chart_width = self.chart_scale
+            chart_height = self.chart_scale * 0.8
         elif plot_orientation == "wide_narrow":
-            chart_width = self.chart_prop * 2.0
-            chart_height = self.chart_prop * 0.42
+            chart_width = self.chart_scale * 2.0
+            chart_height = self.chart_scale * 0.42
         elif plot_orientation == "wide_standard":
-            chart_width = self.chart_prop * 1.6
-            chart_height = self.chart_prop * 0.75
+            chart_width = self.chart_scale * 1.6
+            chart_height = self.chart_scale * 0.75
         else:
-            chart_width = self.chart_prop
-            chart_height = self.chart_prop * 0.5
+            chart_width = self.chart_scale
+            chart_height = self.chart_scale * 0.5
         self.fig.set_figheight(chart_height)
         self.fig.set_figwidth(chart_width)
 
@@ -160,12 +160,12 @@ class PrettierPlot:
         # set title
         ax.set_title(
             title,
-            fontsize=(2.0 * self.chart_prop) * title_scale
+            fontsize=(2.0 * self.chart_scale) * title_scale
             if position == 111
-            else font_adjust * self.chart_prop,
+            else font_adjust * self.chart_scale,
             color=style.style_grey,
             loc="left",
-            pad=0.4 * self.chart_prop,
+            pad=0.4 * self.chart_scale,
         )
 
         # remove grid line and right/top spines
@@ -176,15 +176,15 @@ class PrettierPlot:
         # add axis labels
         plt.xlabel(
             x_label,
-            fontsize=1.667 * self.chart_prop * title_scale,
-            labelpad=1.667 * self.chart_prop,
+            fontsize=1.667 * self.chart_scale * title_scale,
+            labelpad=1.667 * self.chart_scale,
             position=(x_shift, 0.5),
             horizontalalignment="left",
         )
         plt.ylabel(
             y_label,
-            fontsize=1.667 * self.chart_prop * title_scale,
-            labelpad=1.667 * self.chart_prop,
+            fontsize=1.667 * self.chart_scale * title_scale,
+            labelpad=1.667 * self.chart_scale,
             position=(1.0, y_shift),
             horizontalalignment="left",
         )

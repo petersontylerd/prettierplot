@@ -10,6 +10,8 @@ from scipy.stats import linregress
 import prettierplot.style as style
 import prettierplot.util as util
 
+import textwrap
+
 
 def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None, plot_buffer=True,
                         size=5, axis_limits=True, color=style.style_grey, facecolor="w", alpha=0.8, ax=None):
@@ -66,10 +68,10 @@ def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ti
         x=x,
         y=y * 100 if "p" in y_units else y,
         color=color,
-        s=size * self.chart_prop,
+        s=size * self.chart_scale,
         alpha=alpha,
         facecolor=facecolor,
-        linewidth=0.167 * self.chart_prop,
+        linewidth=0.167 * self.chart_scale,
     )
 
     # dynamically set axis lower / upper limits.
@@ -92,20 +94,19 @@ def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ti
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=1.0 * self.chart_prop,
+        fontsize=1.0 * self.chart_scale,
         color=style.style_grey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=1.0 * self.chart_prop,
+        fontsize=1.0 * self.chart_scale,
         color=style.style_grey,
     )
 
     # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
-
 
 def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None,
                         plot_buffer=True, size=10, axis_limits=True, color=style.style_grey, facecolor="w",
@@ -180,10 +181,10 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
             y=x[x[:, 2] == target_id][:, 1],
             color=color,
             label=target_name,
-            s=size * self.chart_prop,
+            s=size * self.chart_scale,
             alpha=alpha,
             facecolor="w",
-            linewidth=0.234 * self.chart_prop,
+            linewidth=0.234 * self.chart_scale,
         )
 
     # add legend to figure.
@@ -193,7 +194,7 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
             bbox_to_anchor=bbox,
             ncol=1,
             frameon=True,
-            fontsize=1.1 * self.chart_prop,
+            fontsize=1.1 * self.chart_scale,
         )
 
     # dynamically set axis lower / upper limits.
@@ -216,20 +217,19 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=1.0 * self.chart_prop,
+        fontsize=1.0 * self.chart_scale,
         color=style.style_grey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=1.0 * self.chart_prop,
+        fontsize=1.0 * self.chart_scale,
         color=style.style_grey,
     )
 
     # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
-
 
 def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_rotate=None, alpha=0.8,
                     bbox=(1.2, 0.9), legend_labels=None, color_map="viridis", ax=None):
@@ -273,13 +273,13 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
         color=color,
         axlabel=False,
         fit=fit,
-        kde_kws={"lw": 0.2 * self.chart_prop},
+        kde_kws={"lw": 0.2 * self.chart_scale},
         hist_kws={"alpha": alpha},
         ax=ax,
     )
 
     # tick label font size
-    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
+    ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_scale)
 
     # format x and y ticklabels
     ax.set_yticklabels(
@@ -299,9 +299,11 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
         ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate
     )
 
-    if legend_labels is not None:
-    #     legend_labels = []
-    # else:
+
+    ## create custom legend
+    if legend_labels is None:
+        legend_labels = legend_labels
+    else:
         legend_labels = np.array(legend_labels)
 
         # generate colors
@@ -317,9 +319,9 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
         # draw legend
         leg = plt.legend(
             handles=patches,
-            fontsize=1.0 * self.chart_prop,
+            fontsize=1.0 * self.chart_scale,
             loc="upper right",
-            markerscale=0.5 * self.chart_prop,
+            markerscale=0.5 * self.chart_scale,
             ncol=1,
             bbox_to_anchor=bbox,
         )
@@ -327,7 +329,6 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
         # label font color
         for text in leg.get_texts():
             plt.setp(text, color="grey")
-
 
 def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):
     """
@@ -363,19 +364,18 @@ def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chart_prop,
+        fontsize=0.9 * self.chart_scale,
         color=style.style_grey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chart_prop,
+        fontsize=0.9 * self.chart_scale,
         color=style.style_grey,
     )
     # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
-
 
 def reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.style_blue, x_jitter=None,
                     x_units="f", y_units="f", x_rotate=None, alpha=0.3, ax=None):
@@ -418,7 +418,11 @@ def reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.styl
         y=y,
         data=data,
         x_jitter=x_jitter,
-        scatter_kws={"alpha": alpha, "color": dot_color},
+        scatter_kws={
+            "alpha": alpha,
+            "color": dot_color,
+            "s": 2.0 * self.chart_scale,
+            },
         line_kws={"color": line_color},
         ax=ax,
     ).set(xlabel=None, ylabel=None)
@@ -427,14 +431,14 @@ def reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.styl
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chart_prop,
+        fontsize=1.2 * self.chart_scale,
         color=style.style_grey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chart_prop,
+        fontsize=1.2 * self.chart_scale,
         color=style.style_grey,
     )
 
@@ -442,7 +446,6 @@ def reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.styl
     util.util_label_formatter(
         ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate
     )
-
 
 def pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_col=None):
     """
@@ -466,15 +469,15 @@ def pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_co
     # custom plot formatting settings for this particular chart.
     with plt.rc_context(
         {
-            "axes.titlesize": 3.5 * self.chart_prop,
-            "axes.labelsize": 0.9 * self.chart_prop,  # axis title font size
-            "xtick.labelsize": 0.8 * self.chart_prop,
-            "xtick.major.size": 0.5 * self.chart_prop,
-            "xtick.major.width": 0.05 * self.chart_prop,
+            "axes.titlesize": 3.5 * self.chart_scale,
+            "axes.labelsize": 0.9 * self.chart_scale,  # axis title font size
+            "xtick.labelsize": 0.8 * self.chart_scale,
+            "xtick.major.size": 0.5 * self.chart_scale,
+            "xtick.major.width": 0.05 * self.chart_scale,
             "xtick.color": style.style_grey,
-            "ytick.labelsize": 0.8 * self.chart_prop,
-            "ytick.major.size": 0.5 * self.chart_prop,
-            "ytick.major.width": 0.05 * self.chart_prop,
+            "ytick.labelsize": 0.8 * self.chart_scale,
+            "ytick.major.size": 0.5 * self.chart_scale,
+            "ytick.major.width": 0.05 * self.chart_scale,
             "ytick.color": style.style_grey,
             "figure.facecolor": style.style_white,
             "axes.facecolor": style.style_white,
@@ -525,7 +528,6 @@ def pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_co
                 )
         plt.show()
 
-
 def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labels=None, drop_na=True,
                     bbox=(1.2, 1.0), alpha=0.7, color_map="viridis"):
     """
@@ -557,15 +559,15 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
     # custom plot formatting settings for this particular chart.
     with plt.rc_context(
         {
-            "axes.titlesize": 3.5 * self.chart_prop,
-            "axes.labelsize": 1.5 * self.chart_prop,  # axis title font size
-            "xtick.labelsize": 1.2 * self.chart_prop,
-            "xtick.major.size": 0.5 * self.chart_prop,
-            "xtick.major.width": 0.05 * self.chart_prop,
+            "axes.titlesize": 3.5 * self.chart_scale,
+            "axes.labelsize": 1.5 * self.chart_scale,  # axis title font size
+            "xtick.labelsize": 1.2 * self.chart_scale,
+            "xtick.major.size": 0.5 * self.chart_scale,
+            "xtick.major.width": 0.05 * self.chart_scale,
             "xtick.color": style.style_grey,
-            "ytick.labelsize": 1.2 * self.chart_prop,
-            "ytick.major.size": 0.5 * self.chart_prop,
-            "ytick.major.width": 0.05 * self.chart_prop,
+            "ytick.labelsize": 1.2 * self.chart_scale,
+            "ytick.major.size": 0.5 * self.chart_scale,
+            "ytick.major.width": 0.05 * self.chart_scale,
             "ytick.color": style.style_grey,
             "figure.facecolor": style.style_white,
             "axes.facecolor": style.style_white,
@@ -597,9 +599,9 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
             else [x for x in df.columns if x is not target.name],
             hue=target if target is None else target.name,
             diag_kind=diag_kind,
-            height=0.2 * self.chart_prop,
+            height=0.2 * self.chart_scale,
             plot_kws={
-                "s": 2.0 * self.chart_prop,
+                "s": 2.0 * self.chart_scale,
                 "edgecolor": None,
                 "linewidth": 1,
                 "alpha": alpha,
@@ -616,15 +618,37 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
 
         # plot formatting
         for ax in g.axes.flat:
-            # _ = ax.set_ylabel(ax.get_ylabel(), rotation=0)
-            # _ = ax.set_xlabel(ax.get_xlabel(), rotation=0)
-            _ = ax.set_ylabel(ax.get_ylabel(), rotation=40, ha="right")
-            _ = ax.set_xlabel(ax.get_xlabel(), rotation=40, ha="right")
+
+            _ = ax.set_xlabel(
+                    "\n".join(textwrap.wrap(str(ax.get_xlabel()).replace("_", " "), 12))
+                , rotation=40, ha="right")
+            _ = ax.set_ylabel(
+                    "\n".join(textwrap.wrap(str(ax.get_ylabel()).replace("_", " "), 12))
+                , rotation=40, ha="right")
             _ = ax.xaxis.labelpad = 20
             _ = ax.yaxis.labelpad = 40
             _ = ax.xaxis.label.set_color(style.style_grey)
             _ = ax.yaxis.label.set_color(style.style_grey)
-            # _ = ax.set_xticklabels(ax.get_xticklabels(), rotation=40, ha="right")
+
+
+            plt.xlabel(
+                # 0,
+                [
+                    "\n".join(textwrap.wrap(str(i).replace("_", " "), 12))
+                    for i in ax.get_xlabel()
+                ],
+                # ha="center",
+            )
+            plt.ylabel(
+                # 0,
+                [
+                    "\n".join(textwrap.wrap(str(i).replace("_", " "), 12))
+                    for i in ax.get_xlabel()
+                ],
+                # va="center_baseline",
+            )
+
+
 
         plt.subplots_adjust(hspace=0.0, wspace=0.0)
 
@@ -652,9 +676,9 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
             # draw legend
             leg = plt.legend(
                 handles=patches,
-                fontsize=0.9 * self.chart_prop,
+                fontsize=1.5 * self.chart_scale,
                 loc="upper right",
-                markerscale=0.4 * self.chart_prop,
+                markerscale=0.8 * self.chart_scale,
                 ncol=1,
                 bbox_to_anchor=bbox,
             )
@@ -662,7 +686,6 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
             # label font color
             for text in leg.get_texts():
                 plt.setp(text, color="grey")
-
 
 def hist(self, x, color, label, alpha=0.8):
     """

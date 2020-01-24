@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as tkr
 from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 
+import textwrap
+
 import sklearn.metrics as metrics
 
 from scipy import stats
@@ -36,15 +38,14 @@ def prob_plot(self, x, plot):
     # format scattered dots.
     plot.get_lines()[0].set_markerfacecolor(style.style_white)
     plot.get_lines()[0].set_color(style.style_grey)
-    plot.get_lines()[0].set_markersize(5.0)
+    plot.get_lines()[0].set_markersize(0.4 * self.chart_scale)
 
     # format line representing normality.
-    plot.get_lines()[1].set_linewidth(3.0)
+    plot.get_lines()[1].set_linewidth(0.15 * self.chart_scale)
     plot.get_lines()[1].set_color(style.style_grey)
 
     # tick label font size
-    plot.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_prop)
-
+    plot.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_scale)
 
 def corr_heatmap(self, df, annot=False, columns=None, mask=False, color_map="viridis", vmin=-1.0, vmax=1.0,
                         ax=None):
@@ -103,7 +104,7 @@ def corr_heatmap(self, df, annot=False, columns=None, mask=False, color_map="vir
         vmin=vmin,
         vmax=vmax,
         annot=annot,
-        annot_kws={"size": font_adjust * self.chart_prop},
+        annot_kws={"size": font_adjust * self.chart_scale},
         square=False,
         ax=ax,
         xticklabels=True,
@@ -112,16 +113,36 @@ def corr_heatmap(self, df, annot=False, columns=None, mask=False, color_map="vir
     )
 
     # format x_tick and y_tick labels
-    g.set_yticklabels(g.get_yticklabels(), rotation=0, fontsize=font_adjust * self.chart_prop)
-    g.set_xticklabels(g.get_xticklabels(), rotation=90, fontsize=font_adjust * self.chart_prop)
+    g.set_yticklabels(g.get_yticklabels(), rotation=0, fontsize=font_adjust * self.chart_scale)
+    g.set_xticklabels(g.get_xticklabels(), rotation=90, fontsize=font_adjust * self.chart_scale)
+
+    # wrap lables if necessary
+    x_labels =[item.get_text() for item in ax.get_xticklabels()]
+    y_labels =[item.get_text() for item in ax.get_yticklabels()]
+
+    plt.xticks(
+        np.arange(len(x_labels)) + 0.5,
+        [
+            "\n".join(textwrap.wrap(str(i).replace("_", " "), 12))
+            for i in x_labels
+        ],
+        ha="center",
+    )
+    plt.yticks(
+        np.arange(len(y_labels)) + 0.5,
+        [
+            "\n".join(textwrap.wrap(str(i).replace("_", " "), 12))
+            for i in y_labels
+        ],
+        va="center_baseline",
+    )
 
     # customize color bar formatting and labeling.
     cbar = g.collections[0].colorbar
     cbar.ax.tick_params(
-        labelsize=font_adjust * self.chart_prop, colors=style.style_grey, length=0
+        labelsize=font_adjust * self.chart_scale, colors=style.style_grey, length=0
     )
     cbar.set_ticks([vmax, 0.0, vmin])
-
 
 def corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, color_map="viridis", vmin=-1.0, vmax=1.0,
                                 ax=None):
@@ -181,7 +202,7 @@ def corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, color_ma
         vmin=-1.0,
         vmax=1.0,
         annot=annot,
-        annot_kws={"size": font_adjust * self.chart_prop},
+        annot_kws={"size": font_adjust * self.chart_scale},
         square=False,
         ax=ax,
         xticklabels=True,
@@ -190,18 +211,29 @@ def corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, color_ma
     )
 
     # format y_tick labels and turn off xticks.
-    g.set_yticklabels(g.get_yticklabels(), rotation=0, fontsize=font_adjust * self.chart_prop)
+    g.set_yticklabels(g.get_yticklabels(), rotation=0, fontsize=font_adjust * self.chart_scale)
     plt.xticks([])
+
+    # # wrap lables if necessary
+    # y_labels =[item.get_text() for item in ax.get_yticklabels()]
+
+    # plt.yticks(
+    #     np.arange(len(y_labels)) + 0.5,
+    #     [
+    #         "\n".join(textwrap.wrap(str(i).replace("_", " "), 30))
+    #         for i in y_labels
+    #     ],
+    #     va="center_baseline",
+    # )
 
     # customize color bar formatting and labeling.
     cbar = g.collections[0].colorbar
     cbar.ax.tick_params(
-        labelsize=font_adjust * self.chart_prop, colors=style.style_grey, length=0
+        labelsize=font_adjust * self.chart_scale, colors=style.style_grey, length=0
     )
     cbar.set_ticks([vmax, 0.0, vmin])
 
     plt.show()
-
 
 def confusion_matrix(self, y_pred, y_true, labels, cmap="viridis", ax=None, textcolors=["black", "white"],
                             threshold=None, reverse_labels=False, valfmt="{x:.0f}"):
@@ -286,7 +318,6 @@ def confusion_matrix(self, y_pred, y_true, labels, cmap="viridis", ax=None, text
 
     plt.show()
 
-
 def roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, linecolor=style.style_grey,
                         bbox=(1.0, 0.4), ax=None):
     """
@@ -364,7 +395,6 @@ def roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, linecol
         ax=ax,
     )
 
-
 def decision_region(self, x, y, classifier, test_idx=None, resolution=0.1, bbox=(1.2, 0.9),
                             color_map="viridis", ax=None):
     """
@@ -422,7 +452,7 @@ def decision_region(self, x, y, classifier, test_idx=None, resolution=0.1, bbox=
             c=color_list[idx],
             marker=style.style_markers[1],
             label=cl,
-            s=12.5 * self.chart_prop,
+            s=12.5 * self.chart_scale,
             # edgecolor=style.style_hex_mid_dark[idx],
         )
 
@@ -437,7 +467,7 @@ def decision_region(self, x, y, classifier, test_idx=None, resolution=0.1, bbox=
             alpha=1.0,
             linewidth=1.4,
             marker="o",
-            s=12.75 * self.chart_prop,
+            s=12.75 * self.chart_scale,
             label="test set",
         )
     # add legend to figure
@@ -446,7 +476,7 @@ def decision_region(self, x, y, classifier, test_idx=None, resolution=0.1, bbox=
         bbox_to_anchor=bbox,
         ncol=1,
         frameon=True,
-        fontsize=1.1 * self.chart_prop,
+        fontsize=1.1 * self.chart_scale,
     )
 
     plt.tight_layout()
