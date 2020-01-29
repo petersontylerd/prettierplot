@@ -529,7 +529,7 @@ def pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_co
         plt.show()
 
 def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labels=None, drop_na=True,
-                    bbox=(1.2, 1.0), alpha=0.7, color_map="viridis"):
+                    bbox=(2.0, 1.0), alpha=0.7, color_map="viridis"):
     """
     documentation:
         description:
@@ -676,9 +676,9 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
             # draw legend
             leg = plt.legend(
                 handles=patches,
-                fontsize=1.5 * self.chart_scale,
+                fontsize=0.6 * self.chart_scale * np.log1p(len(g.axes.flat)),
                 loc="upper right",
-                markerscale=0.8 * self.chart_scale,
+                markerscale=0.15 * self.chart_scale * np.log1p(len(g.axes.flat)),
                 ncol=1,
                 bbox_to_anchor=bbox,
             )
