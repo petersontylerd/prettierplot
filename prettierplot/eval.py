@@ -45,7 +45,7 @@ def prob_plot(self, x, plot):
     plot.get_lines()[1].set_color(style.style_grey)
 
     # tick label font size
-    plot.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_scale)
+    plot.tick_params(axis="both", colors=style.style_grey, labelsize=1.1 * self.chart_scale)
 
 def corr_heatmap(self, df, annot=False, columns=None, mask=False, color_map="viridis", vmin=-1.0, vmax=1.0,
                         ax=None):

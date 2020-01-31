@@ -285,12 +285,14 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
+        fontsize=1.1 * self.chart_scale,
         color=style.style_grey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
+        fontsize=1.1 * self.chart_scale,
         color=style.style_grey,
     )
 
@@ -364,14 +366,14 @@ def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chart_scale,
+        fontsize=1.1 * self.chart_scale,
         color=style.style_grey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=0.9 * self.chart_scale,
+        fontsize=1.1 * self.chart_scale,
         color=style.style_grey,
     )
     # use label formatter utility function to customize chart labels
@@ -431,14 +433,14 @@ def reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.styl
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
-        fontsize=1.2 * self.chart_scale,
+        fontsize=1.1 * self.chart_scale,
         color=style.style_grey,
     )
 
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in y_units else ax.get_xticklabels(),
         rotation=0,
-        fontsize=1.2 * self.chart_scale,
+        fontsize=1.1 * self.chart_scale,
         color=style.style_grey,
     )
 

@@ -83,8 +83,9 @@ def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=Non
         tick = tkr.StrMethodFormatter(fmt)
         ax.xaxis.set_major_formatter(tick)
 
-    if x_units is not None and x_rotate is not None:
-        ax.tick_params(labelrotation=45, axis="x")
+    if x_rotate is not None:
+    # if x_units is not None and x_rotate is not None:
+        ax.tick_params(labelrotation=x_rotate, axis="x")
 
     if x_size is not None:
         for tk in ax.get_xticklabels():
@@ -131,8 +132,9 @@ def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=Non
         tick = tkr.StrMethodFormatter(fmt)
         ax.yaxis.set_major_formatter(tick)
 
-    if y_units is not None and y_rotate is not None:
-        ax.tick_params(labelrotation=45, axis="y")
+    if y_rotate is not None:
+    # if y_units is not None and y_rotate is not None:
+        ax.tick_params(labelrotation=y_rotate, axis="y")
 
     if y_size is not None:
         for tk in ax.get_yticklabels():
