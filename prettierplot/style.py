@@ -10,9 +10,9 @@ def color_gen(name="viridis", num=2):
             generates a list of hex color codes of a specified length from a specified
              color map.
         parameters
-            name: string, default = "viridis"
+            name: string, default="viridis"
                 name of built_in colormap
-            num : int, default = 2
+            num : int, default=2
                 an integer specifying the number of entries desired in the lookup table.
         returns:
             color_list : list

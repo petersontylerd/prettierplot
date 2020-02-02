@@ -23,19 +23,19 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Tr
                 1_dimensional array of values to be plotted on x_axis representing distinct categories.
             counts : array or string
                 1_dimensional array of value counts for categories.
-            color : string (some sort of color code), default = style.style_hex_mid[0]
+            color : string (some sort of color code), default=style.style_hex_mid[0]
                 bar color.
             x_labels : list, default=None
                 custom x_axis text labels.
             x_tick_wrap : bool, default=True
                 wrap x_axis tick labels.
-            label_rotate : float or int, default = 0
+            label_rotate : float or int, default=0
                 degrees by which the xtick labels are rotated.
-            y_units : string, default = 'f'
+            y_units : string, default='f'
                 determines units of y_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            alpha : float, default = 0.8
+            alpha : float, default=0.8
                 controls transparency of bars. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.
@@ -100,13 +100,13 @@ def bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f",
                 1_dimensional array of value counts for categories.
             color : string (some sort of color code), default=style.style_grey
                 bar color.
-            label_rotate : float or int, default = 45
+            label_rotate : float or int, default=45
                 degrees by which the xtick labels are rotated.
-            x_units : string, default = 'f'
+            x_units : string, default='f'
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            alpha : float, default = 0.8
+            alpha : float, default=0.8
                 control transparency of bars. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.
@@ -136,17 +136,17 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
         parameters:
             df : Pandas DataFrame
                 1_dimensional array of values to be plotted on y-axis representing distinct categories.
-            label_rotate : float or int, default = 45
+            label_rotate : float or int, default=45
                 degrees by which the xtick labels are rotated.
-            x_units : string, default = 'f'
+            x_units : string, default='f'
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            alpha : float, default = 0.8
+            alpha : float, default=0.8
                 control transparency of bars. accepts value between 0.0 and 1.0.
-            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+            color_map : string specifying built_in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
-            bbox : tuple of floats, default = (1.2, 0.9)
+            bbox : tuple of floats, default=(1.2, 0.9)
                 coordinates for determining legend position.
             legend_labels : list, default=None
                 custom legend labels.
@@ -261,15 +261,15 @@ def box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="
                 determines color of box plot figures. ideally this object is a color palette,
                 which can be a default seaborn palette, a custom seaborn palette, or a custom
                 matplotlib cmap.
-            label_rotate : float or int, default = 45
+            label_rotate : float or int, default=45
                 degrees by which the xtick labels are rotated.
-            y_units : string, default = 'f'
+            y_units : string, default='f'
                 determines units of y_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+            color_map : string specifying built_in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
-            alpha : float, default = 0.8
+            alpha : float, default=0.8
                 controls transparency of objects. accepts value between 0.0 and 1.0.
             suppress_outliers : boolean, default=False
                 controls removal of outliers from box/whisker plots
@@ -342,21 +342,21 @@ def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05
                 name of number target variable.
             data : pandas DataFrame
                 pandas DataFrame including both indpedent variable and target variable.
-            color : string (some sort of color code), default = style.style_hex_mid
+            color : string (some sort of color code), default=style.style_hex_mid
                 determines color of box plot figures. ideally this object is a color palette,
                 which can be a default seaborn palette, a custom seaborn palette, or a custom
                 matplotlib cmap.
-            x_units : string, default = 'f'
+            x_units : string, default='f'
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            bbox : tuple of floats, default = (1.05, 1.0)
+            bbox : tuple of floats, default=(1.05, 1.0)
                 coordinates for determining legend position.
-            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+            color_map : string specifying built_in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             suppress_outliers : boolean, default=False
                 controls removal of outliers from box/whisker plots
-            alpha : float, default = 0.8
+            alpha : float, default=0.8
                 controls transparency of bars. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.

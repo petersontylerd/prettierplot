@@ -32,8 +32,8 @@ class PrettierPlot:
         prob_plot,
         corr_heatmap,
         corr_heatmap_target,
-        confusion_matrix,
-        roc_curve,
+        confusion_matrix_plot,
+        roc_curve_plot,
         decision_region,
         # residual_plot,
     )
@@ -63,7 +63,7 @@ class PrettierPlot:
             description:
                 initialize PrettierPlot and dynamically set chart size.
             parameters:
-                chart_scale : float or int, default = 15
+                chart_scale : float or int, default=15
                     chart proportionality control. determines relative size of figure size, axis labels,
                     chart title, tick labels, tick marks.
                 plot_orientation : string, default=None
@@ -106,19 +106,19 @@ class PrettierPlot:
                 create axes object. add descriptive attributes such as titles and axis labels,
                 set font size and font color. remove grid. remove top and right spine.
             parameters:
-                title : string, default = '' (blank)
+                title : string, default='' (blank)
                     the title for the chart.
-                x_label : string, default = '' (blank)
+                x_label : string, default='' (blank)
                     x_axis label.
-                x_shift : float, default = 0.8
+                x_shift : float, default=0.8
                     controls position of x_axis label. higher values move label right along axis.
                     intent is to align with left of axis.
-                y_label : string, default = '' (blank)
+                y_label : string, default='' (blank)
                     y_axis label.
-                y_shift : float, default = 0.8
+                y_shift : float, default=0.8
                     controls position of y_axis label. higher values move label higher along axis.
                     intent is to align with top of axis.
-                position : int (nrows, ncols, index), default = 111
+                position : int (nrows, ncols, index), default=111
                     determine subplot position of plot.
                 nrows : int, default=None
                     number of rows in subplot grid.
@@ -128,7 +128,7 @@ class PrettierPlot:
                     conditional controlling whether to share x_axis across all subplots in a column.
                 sharey : bool or none, default=None
                     conditional controlling whether to share y_axis across all subplots in a row.
-                title_scale : float, default = 1.0
+                title_scale : float, default=1.0
                     controls the scaling up (higher value) and scaling down (lower value) of the size of
                     the main chart title, the x_axis title and the y_axis title.
             returns

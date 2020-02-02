@@ -7,24 +7,8 @@ import prettierplot.style as style
 import prettierplot.util as util
 
 
-def line(
-    self,
-    x,
-    y,
-    label=None,
-    df=None,
-    linecolor=style.style_grey,
-    linestyle=None,
-    bbox=(1.2, 0.9),
-    x_units="f",
-    x_ticks=None,
-    y_units="f",
-    y_ticks=None,
-    marker_on=False,
-    plot_buffer=False,
-    axis_limits=False,
-    ax=None,
-):
+def line(self, x, y, label=None, df=None, linecolor=style.style_grey, linestyle=None, bbox=(1.2, 0.9), x_units="f",
+        x_ticks=None, y_units="f", y_ticks=None, marker_on=False, plot_buffer=False, axis_limits=False, ax=None):
     """
     documentation:
         description:
@@ -43,19 +27,19 @@ def line(
             df : pandas DataFrame, default=None
                 dataset containing data to be plotted. can be any size, as plotted columns will be chosen
                 by columns names specified in x, y.
-            linecolor : string, default = reference to list
+            linecolor : string, default=reference to list
                 determine color of line.
-            linestyle : string, default = reference to list
+            linestyle : string, default=reference to list
                 determine style of line.
-            bbox : tuple, default = (1.2, 0.9)
+            bbox : tuple, default=(1.2, 0.9)
                 override bbox value for legend
-            x_units : string, default = 'f'
+            x_units : string, default='f'
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             x_ticks : array, default=None
                 specify custom x_tick labels.
-            y_units : string, default = 'f'
+            y_units : string, default='f'
                 determines units of y_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
@@ -183,19 +167,19 @@ def multi_line(
             df : pandas DataFrame, default=None
                 dataset containing data to be plotted. can be any size, as plotted columns will be chosen
                 by columns names specified in x, y.
-            linecolor : string, default = reference to list
+            linecolor : string, default=reference to list
                 determine color of line.
-            linestyle : string, default = reference to list
+            linestyle : string, default=reference to list
                 determine style of line.
-            bbox : tuple, default = (1.2, 0.9)
+            bbox : tuple, default=(1.2, 0.9)
                 override bbox value for legend
-            x_units : string, default = 'd'
+            x_units : string, default='d'
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             x_ticks : array, default=None
                 specify custom x_tick labels.
-            y_units : string, default = 'd'
+            y_units : string, default='d'
                 determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
@@ -207,7 +191,7 @@ def multi_line(
                 switch for determining whether dynamic plot buffer function is executed.
             axis_limits : bool, default=False
                 switch for determining whether dynamic axis limit setting function is executed.
-            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+            color_map : string specifying built_in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             ax : axes object, default=None
                 axis on which to place visual.

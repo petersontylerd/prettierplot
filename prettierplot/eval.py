@@ -8,7 +8,26 @@ from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 
 import textwrap
 
-import sklearn.metrics as metrics
+from sklearn.metrics import (
+    auc,
+    precision_score,
+    recall_score,
+    f1_score,
+    explained_variance_score,
+    mean_squared_log_error,
+    mean_absolute_error,
+    median_absolute_error,
+    mean_squared_error,
+    r2_score,
+    confusion_matrix,
+    roc_curve,
+    accuracy_score,
+    roc_auc_score,
+    homogeneity_score,
+    completeness_score,
+    classification_report,
+    silhouette_samples,
+)
 
 from scipy import stats
 
@@ -66,11 +85,11 @@ def corr_heatmap(self, df, annot=False, columns=None, mask=False, color_map="vir
             mask : bool, default=False
                 determines whether or not correlation table is masked such that only the lower
                 triangle appears.
-            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+            color_map : string specifying built_in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
-            vmin : float, default = _1.0
+            vmin : float, default=_1.0
                 minimum anchor value for color map.
-            vmax : float, default = 1.0
+            vmax : float, default=1.0
                 maximum anchor value for color map.
             ax : axes object, default=None
                 axis on which to place visual.
@@ -161,17 +180,17 @@ def corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, color_ma
                 value or not.
             columns : list, default=None
                 list of strings describing dataframe columns. limits dataframe to select columns.
-            thresh : float, default = 0.2
+            thresh : float, default=0.2
                 minimum correlation coefficient value needed.
-            corr_focus : string, default = self.target[0]
+            corr_focus : string, default=self.target[0]
                 the feature of focus in the supplemental correlation visualization. used
                 to determine the feature for which the nlargest correlation coefficients
                 are returned.
-            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+            color_map : string specifying built_in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
-            vmin : float, default = _1.0
+            vmin : float, default=_1.0
                 minimum anchor value for color map.
-            vmax : float, default = 1.0
+            vmax : float, default=1.0
                 maximum anchor value for color map.
             ax : axes object, default=None
                 axis on which to place visual.
@@ -235,7 +254,7 @@ def corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, color_ma
 
     plt.show()
 
-def confusion_matrix(self, y_pred, y_true, labels, cmap="viridis", ax=None, textcolors=["black", "white"],
+def confusion_matrix_plot(self, y_pred, y_true, labels, cmap="viridis", ax=None, textcolors=["black", "white"],
                             threshold=None, reverse_labels=False, valfmt="{x:.0f}"):
     """
     documentation:
@@ -251,7 +270,7 @@ def confusion_matrix(self, y_pred, y_true, labels, cmap="viridis", ax=None, text
         ax = plt.gca()
 
     # create confusion matrix using predictions and True labels
-    cm = pd.DataFrame(metrics.confusion_matrix(y_true=y_true, y_pred=y_pred))
+    cm = pd.DataFrame(confusion_matrix(y_true=y_true, y_pred=y_pred))
 
     # sort rows and columns in descending order
     # cm.sort_index(axis = 1, ascending=False, inplace=True)
@@ -310,7 +329,7 @@ def confusion_matrix(self, y_pred, y_true, labels, cmap="viridis", ax=None, text
 
     #
     ax.set_ylabel(
-        ax.get_ylabel(), rotation=-90, fontsize=18, color=style.style_grey,
+        ax.get_ylabel(), rotation=90, fontsize=18, color=style.style_grey,
     )
     ax.set_xlabel(
         ax.get_xlabel(), rotation=0, fontsize=18, color=style.style_grey,
@@ -318,7 +337,7 @@ def confusion_matrix(self, y_pred, y_true, labels, cmap="viridis", ax=None, text
 
     plt.show()
 
-def roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, linecolor=style.style_grey,
+def roc_curve_plot(self, model, X_train, y_train, X_valid=None, y_valid=None, linecolor=style.style_grey,
                         bbox=(1.0, 0.4), ax=None):
     """
     documentation:
@@ -327,39 +346,39 @@ def roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, linecol
         parameters:
             model : sklearn model or pipeline
                 model to fit and generate prediction probabilities.
-            x_train : array
+            X_train : array
                 training data for model fitting. also used to return predict_probas
-                when x_valid is None.
+                when X_valid is None.
             y_train : array
                 training labels for model fitting. also used to create roc curve when
-                x_valid is None.
-            x_valid : array, default=None
+                X_valid is None.
+            X_valid : array, default=None
                 test data for returning predict_probas.
             y_valid : array, default=None
                 test data for creating roc curve
-            linecolor : str, default = style.style_hex_mid[0]
+            linecolor : str, default=style.style_hex_mid[0]
                 curve line color
-            bbox : tuple of floats, default = (1.2, 0.8)
+            bbox : tuple of floats, default=(1.2, 0.8)
                 coordinates for determining legend position
             ax : axes object, default=None
                 axis on which to place visual.
     """
     ## return prediction probabilities.
     # if x_test is None then fit the model using training data and return roc curve for training data.
-    if x_valid is None:
-        probas = model.fit(x_train, y_train).predict_proba(x_train)
-        fpr, tpr, thresholds = metrics.roc_curve(
+    if X_valid is None:
+        probas = model.fit(X_train, y_train).predict_proba(X_train)
+        fpr, tpr, thresholds = roc_curve(
             y_true=y_train, y_score=probas[:, 1], pos_label=1
         )
     # otherwise fit the model using training data and return roc curve for test data.
     else:
-        probas = model.fit(x_train, y_train).predict_proba(x_valid)
-        fpr, tpr, thresholds = metrics.roc_curve(
+        probas = model.fit(X_train, y_train).predict_proba(X_valid)
+        fpr, tpr, thresholds = roc_curve(
             y_true=y_valid, y_score=probas[:, 1], pos_label=1
         )
 
     # calculate area under the curve using fpr and tpr.
-    roc_auc = metrics.auc(fpr, tpr)
+    roc_auc = auc(fpr, tpr)
 
     # plot roc curve.
     self.line(
@@ -378,7 +397,7 @@ def roc_curve(self, model, x_train, y_train, x_valid=None, y_valid=None, linecol
         x=np.array([0, 1]),
         y=np.array([0, 1]),
         linecolor=style.style_grey,
-        linestyle="__",
+        linestyle="--",
         x_units="fff",
         y_units="fff",
         ax=ax,
@@ -410,11 +429,11 @@ def decision_region(self, x, y, classifier, test_idx=None, resolution=0.1, bbox=
                 classifier used to create decision regions.
             test_idx :  tuple, default=None
                 optional parameter for specifying observations to be highlighted as test examples.
-            resolution : float, default = 0.1
+            resolution : float, default=0.1
                 controls clarity of the graph by setting interval of the arrays passed into np.meshgrid.
-            bbox : tuple of floats, default = (1.2, 0.9)
+            bbox : tuple of floats, default=(1.2, 0.9)
                 coordinates for determining legend position.
-            color_map : string specifying built_in matplotlib colormap, default = "viridis"
+            color_map : string specifying built_in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             ax : axes object, default=None
                 axis on which to place visual.
