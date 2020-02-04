@@ -1,27 +1,33 @@
 import setuptools
 
 
-with open("readme.md") as f:
+with open("README.md") as f:
     long_description = f.read()
 
-description = "quickly create prettier plots"
+description = "Quickly create prettier plots"
 distname = "prettierplot"
-license = "mit"
+license = "MIT"
 # download_url = 'https://pypi.org/project/'
-maintainer = "tyler peterson"
+maintainer = "Tyler Peterson"
 maintainer_email = "petersontylerd@gmail.com"
 project_urls = {
     "bug tracker": "https://github.com/petersontylerd/prettierplot/issues",
     "source code": "https://github.com/petersontylerd/prettierplot",
 }
 url = "https://github.com/petersontylerd/prettierplot"
-version = "0.0.12"
+version = "0.0.32"
 
 
 def setup_package():
     metadata = dict(
         name=distname,
-        packages=['prettierplot'],
+        packages=[
+            "prettierplot",
+            "prettierplot.datasets",
+            "prettierplot.datasets.attrition",
+            "prettierplot.datasets.housing",
+            "prettierplot.datasets.titanic",
+            ],
         maintainer=maintainer,
         maintainer_email=maintainer_email,
         description=description,
@@ -32,20 +38,21 @@ def setup_package():
         project_urls=project_urls,
         version=version,
         long_description=long_description,
+        include_package_data=True,
         classifiers=[
-            "development status :: 2 - pre_alpha",
-            "intended audience :: developers",
-            "intended audience :: science/research",
-            "topic :: scientific/engineering",
-            "topic :: scientific/engineering :: information analysis",
-            "topic :: scientific/engineering :: visualization",
-            "topic :: software development",
-            "topic :: software development :: libraries :: python modules",
-            "license :: osi approved :: mit license",
-            "programming language :: python :: 3",
-            "operating system :: os independent",
+            "Development Status :: 3 - Alpha",
+            "Intended Audience :: Developers",
+            "Intended Audience :: Science/Research",
+            "Topic :: Scientific/Engineering",
+            "Topic :: Scientific/Engineering :: Information Analysis",
+            "Topic :: Scientific/Engineering :: Visualization",
+            "Topic :: Software Development",
+            "Topic :: Software Development :: Libraries :: Python Modules",
+            "License :: OSI Approved :: MIT License",
+            "Programming Language :: Python :: 3",
+            "Operating System :: OS Independent",
         ],
-        python_requires=">=3.5",
+        python_requires=">=3.6.1",
         install_requires=[i.strip() for i in open("requirements.txt").readlines()],
     )
 
