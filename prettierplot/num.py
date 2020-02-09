@@ -14,7 +14,8 @@ import textwrap
 
 
 def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None, plot_buffer=True,
-                        size=5, axis_limits=True, color=style.style_grey, facecolor="w", alpha=0.8, ax=None):
+                        size=5, axis_limits=True, color=style.style_grey, facecolor="w", alpha=0.8,
+                        x_rotate=None, ax=None):
     """
     documentation:
         description:
@@ -49,6 +50,8 @@ def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ti
                 determine face color of scatter dots.
             alpha : float, default=0.8
                 controls transparency of objects. accepts value between 0.0 and 1.0.
+            x_rotate : int, default=None
+                rotates x_axis tick mark labels x degrees.
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -106,11 +109,11 @@ def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ti
     )
 
     # use label formatter utility function to customize chart labels
-    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
+    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate)
 
 def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None, y_units="f", y_ticks=None,
                         plot_buffer=True, size=10, axis_limits=True, color=style.style_grey, facecolor="w",
-                        bbox=(1.2, 0.9), color_map="viridis", alpha=0.8, ax=None):
+                        bbox=(1.2, 0.9), color_map="viridis", alpha=0.8, x_rotate=None, ax=None):
     """
     documentation:
         description:
@@ -154,6 +157,8 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
                 colormap from which to draw plot colors.
             alpha : float, default=0.8
                 controls transparency of objects. accepts value between 0.0 and 1.0.
+            x_rotate : int, default=None
+                rotates x_axis tick mark labels x degrees.
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -229,7 +234,7 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
     )
 
     # use label formatter utility function to customize chart labels
-    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
+    util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate)
 
 def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_rotate=None, alpha=0.8,
                     bbox=(1.2, 0.9), legend_labels=None, color_map="viridis", ax=None):

@@ -32,7 +32,6 @@ class PrettierPlot:
         prob_plot,
         corr_heatmap,
         corr_heatmap_target,
-        confusion_matrix_plot,
         roc_curve_plot,
         decision_region,
         # residual_plot,

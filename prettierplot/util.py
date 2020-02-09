@@ -147,17 +147,17 @@ def util_set_axes(x, y, x_thresh=0.75, y_thresh=0.75):
         description:
             dynamically set lower/upper limits of x/y axes.
     """
-    x_min = round(np.min(x), 5)
-    x_max = round(np.max(x), 5)
+    x_min = round(np.nanmin(x), 5)
+    x_max = round(np.nanmax(x), 5)
     x_change = (x_max - x_min) / x_max
     x_min = 0 if 1.00 >= x_change >= x_thresh else np.round(x_min, 1)
-    x_max = x_max + x_max * 0.1
+    x_max = x_max + x_max * 0.01
 
-    y_min = round(np.min(y), 5)
-    y_max = round(np.max(y), 5)
+    y_min = round(np.nanmin(y), 5)
+    y_max = round(np.nanmax(y), 5)
     y_change = (y_max - y_min) / y_max
     y_min = 0 if 1.00 >= y_change >= y_thresh else np.round(y_min, 1)
-    y_max = y_max + y_max * 0.1
+    y_max = y_max + y_max * 0.01
     return x_min, x_max, y_min, y_max
 
 
