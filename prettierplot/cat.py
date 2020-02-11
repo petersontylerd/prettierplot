@@ -12,7 +12,7 @@ import prettierplot.util as util
 import textwrap
 
 
-def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=True, label_rotate=0,
+def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=False, label_rotate=0,
                     y_units="f", alpha=0.8, ax=None):
     """
     Documentation:
@@ -27,7 +27,7 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Tr
                 bar color.
             x_labels : list, default=None
                 custom x_axis text labels.
-            x_tick_wrap : bool, default=True
+            x_tick_wrap : bool, default=False
                 wrap x_axis tick labels.
             label_rotate : float or int, default=0
                 degrees by which the xtick labels are rotated.
