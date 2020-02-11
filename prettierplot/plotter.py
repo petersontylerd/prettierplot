@@ -9,8 +9,8 @@ import prettierplot.util as util
 
 class PrettierPlot:
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             PrettierPlot creates high_quality data visualizations quickly and easily.
             initialization of this class creates a plotting object of a chosen size and
             orientation. once the figure is initialized, the method make_canvas can be
@@ -58,10 +58,10 @@ class PrettierPlot:
     # foundation
     def __init__(self, chart_scale=15, plot_orientation=None):
         """
-        documentation:
-            description:
+        Documentation:
+            Description:
                 initialize PrettierPlot and dynamically set chart size.
-            parameters:
+            Parameters:
                 chart_scale : float or int, default=15
                     chart proportionality control. determines relative size of figure size, axis labels,
                     chart title, tick labels, tick marks.
@@ -100,11 +100,11 @@ class PrettierPlot:
     def make_canvas(self, title="", x_label="", x_shift=0.0, y_label="", y_shift=0.8, position=111, nrows=None,
                     ncols=None, index=None, sharex=None, sharey=None, title_scale=1.0):
         """
-        documentation:
-            description:
+        Documentation:
+            Description:
                 create axes object. add descriptive attributes such as titles and axis labels,
                 set font size and font color. remove grid. remove top and right spine.
-            parameters:
+            Parameters:
                 title : string, default='' (blank)
                     the title for the chart.
                 x_label : string, default='' (blank)

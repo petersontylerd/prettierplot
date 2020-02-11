@@ -12,13 +12,13 @@ import textwrap
 def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=(1.2, 0.9),
                         alpha=0.8, legend_labels=None, color_map="viridis", ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             creates a count plot for a object variable and facets the variable by a
             object label.
-        parameters:
-            df : pandas DataFrame
-                pandas DataFrame
+        Parameters:
+            df : Pandas DataFrame
+                Pandas DataFrame
             feature : string
                 string describing column name containing target values
             label_rotate : float or int, default=0
@@ -127,13 +127,13 @@ def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=
 def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=None, alpha=0.8,
                         legend_labels=None, filter_na_n=True, color_map="viridis", ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             creates a series of bar plots that count a variable along the y_axis and separate the counts
             into bins based on by two object variables.
-        parameters:
-            df : pandas DataFrame
-                pandas DataFrame
+        Parameters:
+            df : Pandas DataFrame
+                Pandas DataFrame
             x : string
                 object variable to be plotted along x_axis.
             y : string
@@ -258,13 +258,13 @@ def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=No
 def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None, bbox=None, aspect=1, alpha=0.8,
                                 height=4, legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             creates scatter plots of two number variables and allows for faceting by up to two
             object variables along the column and/or row axes of the figure.
-        parameters:
-            df : pandas DataFrame
-                pandas DataFrame
+        Parameters:
+            df : Pandas DataFrame
+                Pandas DataFrame
             x : string
                 number variable to be plotted along x_axis.
             y : string
@@ -407,14 +407,14 @@ def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None
 def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, aspect=1, height=4, alpha=0.8,
                                 legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             creates histograms of one number variable, and each can optionally be split by a object to
             show two or more distributions. allows for faceting by up to two object variables along the
             column and/or row axes of the figure.
-        parameters:
-            df : pandas DataFrame
-                pandas DataFrame
+        Parameters:
+            df : Pandas DataFrame
+                Pandas DataFrame
             cat_row : string
                 object variable faceted along the row axis.
             cat_col : string
@@ -563,12 +563,12 @@ def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, as
 def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=None, aspect=1,
                                 alpha=0.8, height=4, legend_labels=None, color_map="viridis"):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             creates point plots that
-        parameters:
-            df : pandas DataFrame
-                pandas DataFrame
+        Parameters:
+            df : Pandas DataFrame
+                Pandas DataFrame
             x : string
                 object variable to be plotted along x_axis.
             y : string

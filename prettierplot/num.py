@@ -17,15 +17,15 @@ def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ti
                         size=5, axis_limits=True, color=style.style_grey, facecolor="w", alpha=0.8,
                         x_rotate=None, ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create 2_dimensional scatter plot.
-        parameters:
+        Parameters:
             x : array or string
-                either 1_dimensional array of values or a column name in a pandas DataFrame.
+                either 1_dimensional array of values or a column name in a Pandas DataFrame.
             y : array or string
-                either 1_dimensional array of values or a column name in a pandas DataFrame.
-            df : pandas DataFrame, default=None
+                either 1_dimensional array of values or a column name in a Pandas DataFrame.
+            df : Pandas DataFrame, default=None
                 dataset containing data to be plotted. can be any size - plotted columns will be
                 chosen by columns names specified in x, y.
             x_units : string, default='f'
@@ -55,7 +55,7 @@ def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ti
             ax : axes object, default=None
                 axis on which to place visual.
     """
-    # if a pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
+    # if a Pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
     if df is not None:
         x = df[x].values.reshape(-1, 1)
         y = df[y].values.reshape(-1, 1)
@@ -115,20 +115,20 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
                         plot_buffer=True, size=10, axis_limits=True, color=style.style_grey, facecolor="w",
                         bbox=(1.2, 0.9), color_map="viridis", alpha=0.8, x_rotate=None, ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create 2_dimensional scatter plot with a third dimension represented as a color hue in the
             scatter dots.
-        parameters:
+        Parameters:
             x : array or string
-                either 1_dimensional array of values or a column name in a pandas DataFrame.
+                either 1_dimensional array of values or a column name in a Pandas DataFrame.
             y : array or string
-                either 1_dimensional array of values or a column name in a pandas DataFrame.
+                either 1_dimensional array of values or a column name in a Pandas DataFrame.
             target : array or string
-                either 1_dimensional array of values or a column name in a pandas DataFrame.
+                either 1_dimensional array of values or a column name in a Pandas DataFrame.
             label : list
                 list of labels describing hue.
-            df : pandas DataFrame, default=None
+            df : Pandas DataFrame, default=None
                 dataset containing data to be plotted. can be any size - plotted columns will be
                 chosen by columns names specified in x, y.
             x_units : string, default='d'
@@ -162,7 +162,7 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
             ax : axes object, default=None
                 axis on which to place visual.
     """
-    # if a pandas DataFrame is passed to function, create x, y and target arrays using columns names
+    # if a Pandas DataFrame is passed to function, create x, y and target arrays using columns names
     # passed into function. also create x, which is a matrix containing the x, y and target columns.
     if df is not None:
         x = df[[x, y, target]].values
@@ -239,11 +239,11 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
 def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_rotate=None, alpha=0.8,
                     bbox=(1.2, 0.9), legend_labels=None, color_map="viridis", ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             creates distribution plot for number variables, showing counts of a single
             variable. also overlays a kernel density estimation curve.
-        parameters:
+        Parameters:
             x : array
                 data to be plotted.
             color : string (some sort of color code)
@@ -339,10 +339,10 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
 
 def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create kernel density curve for a feature.
-        parameters:
+        Parameters:
             x : array
                 data to be plotted.
             color : string (some sort of color code)
@@ -387,16 +387,16 @@ def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):
 def reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.style_blue, x_jitter=None,
                     x_units="f", y_units="f", x_rotate=None, alpha=0.3, ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create scatter plot with regression line.
-        parameters:
+        Parameters:
             x : string
                 name of independent variable in dataframe. represents a category
             y : string
                 name of number target variable.
-            data : pandas DataFrame
-                pandas DataFrame including both indepedent variable and target variable.
+            data : Pandas DataFrame
+                Pandas DataFrame including both indepedent variable and target variable.
             dot_color : string
                 determines color of dots.
             line_color : string
@@ -456,15 +456,15 @@ def reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.styl
 
 def pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_col=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create pair plot that produces a grid of scatter plots for all unique pairs of
             number features and a series of kde or histogram plots along the diagonal.
-        parameters:
-            df : pandas DataFrame
-                pandas DataFrame containing data of interest.
+        Parameters:
+            df : Pandas DataFrame
+                Pandas DataFrame containing data of interest.
             columns : list, default=None
-                list of strings describing columns in pandas DataFrame to be visualized.
+                list of strings describing columns in Pandas DataFrame to be visualized.
             color : string, default=style.style_blue
                 color to serve as high end of gradient when gradient_col is specified.
             gradient_col : string, default=None
@@ -538,15 +538,15 @@ def pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_co
 def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labels=None, drop_na=True,
                     bbox=(2.0, 1.0), alpha=0.7, color_map="viridis"):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create pair plot that produces a grid of scatter plots for all unique pairs of
             number features and a series of kde or histogram plots along the diagonal.
-        parameters:
-            df : pandas DataFrame
-                pandas DataFrame containing data of interest.
+        Parameters:
+            df : Pandas DataFrame
+                Pandas DataFrame containing data of interest.
             columns : list, default=None
-                list of strings describing columns in pandas DataFrame to be visualized.
+                list of strings describing columns in Pandas DataFrame to be visualized.
             target : Pandas Series, default=None
                 introduce third dimension to scatter plots through a color hue that differentiates
                 dots based on the target's value.
@@ -696,13 +696,13 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
 
 def hist(self, x, color, label, alpha=0.8):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create histogram of number variable. simple function capable of easy
             iteration through several groupings of a number variable that is
             separated out based on a object label. this results in several overlapping
             histograms and can reveal differences in distributions.
-        parameters:
+        Parameters:
             x : array
                 1_dimensional array of values to be plotted on x_axis.
             color : string (some sort of color code)

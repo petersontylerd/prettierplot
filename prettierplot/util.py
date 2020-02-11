@@ -7,8 +7,8 @@ from matplotlib import cm
 
 def util_plot_buffer(ax, x, y):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             creates narrow border around plot arrow.
             prevents plot icons from being clipped by plot edges.
     """
@@ -25,10 +25,10 @@ def util_plot_buffer(ax, x, y):
 def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=None, x_rotate=None,
                             y_rotate=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             formats tick labels as dolloars, percentages, or decimals.
-        parameters:
+        Parameters:
             ax : axes object, default=None
                 axis on which to place visual..
             x_units : str, default=None
@@ -143,8 +143,8 @@ def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=Non
 
 def util_set_axes(x, y, x_thresh=0.75, y_thresh=0.75):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             dynamically set lower/upper limits of x/y axes.
     """
     x_min = round(np.nanmin(x), 5)
@@ -163,17 +163,17 @@ def util_set_axes(x, y, x_thresh=0.75, y_thresh=0.75):
 
 def number_coerce(df, columns=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             convert object columns that include number data to float or int
             data type.
         paramters:
-            df : pandas DataFrame
+            df : Pandas DataFrame
                 input dataset
             columns : list of strings
                 list of column names to convert.
-        returns:
-            pandas DataFrame with converted columns.
+        Returns:
+            Pandas DataFrame with converted columns.
     """
     # if no columns specified, set columns equal to all non object columns
     if columns is None:

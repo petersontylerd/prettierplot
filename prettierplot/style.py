@@ -5,8 +5,8 @@ import matplotlib.colors
 
 def color_gen(name="viridis", num=2):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             generates a list of hex color codes of a specified length from a specified
              color map.
         parameters
@@ -14,7 +14,7 @@ def color_gen(name="viridis", num=2):
                 name of built_in colormap
             num : int, default=2
                 an integer specifying the number of entries desired in the lookup table.
-        returns:
+        Returns:
             color_list : list
                 list containing specified number of hex codes.
     """

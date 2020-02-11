@@ -15,10 +15,10 @@ import textwrap
 def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=True, label_rotate=0,
                     y_units="f", alpha=0.8, ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create vertical bar plot.
-        parameters:
+        Parameters:
             x : array
                 1_dimensional array of values to be plotted on x_axis representing distinct categories.
             counts : array or string
@@ -90,10 +90,10 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Tr
 
 def bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f", alpha=0.8, ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create vertical bar plot.
-        parameters:
+        Parameters:
             y : array
                 1_dimensional array of values to be plotted on y-axis representing distinct categories.
             counts : array or string
@@ -130,10 +130,10 @@ def bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f",
 def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="viridis", bbox=(1.2,0.9),
                         legend_labels=None, ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create vertical bar plot.
-        parameters:
+        Parameters:
             df : Pandas DataFrame
                 1_dimensional array of values to be plotted on y-axis representing distinct categories.
             label_rotate : float or int, default=45
@@ -246,17 +246,17 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
 def box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="viridis", alpha=0.8,
                         suppress_outliers=False, ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create vertical box plots. useful for evaluated a number target on the y_axis
             vs. several different category segments on the x_axis
-        parameters:
+        Parameters:
             x : string
                 name of independent variable in dataframe. represents a category.
             y : string
                 name of number target variable.
-            data : pandas DataFrame
-                pandas DataFrame including both indpedent variable and target variable.
+            data : Pandas DataFrame
+                Pandas DataFrame including both indpedent variable and target variable.
             color : string
                 determines color of box plot figures. ideally this object is a color palette,
                 which can be a default seaborn palette, a custom seaborn palette, or a custom
@@ -331,17 +331,17 @@ def box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="
 def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05, 1), color_map="viridis",
                         suppress_outliers=False, alpha=0.8, legend_labels=None, ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create horizontal box plots. useful for evaluating a object target on the y_axis
             vs. a number independent variable on the x_axis.
-        parameters:
+        Parameters:
             x : string
                 name of independent variable in dataframe. represents a category.
             y : string
                 name of number target variable.
-            data : pandas DataFrame
-                pandas DataFrame including both indpedent variable and target variable.
+            data : Pandas DataFrame
+                Pandas DataFrame including both indpedent variable and target variable.
             color : string (some sort of color code), default=style.style_hex_mid
                 determines color of box plot figures. ideally this object is a color palette,
                 which can be a default seaborn palette, a custom seaborn palette, or a custom

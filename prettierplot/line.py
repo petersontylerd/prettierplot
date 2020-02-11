@@ -10,21 +10,21 @@ import prettierplot.util as util
 def line(self, x, y, label=None, df=None, linecolor=style.style_grey, linestyle=None, bbox=(1.2, 0.9), x_units="f",
         x_ticks=None, y_units="f", y_ticks=None, marker_on=False, plot_buffer=False, axis_limits=False, ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create line plot. capable of plotting multile lines on the same figure. also capable of
             adjusting which axis will have the same data for each line and which will have different
             data for each line.
-        parameters:
+        Parameters:
             x : list, array or string
                 either 1_dimensional array of values, a multidimensional array of values, a list of columns
-                in a pandas DataFrame, or a column name in a pandas DataFrame.
+                in a Pandas DataFrame, or a column name in a Pandas DataFrame.
             y : list, array or string
                 either 1_dimensional array of values, a multidimensional array of values, a list of columns
-                in a pandas DataFrame, or a column name in a pandas DataFrame.
+                in a Pandas DataFrame, or a column name in a Pandas DataFrame.
             label : string : default=None
                 name to create legend entry.
-            df : pandas DataFrame, default=None
+            df : Pandas DataFrame, default=None
                 dataset containing data to be plotted. can be any size, as plotted columns will be chosen
                 by columns names specified in x, y.
             linecolor : string, default=reference to list
@@ -54,7 +54,7 @@ def line(self, x, y, label=None, df=None, linecolor=style.style_grey, linestyle=
             ax : axes object, default=None
                 axis on which to place visual.
     """
-    # if a pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
+    # if a Pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
     if df is not None:
         if isinstance(df.index, pd.core.indexes.base.Index):
             x = df.index.values
@@ -150,21 +150,21 @@ def multi_line(
     ax=None,
 ):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create line plot. capable of plotting multile lines on the same figure. also capable of
             adjusting which axis will have the same data for each line and which will have different
             data for each line.
-        parameters:
+        Parameters:
             x : array or string
                 either 1_dimensional array of values, a multidimensional array of values, a list of columns
-                in a pandas DataFrame, or a column name in a pandas DataFrame.
+                in a Pandas DataFrame, or a column name in a Pandas DataFrame.
             y : array or string
                 either 1_dimensional array of values, a multidimensional array of values, a list of columns
-                in a pandas DataFrame, or a column name in a pandas DataFrame.
+                in a Pandas DataFrame, or a column name in a Pandas DataFrame.
             label : list of strings : default=None
                 list of names of used to create legend entries for each line.
-            df : pandas DataFrame, default=None
+            df : Pandas DataFrame, default=None
                 dataset containing data to be plotted. can be any size, as plotted columns will be chosen
                 by columns names specified in x, y.
             linecolor : string, default=reference to list
@@ -196,7 +196,7 @@ def multi_line(
             ax : axes object, default=None
                 axis on which to place visual.
     """
-    # if a pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
+    # if a Pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
     if df is not None:
         if isinstance(df.index, pd.core.indexes.base.Index):
             x = df.index.values

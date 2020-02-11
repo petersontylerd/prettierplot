@@ -37,11 +37,11 @@ import prettierplot.util as util
 
 def prob_plot(self, x, plot):
     """
-        documentation:
-            description:
+        Documentation:
+            Description:
                 create plot that visualizes how well a number feature's distribution
                 conforms to a normal distribution
-            parameters:
+            Parameters:
                 x : array
                     1_dimensional array containing data of a number feature.
                 plot : plot object
@@ -69,13 +69,13 @@ def prob_plot(self, x, plot):
 def corr_heatmap(self, df, annot=False, columns=None, mask=False, color_map="viridis", vmin=-1.0, vmax=1.0,
                         ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             using number features, create correlation heatmap. produces correlation
             with all numberal features, and can be limited to certain features using 'columns'.
-        parameters:
-            df : pandas DataFrame
-                pandas DataFrame containing all features of interest. will be transformed into
+        Parameters:
+            df : Pandas DataFrame
+                Pandas DataFrame containing all features of interest. will be transformed into
                 a correlation matrix.
             annot : bool, default=False
                 determines whether or not correlation table is annotated with correlation
@@ -166,14 +166,14 @@ def corr_heatmap(self, df, annot=False, columns=None, mask=False, color_map="vir
 def corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, color_map="viridis", vmin=-1.0, vmax=1.0,
                                 ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             using number features, create correlation heatmap. capable of dropping
             zeros in select features, where zeros potentially indicate a complete absence
             of the feature.
-        parameters:
-            df : pandas DataFrame
-                pandas DataFrame containing all features of interest. will be transformed into
+        Parameters:
+            df : Pandas DataFrame
+                Pandas DataFrame containing all features of interest. will be transformed into
                 a correlation matrix.
             annot : bool, default=False
                 determines whether or not correlation table is annotated with correlation
@@ -257,10 +257,10 @@ def corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, color_ma
 def roc_curve_plot(self, model, X_train, y_train, X_valid=None, y_valid=None, linecolor=style.style_grey,
                         bbox=(1.0, 0.4), ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             plot roc curve and report auc in
-        parameters:
+        Parameters:
             model : sklearn model or pipeline
                 model to fit and generate prediction probabilities.
             X_train : array
@@ -334,10 +334,10 @@ def roc_curve_plot(self, model, X_train, y_train, X_valid=None, y_valid=None, li
 def decision_region(self, x, y, classifier, test_idx=None, resolution=0.1, bbox=(1.2, 0.9),
                             color_map="viridis", ax=None):
     """
-    documentation:
-        description:
+    Documentation:
+        Description:
             create 2_dimensional chart with shading used to highlight decision regions.
-        parameters:
+        Parameters:
             x : array
                 m x 2 array containing 2 features.
             y : array
