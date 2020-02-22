@@ -714,3 +714,4 @@ def hist(self, x, color, label, alpha=0.8):
     """
     # create histogram.
     plt.hist(x=x, color=color, label=label, alpha=alpha)
+

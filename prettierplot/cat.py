@@ -87,7 +87,6 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Fa
     # use label formatter utility function to customize chart labels.
     util.util_label_formatter(ax=ax, y_units=y_units)
 
-
 def bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f", alpha=0.8, ax=None):
     """
     Documentation:

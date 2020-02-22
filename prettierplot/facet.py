@@ -20,7 +20,7 @@ def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=
             df : Pandas DataFrame
                 Pandas DataFrame
             feature : string
-                string describing column name containing target values
+                name of column that contains the category values
             label_rotate : float or int, default=0
                 degrees by which the xtick labels are rotated.
             x_units : string, default='f'
@@ -72,7 +72,6 @@ def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=
     )
     plt.xticks(rotation=label_rotate)
 
-
     ## create custom legend
     # create labels
     if legend_labels is None:
@@ -123,14 +122,13 @@ def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=
     elif len(feature_dict[feature]) > 20:
         ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.6 * self.chart_scale)
 
-
 def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=None, alpha=0.8,
                         legend_labels=None, filter_na_n=True, color_map="viridis", ax=None):
     """
     Documentation:
         Description:
             creates a series of bar plots that count a variable along the y_axis and separate the counts
-            into bins based on by two object variables.
+            into bins based on two category variables.
         Parameters:
             df : Pandas DataFrame
                 Pandas DataFrame
@@ -253,7 +251,6 @@ def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=No
         util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
     #plt.show()
-
 
 def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None, bbox=None, aspect=1, alpha=0.8,
                                 height=4, legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
@@ -402,7 +399,6 @@ def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None
             plt.setp(text, color="grey")
 
     #plt.show()
-
 
 def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, aspect=1, height=4, alpha=0.8,
                                 legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
@@ -558,7 +554,6 @@ def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, as
             plt.setp(text, color="grey")
 
     #plt.show()
-
 
 def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=None, aspect=1,
                                 alpha=0.8, height=4, legend_labels=None, color_map="viridis"):
