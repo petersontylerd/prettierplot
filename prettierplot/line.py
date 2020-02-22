@@ -130,25 +130,9 @@ def line(self, x, y, label=None, df=None, linecolor=style.style_grey, linestyle=
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
 
-def multi_line(
-    self,
-    x,
-    y,
-    label=None,
-    df=None,
-    linecolor=None,
-    linestyle=None,
-    bbox=(1.2, 0.9),
-    x_units="f",
-    x_ticks=None,
-    y_units="f",
-    y_ticks=None,
-    marker_on=False,
-    plot_buffer=False,
-    axis_limits=False,
-    color_map="viridis",
-    ax=None,
-):
+def multi_line(self, x, y, label=None, df=None, linecolor=None, linestyle=None, bbox=(1.2, 0.9), x_units="f",
+                x_ticks=None, y_units="f", y_ticks=None, marker_on=False, plot_buffer=False, axis_limits=False,
+                color_map="viridis", ax=None):
     """
     Documentation:
         Description:
