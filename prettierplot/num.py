@@ -337,7 +337,7 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
         for text in leg.get_texts():
             plt.setp(text, color="grey")
 
-def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):
+def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, line_width=0.25, bw=1.0, ax=None):
     """
     Documentation:
         Description:
@@ -355,6 +355,10 @@ def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):
                 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
             shade : boolean, default=True
                 shade area under KDe curve
+            line_width : float or int, default= 0.5
+                controls thickness of kde lines
+            bw : float, default=1.0
+                scaling factor for the KDE curve
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -364,6 +368,7 @@ def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):
         shade=shade,
         color=color,
         legend=None,
+        linewidth=self.chart_scale * line_width,
         ax=ax
     )
 
@@ -384,8 +389,8 @@ def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, ax=None):
     # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
-def reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.style_blue, x_jitter=None,
-                    x_units="f", y_units="f", x_rotate=None, alpha=0.3, ax=None):
+def reg_plot(self, x, y, data, dot_color=style.style_grey, dot_size=2.0, line_color=style.style_blue, line_width = 0.3,
+            x_jitter=None, x_units="f", y_units="f", x_rotate=None, alpha=0.3, ax=None):
     """
     Documentation:
         Description:
@@ -399,8 +404,12 @@ def reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.styl
                 Pandas DataFrame including both indepedent variable and target variable.
             dot_color : string
                 determines color of dots.
+            dot_size : float or int
+                determines size of dots
             line_color : string
                 determines color of regression line.
+            line_width : float or int
+                determines width of regression line.
             x_jitter : float, default=None
                 optional paramter for randomly displacing dots along the x_axis to enable easier visibility
                 of dots.
@@ -428,9 +437,12 @@ def reg_plot(self, x, y, data, dot_color=style.style_grey, line_color=style.styl
         scatter_kws={
             "alpha": alpha,
             "color": dot_color,
-            "s": 2.0 * self.chart_scale,
+            "s": dot_size * self.chart_scale,
             },
-        line_kws={"color": line_color},
+        line_kws={
+            "color": line_color,
+            "linewidth": self.chart_scale * line_width,
+            },
         ax=ax,
     ).set(xlabel=None, ylabel=None)
 

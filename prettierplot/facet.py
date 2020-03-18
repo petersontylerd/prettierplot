@@ -50,7 +50,10 @@ def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=
         feature_dict[feature] = df[feature].values.tolist()
 
     # generate color list
-    color_list = style.color_gen(name=color_map, num=len(feature_dict.keys()))
+    if isinstance(color_map, str):
+        color_list = style.color_gen(name=color_map, num=len(feature_dict.keys()))
+    elif isinstance(color_map, list):
+        color_list = color_map
 
     for feature_ix, (k, v) in enumerate(feature_dict.items()):
         plt.bar(
