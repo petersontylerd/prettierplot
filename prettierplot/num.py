@@ -520,7 +520,7 @@ def pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_co
             ncols=len(df.columns),
             nrows=len(df.columns),
             constrained_layout=True,
-            figsize=(20, 14),
+            figsize=(1.2 * self.chart_scale, 0.9 * self.chart_scale),
         )
 
         # unpack axes
