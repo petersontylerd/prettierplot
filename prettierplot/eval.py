@@ -301,7 +301,7 @@ def roc_curve_plot(self, model, X_train, y_train, X_valid=None, y_valid=None, li
     self.line(
         x=fpr,
         y=tpr,
-        label="auc: {:.4f}".format(roc_auc),
+        label="AUC: {:.4f}".format(roc_auc),
         linecolor=linecolor,
         x_units="fff",
         y_units="fff",
