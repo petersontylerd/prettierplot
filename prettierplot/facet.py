@@ -34,10 +34,10 @@ def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=
             bbox : tuple of floats, default=(1.2, 0.9)
                 coordinates for determining legend position.
             alpha : float, default=0.8
-                controls transparency of objects. accepts value between 0.0 and 1.0.
+                Controlstransparency of objects. accepts value between 0.0 and 1.0.
             legend_labels : list, default=None
                 custom legend labels.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             ax : axes object, default=None
                 axis on which to place visual.
@@ -150,14 +150,14 @@ def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=No
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             alpha : float, default=0.8
-                controls transparency of objects. accepts value between 0.0 and 1.0.
+                Controlstransparency of objects. accepts value between 0.0 and 1.0.
             bbox : tuple of floats, default=None
                 coordinates for determining legend position.
             legend_labels : list, default=None
                 custom legend labels.
             filter_nan : bool, default=True
                 remove record that have a null value in the column specified by the 'x' parameter.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             ax : axes object, default=None
                 axis on which to place visual.
@@ -281,7 +281,7 @@ def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None
                 higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             alpha : float, default=0.8
-                controls transparency of objects. accepts value between 0.0 and 1.0.
+                Controlstransparency of objects. accepts value between 0.0 and 1.0.
             height : float, default=4
                 height in inches of each facet.
             legend_labels : list, default=None
@@ -292,7 +292,7 @@ def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None
             y_units : string, default='f'
                 determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
     """
     g = sns.FacetGrid(
@@ -430,7 +430,7 @@ def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, as
             height : float, default=4
                 height in inches of each facet.
             alpha : float, default=0.8
-                controls transparency of objects. accepts value between 0.0 and 1.0.
+                Controlstransparency of objects. accepts value between 0.0 and 1.0.
             legend_labels : list, default=None
                 custom legend labels.
             x_units : string, default='f'
@@ -439,7 +439,7 @@ def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, as
             y_units : string, default='f'
                 determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
                 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
     """
     g = sns.FacetGrid(
@@ -583,12 +583,12 @@ def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=
                 higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             alpha : float, default=0.8
-                controls transparency of objects. accepts value between 0.0 and 1.0.
+                Controlstransparency of objects. accepts value between 0.0 and 1.0.
             height : float, default=4
                 height in inches of each facet.
             legend_labels : list, default=None
                 custom legend labels.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
     """
     g = sns.FacetGrid(

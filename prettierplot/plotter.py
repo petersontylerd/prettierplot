@@ -110,12 +110,12 @@ class PrettierPlot:
                 x_label : string, default='' (blank)
                     x_axis label.
                 x_shift : float, default=0.8
-                    controls position of x_axis label. higher values move label right along axis.
+                    Controlsposition of x_axis label. higher values move label right along axis.
                     intent is to align with left of axis.
                 y_label : string, default='' (blank)
                     y_axis label.
                 y_shift : float, default=0.8
-                    controls position of y_axis label. higher values move label higher along axis.
+                    Controlsposition of y_axis label. higher values move label higher along axis.
                     intent is to align with top of axis.
                 position : int (nrows, ncols, index), default=111
                     determine subplot position of plot.
@@ -128,7 +128,7 @@ class PrettierPlot:
                 sharey : bool or none, default=None
                     conditional controlling whether to share y_axis across all subplots in a row.
                 title_scale : float, default=1.0
-                    controls the scaling up (higher value) and scaling down (lower value) of the size of
+                    Controls the scaling up (higher value) and scaling down (lower value) of the size of
                     the main chart title, the x_axis title and the y_axis title.
             returns
                 ax : axes object

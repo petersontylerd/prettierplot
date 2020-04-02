@@ -49,7 +49,7 @@ def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ti
             facecolor : string (color code of some sort), default='w'
                 determine face color of scatter dots.
             alpha : float, default=0.8
-                controls transparency of objects. accepts value between 0.0 and 1.0.
+                Controlstransparency of objects. accepts value between 0.0 and 1.0.
             x_rotate : int, default=None
                 rotates x_axis tick mark labels x degrees.
             ax : axes object, default=None
@@ -153,10 +153,10 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
                 determine face color of scatter dots.
             bbox : tuple of floats, default=(1.2, 0.9)
                 coordinates for determining legend position.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             alpha : float, default=0.8
-                controls transparency of objects. accepts value between 0.0 and 1.0.
+                Controlstransparency of objects. accepts value between 0.0 and 1.0.
             x_rotate : int, default=None
                 rotates x_axis tick mark labels x degrees.
             ax : axes object, default=None
@@ -266,7 +266,7 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
                 coordinates for determining legend position.
             legend_labels : list, default=None
                 custom legend labels.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             ax : axes object, default=None
                 axis on which to place visual.
@@ -356,7 +356,7 @@ def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, line_width=0
             shade : boolean, default=True
                 shade area under KDe curve
             line_width : float or int, default= 0.5
-                controls thickness of kde lines
+                Controlsthickness of kde lines
             bw : float, default=1.0
                 scaling factor for the KDE curve
             ax : axes object, default=None
@@ -424,7 +424,7 @@ def reg_plot(self, x, y, data, dot_color=style.style_grey, dot_size=2.0, line_co
             x_rotate : int, default=None
                 rotates x_axis tick mark labels x degrees.
             alpha : float, default=0.3
-                controls transparency of objects. accepts value between 0.0 and 1.0.
+                Controlstransparency of objects. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -571,8 +571,8 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
             bbox : tuple of floats, default=None
                 coordinates for determining legend position.
             alpha : float, default=0.7
-                controls transparency of objects. accepts value between 0.0 and 1.0.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+                Controlstransparency of objects. accepts value between 0.0 and 1.0.
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
     """
     # custom plot formatting settings for this particular chart.
@@ -722,7 +722,7 @@ def hist(self, x, color, label, alpha=0.8):
             label : string
                 category value label.
             alpha : float, default=0.8
-                controls transparency of bars. accepts value between 0.0 and 1.0.
+                Controlstransparency of bars. accepts value between 0.0 and 1.0.
     """
     # create histogram.
     plt.hist(x=x, color=color, label=label, alpha=alpha)

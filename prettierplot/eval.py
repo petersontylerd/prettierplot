@@ -85,7 +85,7 @@ def corr_heatmap(self, df, annot=False, columns=None, mask=False, color_map="vir
             mask : bool, default=False
                 determines whether or not correlation table is masked such that only the lower
                 triangle appears.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             vmin : float, default=_1.0
                 minimum anchor value for color map.
@@ -186,7 +186,7 @@ def corr_heatmap_target(self, df, target=None, annot=False, thresh=0.2, color_ma
                 the feature of focus in the supplemental correlation visualization. used
                 to determine the feature for which the nlargest correlation coefficients
                 are returned.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             vmin : float, default=_1.0
                 minimum anchor value for color map.
@@ -347,10 +347,10 @@ def decision_region(self, x, y, classifier, test_idx=None, resolution=0.1, bbox=
             test_idx :  tuple, default=None
                 optional parameter for specifying observations to be highlighted as test examples.
             resolution : float, default=0.1
-                controls clarity of the graph by setting interval of the arrays passed into np.meshgrid.
+                Controlsclarity of the graph by setting interval of the arrays passed into np.meshgrid.
             bbox : tuple of floats, default=(1.2, 0.9)
                 coordinates for determining legend position.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             ax : axes object, default=None
                 axis on which to place visual.

@@ -36,7 +36,7 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Fa
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             alpha : float, default=0.8
-                controls transparency of bars. accepts value between 0.0 and 1.0.
+                Controlstransparency of bars. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -143,7 +143,7 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
                 decimal places.
             alpha : float, default=0.8
                 control transparency of bars. accepts value between 0.0 and 1.0.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             bbox : tuple of floats, default=(1.2, 0.9)
                 coordinates for determining legend position.
@@ -266,12 +266,12 @@ def box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="
                 determines units of y_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
                 percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             alpha : float, default=0.8
-                controls transparency of objects. accepts value between 0.0 and 1.0.
+                Controlstransparency of objects. accepts value between 0.0 and 1.0.
             suppress_outliers : boolean, default=False
-                controls removal of outliers from box/whisker plots
+                Controlsremoval of outliers from box/whisker plots
             ax : axes object, default=None
                 axis on which to place visual.
     """
@@ -351,12 +351,12 @@ def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05
                 decimal places.
             bbox : tuple of floats, default=(1.05, 1.0)
                 coordinates for determining legend position.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             suppress_outliers : boolean, default=False
-                controls removal of outliers from box/whisker plots
+                Controlsremoval of outliers from box/whisker plots
             alpha : float, default=0.8
-                controls transparency of bars. accepts value between 0.0 and 1.0.
+                Controlstransparency of bars. accepts value between 0.0 and 1.0.
             ax : axes object, default=None
                 axis on which to place visual.
     """

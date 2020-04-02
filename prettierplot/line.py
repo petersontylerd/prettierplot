@@ -175,7 +175,7 @@ def multi_line(self, x, y, label=None, df=None, linecolor=None, linestyle=None, 
                 switch for determining whether dynamic plot buffer function is executed.
             axis_limits : bool, default=False
                 switch for determining whether dynamic axis limit setting function is executed.
-            color_map : string specifying built_in matplotlib colormap, default="viridis"
+            color_map : string specifying built-in matplotlib colormap, default="viridis"
                 colormap from which to draw plot colors.
             ax : axes object, default=None
                 axis on which to place visual.
