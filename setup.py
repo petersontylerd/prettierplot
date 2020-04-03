@@ -16,7 +16,7 @@ project_urls = {
     "source code": "https://github.com/petersontylerd/prettierplot",
 }
 url = "https://github.com/petersontylerd/prettierplot"
-version = "0.1.0"
+version = "0.1.1"
 
 
 def setup_package():
