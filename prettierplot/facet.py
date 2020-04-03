@@ -9,38 +9,42 @@ import prettierplot.util as util
 import textwrap
 
 
-def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=(1.2, 0.9),
-                        alpha=0.8, legend_labels=None, color_map="viridis", ax=None):
+def facet_cat(self, df, feature, label_rotate=0, x_units="s", y_units="f", bbox=(1.2, 0.9), alpha=0.8,
+                legend_labels=None, color_map="viridis", ax=None):
     """
     Documentation:
+
+        ---
         Description:
-            creates a count plot for a object variable and facets the variable by a
-            object label.
+            Creates a count plot for a categorical variable and facet the variable by another
+            categorical variable.
+
+        ---
         Parameters:
             df : Pandas DataFrame
-                Pandas DataFrame
-            feature : string
-                name of column that contains the category values
+                Pandas DataFrame containing data for plotting.
+            feature : str
+                Name of column that contains the category values to be used for faceting/
             label_rotate : float or int, default=0
-                degrees by which the xtick labels are rotated.
-            x_units : string, default='f'
-                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
-                decimal places.
-            y_units : string, default='s'
-                determines units of y_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
-                decimal places.
+                Number of degrees to rotate the x-tick labels.
+            x_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 's' displays string. 'f' displays
+                float. 'p' displays percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd')
+                for additional decimal places.
+            y_units : str, default='s'
+                Determines unit of measurement for y-axis tick labels. 's' displays string. 'f' displays
+                float. 'p' displays percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd')
+                for additional decimal places.
             bbox : tuple of floats, default=(1.2, 0.9)
-                coordinates for determining legend position.
+                Coordinates for determining legend position.
             alpha : float, default=0.8
-                Controlstransparency of objects. accepts value between 0.0 and 1.0.
+                Controls transparency of objects. Accepts value between 0.0 and 1.0.
             legend_labels : list, default=None
-                custom legend labels.
-            color_map : string specifying built-in matplotlib colormap, default="viridis"
-                colormap from which to draw plot colors.
+                Custom legend labels.
+            color_map : str specifying built-in matplotlib colormap, default="viridis"
+                Color map applied to plots.
             ax : axes object, default=None
-                axis on which to place visual.
+                Axis object for the visualization.
     """
     ixs = np.arange(df.shape[0])
     bar_width = 0.35
@@ -65,7 +69,7 @@ def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=
             label=str(k),
         )
 
-    # custom x_tick labels.
+    # wrap long x-tick labels
     plt.xticks(
         ixs[: df.shape[0]] + bar_width / 2,
         [
@@ -87,7 +91,7 @@ def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=
     for ix, i in enumerate(legend_labels):
         label_color[i] = color_list[ix]
 
-    # create patches
+    # create legend Patches
     patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
     # draw legend
@@ -105,19 +109,20 @@ def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=
         plt.setp(text, color="grey")
 
     ### general formatting
-    # use label formatter utility function to customize chart labels
-
+    # if data is float dtype, then format as a number
     if df.iloc[:, 0].values.dtype == np.float:
         x_units = "f"
+    # otherwise represent data as a string
     else:
         x_units = "s"
 
+    # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
     # tick label font size
     ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_scale)
 
-    # resize x_axis labels as needed.
+    # dynamically set x-axis label size
     if 7 < len(feature_dict[feature]) <= 10:
         ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.9 * self.chart_scale)
     elif 10 < len(feature_dict[feature]) <= 20:
@@ -126,45 +131,51 @@ def facet_cat(self, df, feature, label_rotate=0, y_units="f", x_units="s", bbox=
         ax.tick_params(axis="x", colors=style.style_grey, labelsize=0.6 * self.chart_scale)
 
 def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=None, alpha=0.8,
-                        legend_labels=None, filter_na_n=True, color_map="viridis", ax=None):
+                        legend_labels=None, filter_nan=True, color_map="viridis", ax=None):
     """
     Documentation:
+
         Description:
-            creates a series of bar plots that count a variable along the y_axis and separate the counts
+            Creates a series of bar plots that count a variable along the y_axis and separate the counts
             into bins based on two category variables.
+
+        ---
         Parameters:
             df : Pandas DataFrame
-                Pandas DataFrame
-            x : string
-                object variable to be plotted along x_axis.
-            y : string
-                variable to be counted along y_axis.
-            split : string
-                object variable on which to differentiate the num_col variable.
-            x_units : string, default=None
-                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
-                decimal places.
-            y_units : string, default=None
-                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
-                decimal places.
-            alpha : float, default=0.8
-                Controlstransparency of objects. accepts value between 0.0 and 1.0.
+                Pandas DataFrame containing data for plotting.
+            x : str
+                Categorical variable to plot along x-axis.
+            y : str
+                Pandas DataFrame containing data for plotting.
+                ariable to be counted along y-axis.
+            split : str
+                Categorical variable for faceting the num_col variable.
+            x_units : str, default=None
+                Determines unit of measurement for x-axis tick labels. 's' displays string. 'f' displays
+                float. 'p' displays percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd')
+                for additional decimal places.
+            y_units : str, default=None
+                Determines unit of measurement for x-axis tick labels. 's' displays string. 'f' displays
+                float. 'p' displays percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd')
+                for additional decimal places.
             bbox : tuple of floats, default=None
-                coordinates for determining legend position.
+                Coordinates for determining legend position.
+            alpha : float, default=0.8
+                Controls transparency of objects. Accepts value between 0.0 and 1.0.
             legend_labels : list, default=None
-                custom legend labels.
+                Custom legend labels.
             filter_nan : bool, default=True
-                remove record that have a null value in the column specified by the 'x' parameter.
-            color_map : string specifying built-in matplotlib colormap, default="viridis"
-                colormap from which to draw plot colors.
+                Remove records that have a null value in the column specified by the 'x' parameter.
+            color_map : str specifying built-in matplotlib colormap, default="viridis"
+                Color map applied to plots.
             ax : axes object, default=None
-                axis on which to place visual.
+                Axis object for the visualization.
     """
-    if filter_na_n:
+    # remove nans from x columns
+    if filter_nan:
         df = df.dropna(subset=[x])
 
+    # create bar plot
     g = sns.barplot(
         x=x,
         y=y,
@@ -181,31 +192,35 @@ def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=No
         ci=None,
     )
 
-    # format x and y_tick labels
-    g.set_yticklabels(
-        g.get_yticklabels() * 100 if "p" in y_units else g.get_yticklabels(),
-        rotation=0,
-        fontsize=1.05 * self.chart_scale,
-        color=style.style_grey,
-    )
+    # format x-tick labels
     g.set_xticklabels(
         g.get_xticklabels(),
         rotation=0,
         fontsize=1.05 * self.chart_scale,
         color=style.style_grey,
     )
-    g.set_ylabel(
-        g.get_ylabel(),
-        rotation=90,
-        fontsize=1.35 * self.chart_scale,
+    # format y-tick labels
+    g.set_yticklabels(
+        g.get_yticklabels() * 100 if "p" in y_units else g.get_yticklabels(),
+        rotation=0,
+        fontsize=1.05 * self.chart_scale,
         color=style.style_grey,
     )
+    # format x-axis label
     g.set_xlabel(
         g.get_xlabel(),
         rotation=0,
         fontsize=1.35 * self.chart_scale,
         color=style.style_grey,
     )
+    # format y-axis label
+    g.set_ylabel(
+        g.get_ylabel(),
+        rotation=90,
+        fontsize=1.35 * self.chart_scale,
+        color=style.style_grey,
+    )
+    # format title
     g.set_title(
         g.get_title(),
         rotation=0,
@@ -233,7 +248,7 @@ def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=No
         for ix, i in enumerate(legend_labels):
             label_color[i] = color_list[ix]
 
-        # create patches
+        # create legend Patches
         patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
         # draw legend
@@ -253,48 +268,53 @@ def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=No
         # use label formatter utility function to customize chart labels
         util.util_label_formatter(ax=ax, x_units=x_units, y_units=y_units)
 
-    #plt.show()
-
 def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None, bbox=None, aspect=1, alpha=0.8,
                                 height=4, legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
     """
     Documentation:
+
+        ---
         Description:
-            creates scatter plots of two number variables and allows for faceting by up to two
-            object variables along the column and/or row axes of the figure.
+            Creates scatter plots of two numeric variables and allows for faceting by up to two
+            categorical variables along the column and/or row axes of the figure.
+
+        ---
         Parameters:
             df : Pandas DataFrame
-                Pandas DataFrame
-            x : string
-                number variable to be plotted along x_axis.
-            y : string
-                number variable to be plotted along y_axis.
-            cat_row : string
-                object variable faceted along the row axis.
-            cat_col : string
-                object variable faceted along the column axis.
-            split : string
-                object variable on which to differentiate the num_col variable.
+                Pandas DataFrame containing data for plotting.
+            x : str
+                Numeric variable to plot along x-axis.
+            y : str
+                Numeric variable to plot along y-axis.
+            cat_row : str
+                Categorical variable faceted along the row axis.
+            cat_col : str
+                Categorical variable faceted along the column axis.
+            split : str
+                Categorical variable for faceting the num_col variable.
             bbox : tuple of floats, default=None
-                coordinates for determining legend position.
+                Coordinates for determining legend position.
             aspect : float, default=1
-                higher values create wider plot, lower values create narrow plot, while
+                Higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             alpha : float, default=0.8
-                Controlstransparency of objects. accepts value between 0.0 and 1.0.
+                Controls transparency of objects. Accepts value between 0.0 and 1.0.
             height : float, default=4
-                height in inches of each facet.
+                Height in inches of each facet.
             legend_labels : list, default=None
-                custom legend labels.
-            x_units : string, default='f'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            y_units : string, default='f'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            color_map : string specifying built-in matplotlib colormap, default="viridis"
-                colormap from which to draw plot colors.
+                Custom legend labels.
+            x_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p'
+                displays percentages, d' displays dollars. Repeat character (e.g 'ff' or 'ddd')
+                for additional decimal places.
+            y_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p'
+                displays percentages, d' displays dollars. Repeat character (e.g 'ff' or 'ddd')
+                for additional decimal places.
+            color_map : str specifying built-in matplotlib colormap, default="viridis"
+                Color map applied to plots.
     """
+    # create FacetGrid object
     g = sns.FacetGrid(
         df,
         col=cat_col,
@@ -310,6 +330,8 @@ def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None
         aspect=aspect,
         margin_titles=True,
     )
+
+    # map scatter plot to FacetGrid object
     g = g.map(plt.scatter, x, y, s=1.2 * self.chart_scale)
 
     # format x any y ticklabels, x and y labels, and main title
@@ -384,7 +406,7 @@ def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None
         for ix, i in enumerate(legend_labels):
             label_color[i] = color_list[ix]
 
-        # create patches
+        # create legend Patches
         patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
         # draw legend
@@ -401,47 +423,53 @@ def facet_cat_num_scatter(self, df, x, y, cat_row=None, cat_col=None, split=None
         for text in leg.get_texts():
             plt.setp(text, color="grey")
 
-    #plt.show()
-
 def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, aspect=1, height=4, alpha=0.8,
-                                legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
+                        legend_labels=None, x_units="f", y_units="f", color_map="viridis"):
     """
     Documentation:
+        
+        ---
         Description:
-            creates histograms of one number variable, and each can optionally be split by a object to
-            show two or more distributions. allows for faceting by up to two object variables along the
+            Creates histograms of one numeric variable, and each can optionally be split by a category to
+            show two or more distributions. Allows for faceting by up to two category variables along the
             column and/or row axes of the figure.
+        
+        ---
         Parameters:
             df : Pandas DataFrame
-                Pandas DataFrame
-            cat_row : string
-                object variable faceted along the row axis.
-            cat_col : string
-                object variable faceted along the column axis.
-            num_col : string
-                number variable to be plotted along x_axis.
-            split : string
-                object variable on which to differentiate the num_col variable.
+                Pandas DataFrame containing data for plotting.
+            cat_row : str
+                Categorical variable faceted along the row axis.
+            cat_col : str
+                Categorical variable faceted along the column axis.
+            num_col : str
+                number variable to plot along x_axis.
+            split : str
+                Categorical variable on which to differentiate the num_col variable.
             bbox : tuple of floats, default=None
-                coordinates for determining legend position.
+                Coordinates for determining legend position.
             aspect : float, default=1
                 higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             height : float, default=4
                 height in inches of each facet.
             alpha : float, default=0.8
-                Controlstransparency of objects. accepts value between 0.0 and 1.0.
+                Controls transparency of objects. Accepts value between 0.0 and 1.0.
             legend_labels : list, default=None
-                custom legend labels.
-            x_units : string, default='f'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            y_units : string, default='f'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            color_map : string specifying built-in matplotlib colormap, default="viridis"
-                colormap from which to draw plot colors.
+                Custom legend labels.
+            x_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p' displays
+                percentages, d' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
+            y_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p' displays
+                percentages, d' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
+            color_map : str specifying built-in matplotlib colormap, default="viridis"
+                Color map applied to plots.
+
     """
+    # create FacetGrid object
     g = sns.FacetGrid(
         df,
         row=cat_row,
@@ -458,12 +486,15 @@ def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, as
         aspect=aspect,
         margin_titles=True,
     )
+
+    # map histogram to FacetGrid object
     g.map(
         plt.hist,
         num_col,
         alpha=alpha,
     )
 
+    # format x any y ticklabels, x and y labels, and main title
     for i, ax in enumerate(g.axes.flat):
         _ = ax.set_ylabel(
             ax.get_ylabel(),
@@ -539,7 +570,7 @@ def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, as
         for ix, i in enumerate(legend_labels):
             label_color[i] = color_list[ix]
 
-        # create patches
+        # create legend Patches
         patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
         # draw legend
@@ -556,44 +587,50 @@ def facet_cat_num_hist(self, df, cat_row, cat_col, num_col, split, bbox=None, as
         for text in leg.get_texts():
             plt.setp(text, color="grey")
 
-    #plt.show()
-
 def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=None, aspect=1,
                                 alpha=0.8, height=4, legend_labels=None, color_map="viridis"):
     """
     Documentation:
+        
+        ---
         Description:
-            creates point plots that
+            Creates pointplots of one categorical variable, and each can optionally be split by
+            two additional categories along the column and/or row axes of the figure.
+        
+        ---
         Parameters:
             df : Pandas DataFrame
-                Pandas DataFrame
-            x : string
-                object variable to be plotted along x_axis.
-            y : string
-                variable to be counted along y_axis.
-            split : string
-                object variable on which to differentiate the 'x' variable.
-            cat_row : string
-                object variable faceted along the row axis.
-            cat_col : string
-                object variable faceted along the column axis.
+                Pandas DataFrame containing data for plotting.
+            x : str
+                Categorical variable to plot along x_axis.
+            y : str
+                Variable to be counted along y_axis.
+            split : str
+                Categorical variable for faceting the 'x' variable.
+            cat_col : str
+                Categorical variable faceted along the column axis.
+            cat_row : str
+                Categorical variable faceted along the row axis.
             bbox : tuple of floats, default=None
-                coordinates for determining legend position.
+                Coordinates for determining legend position.
             aspect : float, default=1
                 higher values create wider plot, lower values create narrow plot, while
                 keeping height constant.
             alpha : float, default=0.8
-                Controlstransparency of objects. accepts value between 0.0 and 1.0.
+                Controls transparency of objects. Accepts value between 0.0 and 1.0.
             height : float, default=4
                 height in inches of each facet.
             legend_labels : list, default=None
-                custom legend labels.
-            color_map : string specifying built-in matplotlib colormap, default="viridis"
-                colormap from which to draw plot colors.
+                Custom legend labels.
+            color_map : str specifying built-in matplotlib colormap, default="viridis"
+                Color map applied to plots.
     """
+    # create FacetGrid object
     g = sns.FacetGrid(
         df, row=cat_row, col=cat_col, aspect=aspect, height=height, margin_titles=True
     )
+
+    # map pointplot to FacetGrid object
     g.map(
         sns.pointplot,
         x,
@@ -608,6 +645,7 @@ def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=
         ci=None,
     )
 
+    # format x any y ticklabels, x and y labels, and main title
     for ax in g.axes.flat:
         _ = ax.set_ylabel(
             ax.get_ylabel(),
@@ -678,7 +716,7 @@ def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=
     for ix, i in enumerate(legend_labels):
         label_color[i] = color_list[ix]
 
-    # create patches
+    # create legend Patches
     patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
     # draw legend
@@ -694,5 +732,3 @@ def facet_two_cat_point(self, df, x, y, split, cat_col=None, cat_row=None, bbox=
     # label font color
     for text in leg.get_texts():
         plt.setp(text, color="grey")
-
-    #plt.show()

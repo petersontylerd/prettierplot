@@ -8,16 +8,21 @@ from matplotlib import cm
 def util_plot_buffer(ax, x, y):
     """
     Documentation:
+
+        ---
         Description:
-            creates narrow border around plot arrow.
-            prevents plot icons from being clipped by plot edges.
+            Creates narrow border around plot area. Prevents plot elements
+            from being cut-off by plot edges.
     """
+    # identify current x-axis and y-axis limits
     x_lim = ax.get_xlim()
     y_lim = ax.get_ylim()
 
+    # calculate margins by subtracing min from max and multiply by x/y
     x_margin = (x_lim[1] - x_lim[0]) * x
     y_margin = (y_lim[1] - y_lim[0]) * y
 
+    # reset x-axis and y-axis limits
     ax.set_xlim(x_lim[0] - x_margin, x_lim[1] + x_margin)
     ax.set_ylim(y_lim[0] - y_margin, y_lim[1] + y_margin)
 
@@ -26,23 +31,28 @@ def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=Non
                             y_rotate=None):
     """
     Documentation:
+
+        ---
         Description:
-            formats tick labels as dolloars, percentages, or decimals.
+            Formats tick labels as dollars, percentages, or decimals. Applies varying levels
+            of precision to labels
+
+        ---
         Parameters:
             ax : axes object, default=None
-                axis on which to place visual..
+                Axis object for the visualization.
             x_units : str, default=None
-                determines units of x_axis tick labels. none displays float. 'p' displays percentages,
-                '$' displays dollars.
+                Determines unit of measurement for x-axis tick labels. None displays float.
+                'p' displays percentages, '$' displays dollars.
             x_size : int or float, default=None
-                x_axis label size.
+                x-axis label size.
             y_units : str, default=None
-                determines units of y_axis tick labels. none displays float. 'p' displays percentages,
-                '$' displays dollars.
+                Determines unit of measurement for y-axis tick labels. None displays float.
+                'p' displays percentages, '$' displays dollars.
             y_size : int or float, default=None
-                y_axis label size.
+                y-axis label size.
     """
-    ## x_axis
+    ## x-axis
     # format as dollars
     if x_units == "d":
         fmt = "${x:,.0f}"
@@ -79,14 +89,16 @@ def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=Non
     elif x_units == "fffff":
         fmt = "{x:,.4f}"
 
+    # apply tick label formatting to x-tick labels
     if x_units is not None and x_units != "s":
         tick = tkr.StrMethodFormatter(fmt)
         ax.xaxis.set_major_formatter(tick)
 
+    # apply x-tick rotation
     if x_rotate is not None:
-    # if x_units is not None and x_rotate is not None:
         ax.tick_params(labelrotation=x_rotate, axis="x")
 
+    # resize x-tick label
     if x_size is not None:
         for tk in ax.get_xticklabels():
             tk.set_fontsize(x_size)
@@ -128,14 +140,16 @@ def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=Non
     elif y_units == "ffff":
         fmt = "{x:,.4f}"
 
+    # apply tick label formatting to y-tick labels
     if y_units is not None and y_units != "s":
         tick = tkr.StrMethodFormatter(fmt)
         ax.yaxis.set_major_formatter(tick)
 
+    # apply y-tick rotation
     if y_rotate is not None:
-    # if y_units is not None and y_rotate is not None:
         ax.tick_params(labelrotation=y_rotate, axis="y")
 
+    # resize y-tick label
     if y_size is not None:
         for tk in ax.get_yticklabels():
             tk.set_fontsize(y_size)
@@ -144,8 +158,22 @@ def util_label_formatter(ax, x_units=None, y_units=None, x_size=None, y_size=Non
 def util_set_axes(x, y, x_thresh=0.75, y_thresh=0.75):
     """
     Documentation:
+
+        ---
         Description:
-            dynamically set lower/upper limits of x/y axes.
+            Dynamically set lower/upper limits of x and y axes.
+
+        ---
+        Parameters:
+            x : list or array
+                1-dimensional array of values
+            y : list or array
+                1-dimensional array of values
+            x_thresh : float
+                Controls x-axis adjustment amount
+            y_thresh : float
+                Controls y-axis adjustment amount
+
     """
     x_min = round(np.nanmin(x), 5)
     x_max = round(np.nanmax(x), 5)
@@ -164,23 +192,29 @@ def util_set_axes(x, y, x_thresh=0.75, y_thresh=0.75):
 def number_coerce(df, columns=None):
     """
     Documentation:
+
+        ---
         Description:
-            convert object columns that include number data to float or int
-            data type.
-        paramters:
+            Convert categorical columns that include only numeric data to
+            float or int data type.
+
+        ---
+        Parameters:
             df : Pandas DataFrame
-                input dataset
+                Pandas DataFrame containing columns to convert
             columns : list of strings
-                list of column names to convert.
+                List of column names to convert.
         Returns:
             Pandas DataFrame with converted columns.
     """
-    # if no columns specified, set columns equal to all non object columns
+    # if no subset of columns is provided, use all columns in df
     if columns is None:
         columns = df.columns
 
+    # iterate through all columns
     for col in columns:
-        # exclude columsn that contain only nulls
+
+        # exclude columns that contain only nulls
         if not df[col].isnull().all():
             try:
                 df[col] = df[col].apply(pd.to_numeric)

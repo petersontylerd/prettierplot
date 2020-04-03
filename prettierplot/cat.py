@@ -16,31 +16,35 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Fa
                     y_units="f", alpha=0.8, ax=None):
     """
     Documentation:
+
+        ---
         Description:
-            create vertical bar plot.
+            Create vertical bar plot.
+
+        ---
         Parameters:
             x : array
-                1_dimensional array of values to be plotted on x_axis representing distinct categories.
+                1-dimensional array of values to plot on x-axis representing distinct categories.
             counts : array or string
-                1_dimensional array of value counts for categories.
-            color : string (some sort of color code), default=style.style_hex_mid[0]
-                bar color.
+                1-dimensional array of value counts for categories.
+            color : str (some sort of color code), default=style.style_grey
+                Bar color.
             x_labels : list, default=None
-                custom x_axis text labels.
+                Custom x_axis text labels.
             x_tick_wrap : bool, default=False
-                wrap x_axis tick labels.
+                Wrap x_axis tick labels.
             label_rotate : float or int, default=0
-                degrees by which the xtick labels are rotated.
-            y_units : string, default='f'
-                determines units of y_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
+                Number of degrees to rotate the x-tick labels.
+            y_units : str, default='f'
+                Determines unit of measurement for y-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             alpha : float, default=0.8
-                Controlstransparency of bars. accepts value between 0.0 and 1.0.
+                Controls transparency of bars. Accepts value between 0.0 and 1.0.
             ax : axes object, default=None
-                axis on which to place visual.
+                Axis on which to place visual.
     """
-    # custom labela
+    # custom labels
     labels = x_labels if x_labels is not None else x
 
     # create vertical bar plot.
@@ -52,10 +56,10 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Fa
         alpha=alpha,
     )
 
-    # rotate x_tick labels.
+    # rotate x-tick labels
     plt.xticks(rotation=label_rotate)
 
-    # resize x_axis labels as needed.
+    # dynamically resize x_axis labels
     if len(x) > 10 and len(x) <= 20:
         ax.tick_params(
             axis="x", colors=style.style_grey, labelsize=1.0 * self.chart_scale
@@ -69,6 +73,7 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Fa
             axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_scale
         )
 
+    # wrap long x-tick labels
     if x_tick_wrap and type(labels):
         try:
             x = ["\n".join(textwrap.wrap(i.replace("_", " "), 12)) for i in labels]
@@ -76,7 +81,7 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Fa
         except AttributeError:
             pass
 
-    # format y ticklabels
+    # format y-ticklabels
     ax.set_yticklabels(
         ax.get_yticklabels() * 100 if "p" in y_units else ax.get_yticklabels(),
         rotation=0,
@@ -84,38 +89,43 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Fa
         color=style.style_grey,
     )
 
-    # use label formatter utility function to customize chart labels.
+    # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, y_units=y_units)
 
 def bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f", alpha=0.8, ax=None):
     """
     Documentation:
+
+        ---
         Description:
-            create vertical bar plot.
+            Create horizontal bar plot.
+
+        ---
         Parameters:
             y : array
-                1_dimensional array of values to be plotted on y-axis representing distinct categories.
+                1-dimensional array of values to plot on y-axis representing distinct categories.
             counts : array or string
-                1_dimensional array of value counts for categories.
-            color : string (some sort of color code), default=style.style_grey
-                bar color.
+                1-dimensional array of value counts for categories.
+            color : str (some sort of color code), default=style.style_grey
+                Bar color.
             label_rotate : float or int, default=45
-                degrees by which the xtick labels are rotated.
-            x_units : string, default='f'
-                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
+                Number of degrees to rotate the x-tick labels.
+            x_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 's' displays string. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
                 decimal places.
             alpha : float, default=0.8
-                control transparency of bars. accepts value between 0.0 and 1.0.
+                Controls transparency of bars. Accepts value between 0.0 and 1.0.
             ax : axes object, default=None
-                axis on which to place visual.
+                Axis on which to place visual.
     """
-    # plot horizontal bar plot.
+    # plot horizontal bar plot
     plt.barh(y=y, width=counts, color=color, tick_label=y, alpha=alpha)
 
-    # rotate x_tick labels.
+    # rotate x-tick labels
     plt.xticks(rotation=label_rotate)
 
+    # customize x-ticklabels
     ax.set_xticklabels(
         ax.get_xticklabels() * 100 if "p" in x_units else ax.get_xticklabels(),
         rotation=0,
@@ -123,34 +133,38 @@ def bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f",
         color=style.style_grey,
     )
 
-    # use label formatter utility function to customize chart labels.
+    # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, x_units=x_units)
 
 def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="viridis", bbox=(1.2,0.9),
-                        legend_labels=None, ax=None):
+                    legend_labels=None, ax=None):
     """
     Documentation:
+
+        ---
         Description:
-            create vertical bar plot.
+            create horizontal bar plot.
+
+        ---
         Parameters:
             df : Pandas DataFrame
-                1_dimensional array of values to be plotted on y-axis representing distinct categories.
+                1-dimensional array of values to plot on y-axis representing distinct categories.
             label_rotate : float or int, default=45
-                degrees by which the xtick labels are rotated.
-            x_units : string, default='f'
-                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
-                decimal places.
+                Number of degrees to rotate the x-tick labels.
+            x_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 's' displays string. 'f'
+                displays float. 'p' displays percentages, 'd' displays dollars. Repeat character
+                (e.g 'ff' or 'ddd') for additional decimal places.
             alpha : float, default=0.8
-                control transparency of bars. accepts value between 0.0 and 1.0.
-            color_map : string specifying built-in matplotlib colormap, default="viridis"
-                colormap from which to draw plot colors.
+                Controls transparency of bars. Accepts value between 0.0 and 1.0.
+            color_map : str specifying built-in matplotlib colormap, default="viridis"
+                Color map applied to plots.
             bbox : tuple of floats, default=(1.2, 0.9)
-                coordinates for determining legend position.
+                Coordinates for determining legend position.
             legend_labels : list, default=None
-                custom legend labels.
+                Custom legend labels.
             ax : axes object, default=None
-                axis on which to place visual.
+                Axis object for the visualization.
     """
 
     # define class label count and bar color list
@@ -162,6 +176,7 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
 
     # plot stacked bars
     for class_label, color in zip(np.arange(len(y)), color_list):
+        # first category
         if class_label == 0:
             plt.barh(
                 y=category_levels,
@@ -169,7 +184,7 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
                 color=color,
                 alpha=alpha,
             )
-        # elif class_label == 1:
+        # stack all additional categories on previous categories
         else:
             plt.barh(
                 y=category_levels,
@@ -197,7 +212,7 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
     for ix, i in enumerate(legend_labels):
         label_color[i] = color_list[ix]
 
-    # create patches
+    # create legend Patches
     patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
     # draw legend
@@ -214,7 +229,7 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
     for text in leg.get_texts():
         plt.setp(text, color="grey")
 
-    # use label formatter utility function to customize chart labels.
+    # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, x_units=x_units)
 
     # overwrite y-axis labels with category labels
@@ -223,7 +238,7 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
     except ValueError:
         columns = df.columns
 
-    #  dynamically size y-labels
+    # dynamically size y-labels
     if 7 < len(category_levels) <= 10:
         ax.tick_params(axis="y", colors=style.style_grey, labelsize=0.9 * self.chart_scale)
     elif 10 < len(category_levels) <= 20:
@@ -233,7 +248,7 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
 
     ax.tick_params(axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_scale)
 
-    # custom x_tick labels.
+    # wrap long y-tick labels
     plt.yticks(
         category_levels,
         [
@@ -246,34 +261,38 @@ def box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="
                         suppress_outliers=False, ax=None):
     """
     Documentation:
+
+        ---
         Description:
-            create vertical box plots. useful for evaluated a number target on the y_axis
-            vs. several different category segments on the x_axis
+            Create vertical box plots. Useful for evaluating a numeric variable on the y-axis
+            versus several different category segments on the x-axis.
+
+        ---
         Parameters:
-            x : string
-                name of independent variable in dataframe. represents a category.
-            y : string
-                name of number target variable.
+            x : str
+                Name of categorical variable.
+            y : str
+                Name of numeric variable.
             data : Pandas DataFrame
-                Pandas DataFrame including both indpedent variable and target variable.
-            color : string
-                determines color of box plot figures. ideally this object is a color palette,
+                Pandas DataFrame including both x and y data.
+            color : str
+                Determines color of box plot figures. Ideally this object is a color palette,
                 which can be a default seaborn palette, a custom seaborn palette, or a custom
                 matplotlib cmap.
             label_rotate : float or int, default=45
-                degrees by which the xtick labels are rotated.
-            y_units : string, default='f'
-                determines units of y_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
-                decimal places.
-            color_map : string specifying built-in matplotlib colormap, default="viridis"
-                colormap from which to draw plot colors.
+                Number of degrees to rotate the x-tick labels.
+            y_units : str, default='f'
+                Determines unit of measurement for y-axis tick labels. 's' displays string. 'f'
+                displays float. 'p' displays percentages, 'd' displays dollars. Repeat character
+                (e.g 'ff' or 'ddd') for additional decimal places.
+            color_map : str specifying built-in matplotlib colormap, default="viridis"
+                Color map applied to plots.
             alpha : float, default=0.8
-                Controlstransparency of objects. accepts value between 0.0 and 1.0.
+                Controls transparency of objects. Accepts value between 0.0 and 1.0.
             suppress_outliers : boolean, default=False
-                Controlsremoval of outliers from box/whisker plots
+                Controls removal of outliers from box/whisker plots.
             ax : axes object, default=None
-                axis on which to place visual.
+                Axis object for the visualization.
     """
     # create vertical box plot.
     g = sns.boxplot(
@@ -288,18 +307,10 @@ def box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="
         ax=ax,
     ).set(xlabel=None, ylabel=None)
 
-    # # resize x_axis labels as needed.
-    # unique = np.unique(data[x])
-    # if len(unique) > 10 and len(unique) <= 20:
-    #     ax.tick_params(axis="x", labelsize=0.9 * self.chart_scale)
-    # elif len(unique) > 20:
-    #     ax.tick_params(axis="x", labelsize=0.9 * self.chart_scale)
-
     # tick label font size
     ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_scale)
 
-
-    # resize x_axis labels as needed.
+    # resize x-axis labels as needed
     unique = np.unique(data[x])
     if len(unique) > 10 and len(unique) <= 20:
         ax.tick_params(
@@ -314,53 +325,59 @@ def box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="
             axis="x", colors=style.style_grey, labelsize=1.2 * self.chart_scale
         )
 
-    # resize y_axis
+    # resize y-axis
     ax.tick_params(axis="y", labelsize=1.2 * self.chart_scale)
 
     # fade box plot figures by reducing alpha.
     plt.setp(ax.artists, alpha=alpha)
 
-    # rotate x_tick labels.
+    # rotate x-tick labels
     plt.xticks(rotation=label_rotate)
     ax.yaxis.set_visible(True)
 
-    # use label formatter utility function to customize chart labels.
+    # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, y_units=y_units)
 
 def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05, 1), color_map="viridis",
                         suppress_outliers=False, alpha=0.8, legend_labels=None, ax=None):
     """
     Documentation:
+
+        ---
         Description:
             create horizontal box plots. useful for evaluating a object target on the y_axis
             vs. a number independent variable on the x_axis.
+
+        ---
         Parameters:
-            x : string
-                name of independent variable in dataframe. represents a category.
-            y : string
-                name of number target variable.
+            x : str
+                Name of categorical variable.
+            y : str
+                Name of numeric variable.
             data : Pandas DataFrame
-                Pandas DataFrame including both indpedent variable and target variable.
-            color : string (some sort of color code), default=style.style_hex_mid
-                determines color of box plot figures. ideally this object is a color palette,
+                Pandas DataFrame including both x and y data.
+            color : str (some sort of color code), default=style.style_grey
+                Determines color of box plot figures. Ideally this object is a color palette,
                 which can be a default seaborn palette, a custom seaborn palette, or a custom
                 matplotlib cmap.
-            x_units : string, default='f'
-                determines units of x_axis tick labels. 's' displays string. 'f' displays float. 'p' displays
-                percentages, 'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional
-                decimal places.
+            x_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 's' displays string. 'f' displays
+                float. 'p' displays percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd')
+                for additional decimal places.
             bbox : tuple of floats, default=(1.05, 1.0)
-                coordinates for determining legend position.
-            color_map : string specifying built-in matplotlib colormap, default="viridis"
-                colormap from which to draw plot colors.
+                Coordinates for determining legend position.
+            color_map : str specifying built-in matplotlib colormap, default="viridis"
+                Color map applied to plots.
             suppress_outliers : boolean, default=False
-                Controlsremoval of outliers from box/whisker plots
+                Controls removal of outliers from box/whisker plots
             alpha : float, default=0.8
-                Controlstransparency of bars. accepts value between 0.0 and 1.0.
+                Controls transparency of bars. Accepts value between 0.0 and 1.0.
+            legend_labels : list, default=None
+                Custom legend labels.
             ax : axes object, default=None
-                axis on which to place visual.
+                Axis object for the visualization.
     """
-    # create horizontal box plot.
+    # create horizontal box plot
     g = sns.boxplot(
         x=x,
         y=y,
@@ -374,17 +391,18 @@ def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05
         ax=ax,
     ).set(xlabel=None, ylabel=None)
 
-    # fade box plot figures by reducing alpha.
+    # fade box plot figures by reducing alpha
     plt.setp(ax.artists, alpha=alpha)
     ax.yaxis.set_visible(False)
 
     # tick label font size
     ax.tick_params(axis="both", colors=style.style_grey, labelsize=1.2 * self.chart_scale)
 
-    # use label formatter utility function to customize chart labels.
+    # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, x_units=x_units)
 
-    # legend placement
+    ## custom legend
+    # use legend labels if provided, otherwise use unique values in y column
     if legend_labels is None:
         legend_labels = np.unique(data[y].values)
     else:
@@ -397,7 +415,7 @@ def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05
     for ix, i in enumerate(legend_labels):
         label_color[i] = color_list[ix]
 
-    # create patches
+    # create legend Patches
     patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
     # draw legend
@@ -416,9 +434,27 @@ def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05
 
 def tree_map(self, counts, labels, colors, alpha=0.8, ax=None):
     """
+    Documentation:
 
+        ---
+        Description:
+            Create treemap to visualize relative number of occurrences of each category in
+            a categorical column.
+
+        ---
+        Parameters:
+            counts : list or array
+                List of counts for each category.
+            labels : list or array
+                Labels for each category.
+            colors : list or array
+                List of color codes to apply to each category.
+            alpha : float, default=0.8
+                Controls transparency of bars. Accepts value between 0.0 and 1.0.
+            ax : axes object, default=None
+                Axis object for the visualization.
     """
-
+    # draw treemap plot
     squarify.plot(
         sizes=counts,
         label=labels,
@@ -427,7 +463,6 @@ def tree_map(self, counts, labels, colors, alpha=0.8, ax=None):
         text_kwargs={
             "fontsize" : 1.2 * self.chart_scale,
             "color" : "black",
-            # 'weight' : 'bold',
             },
         ax=ax,
     )

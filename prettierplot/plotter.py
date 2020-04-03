@@ -10,13 +10,14 @@ import prettierplot.util as util
 class PrettierPlot:
     """
     Documentation:
+
+        ---
         Description:
-            PrettierPlot creates high_quality data visualizations quickly and easily.
-            initialization of this class creates a plotting object of a chosen size and
-            orientation. once the figure is initialized, the method make_canvas can be
-            called to create the figure axis or chosen number of axes. multiple axes can
-            be plotted on a single figure, or the position variable can be utilized to
-            create a subplot arrangement.
+            PrettierPlot creates high_-quality data visualizations quickly and easily.
+            Initialization of this class creates a plotting object of a chosen size and
+            shape. Once the figure is initialized, the method make_canvas should be called
+            to add an axis to the plotting object. Multiple axes can be plotted on a single
+            figure, or the position variable can be utilized to create a subplot arrangement.
     """
 
     from .cat import (
@@ -27,14 +28,13 @@ class PrettierPlot:
         stacked_bar_h,
         tree_map,
     )
-    from .data import titanic
+    from .data import titanic, attrition, housing
     from .eval import (
         prob_plot,
         corr_heatmap,
         corr_heatmap_target,
         roc_curve_plot,
         decision_region,
-        # residual_plot,
     )
     from .facet import (
         facet_cat,
@@ -55,23 +55,30 @@ class PrettierPlot:
         hist,
     )
 
-    # foundation
     def __init__(self, chart_scale=15, plot_orientation=None):
         """
         Documentation:
+            ---
             Description:
-                initialize PrettierPlot and dynamically set chart size.
+                Initialize PrettierPlot and dynamically set chart size and shap.
+
+            ---
             Parameters:
                 chart_scale : float or int, default=15
-                    chart proportionality control. determines relative size of figure size, axis labels,
-                    chart title, tick labels, tick marks.
-                plot_orientation : string, default=None
-                    default value produces a plot that is wider than it is tall. specifying 'tall' will
-                    produce a taller, less wide plot. 'square' produces a square plot. 'wide' produces a
-                    plot that is much wide than it is tall.
+                    Chart proportionality control. Determines relative size of figure size, axis labels,
+                    chart title, tick labels, tick marks, among other things.
+                plot_orientation : str, default=None
+                    Default value produces a plot that is twice as wide as it is tall. Additional plot shapes
+                    can be specified by passing certain strings. Options include:
+                    - 'tall' - plot that is taller than it is wide
+                    - 'square' - plot that is as tall as it is wide
+                    - 'wide_narrow' - plot that is much wider than it is tall
+                    - 'wide_standard' - plot that is wider than it is tall
         """
         self.chart_scale = chart_scale
         self.plot_orientation = plot_orientation
+
+        # force white plot facecolor
         self.fig = plt.figure(facecolor="white")
 
         # set graphic style
@@ -101,43 +108,44 @@ class PrettierPlot:
                     ncols=None, index=None, sharex=None, sharey=None, title_scale=1.0):
         """
         Documentation:
+            ---
             Description:
-                create axes object. add descriptive attributes such as titles and axis labels,
-                set font size and font color. remove grid. remove top and right spine.
+                Create axes object. Adds descriptive attributes such as titles and axis labels,
+                sets font size and font color. Removes grid. Removes top and right spine.
+
+            ---
             Parameters:
-                title : string, default='' (blank)
-                    the title for the chart.
-                x_label : string, default='' (blank)
-                    x_axis label.
+                title : str, default="" (blank)
+                    The title for the chart.
+                x_label : str, default="" (blank)
+                    x-axis label.
                 x_shift : float, default=0.8
-                    Controlsposition of x_axis label. higher values move label right along axis.
-                    intent is to align with left of axis.
-                y_label : string, default='' (blank)
-                    y_axis label.
+                    Controls position of x-axis label. Higher values move label right along axis.
+                    Intent is to align with left side of x-axis.
+                y_label : str, default="" (blank)
+                    y-axis label.
                 y_shift : float, default=0.8
-                    Controlsposition of y_axis label. higher values move label higher along axis.
-                    intent is to align with top of axis.
+                    Controls position of y-axis label. Higher values move label higher along axis.
+                    Intent is to align with top of y-axis.
                 position : int (nrows, ncols, index), default=111
-                    determine subplot position of plot.
+                    Determine subplot position of plot.
                 nrows : int, default=None
-                    number of rows in subplot grid.
+                    Number of rows in subplot grid.
                 ncols : int, default=None
-                    number of columns in subplot grid.
+                    Number of columns in subplot grid.
+                index : int, default=None
+                    Axis position on subplot grid.
                 sharex : bool or none, default=None
-                    conditional controlling whether to share x_axis across all subplots in a column.
+                    Conditional controlling whether to share x-axis across all subplots in a column.
                 sharey : bool or none, default=None
-                    conditional controlling whether to share y_axis across all subplots in a row.
+                    Conditional controlling whether to share y-axis across all subplots in a row.
                 title_scale : float, default=1.0
                     Controls the scaling up (higher value) and scaling down (lower value) of the size of
-                    the main chart title, the x_axis title and the y_axis title.
+                    the main chart title, the x-axis title and the y-axis title.
             returns
                 ax : axes object
-                    contain figure elements
+                    Axes object containing visual elements
         """
-        # # set graphic style
-        # plt.rcParams['figure.facecolor'] = 'white'
-        # sns.set(rc = style.rc_grey)
-
         # add subplot
         if index is not None:
             ax = self.fig.add_subplot(nrows, ncols, index, sharex=sharex, sharey=sharey)
@@ -145,8 +153,7 @@ class PrettierPlot:
             ax = self.fig.add_subplot(position)
 
         ## add title
-        # dynamically determine font size based on string length
-        # scale by title_scale
+        # dynamically determine font size based on string length and scale by title_scale
         if len(title) >= 45:
             font_adjust = 1.0 * title_scale
         elif len(title) >= 30 and len(title) < 45:

@@ -6,46 +6,47 @@ import matplotlib.colors
 def color_gen(name="viridis", num=2):
     """
     Documentation:
+
+        ---
         Description:
-            generates a list of hex color codes of a specified length from a specified
-             color map.
-        parameters
-            name: string, default="viridis"
-                name of built_in colormap
+            Generates a list of hex color codes of a specified length from a specified
+            color map.
+
+        Parameters:
+            name: str, default="viridis"
+                Name of built-in colormap
             num : int, default=2
-                an integer specifying the number of entries desired in the lookup table.
+                An integer specifying the number of colors to retrieve from colormap.
+
+        ---
         Returns:
             color_list : list
-                list containing specified number of hex codes.
+                List containing specified number of hex codes.
     """
+    # return cmap
     cmap = matplotlib.cm.get_cmap(name=name, lut=num)
 
+    # build color list
     color_list = []
     for i in range(cmap.N):
         rgb = cmap(i)[:3]
         color_list.append(matplotlib.colors.rgb2hex(rgb))
     return color_list
 
-
+# general line style sequence
 style_line_style = ["-", "--", "-.", ":","-", "--", "-.", ":","-", "--", "-.", ":"]
 
+# general marker style sequence
 style_markers = ("s", "o", "v", "x", "^")
 
+# general colors
 style_white = (255 / 255, 255 / 255, 255 / 255)
 style_grey = (105 / 255, 105 / 255, 105 / 255)
 style_blue = (20 / 255, 73 / 255, 187 / 255)
 style_green = (2 / 255, 226 / 255, 24 / 255)
 style_orange = (255 / 255, 115 / 255, 1 / 255)
 
-
-def gen_cmap(n_colors, color_list):
-    cmap = matplotlib.colors.LinearSegmentedColormap.from_list("", color_list)
-    matplotlib.cm.register_cmap("mycolormap", cmap)
-    cpal = sns.color_palette("mycolormap", n_colors=n_colors, desat=1.0)
-    return cpal
-
-
-# rc parameters
+# rc parameters applied to all prettierplot visualizations
 rc_grey = {
     "axes.titlesize": 50.0,
     "axes.labelsize": 40.0,  # axis title font size

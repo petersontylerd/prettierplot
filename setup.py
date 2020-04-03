@@ -1,8 +1,9 @@
 import setuptools
 
+# with open("README.md") as f:
+#     long_description = f.read()
 
-with open("README.md") as f:
-    long_description = f.read()
+long_description = "prettierplot is a Python library that makes it easy to create high-quality, polished data visualizations with minimal code."
 
 description = "Quickly create prettier plots"
 distname = "prettierplot"
@@ -15,7 +16,7 @@ project_urls = {
     "source code": "https://github.com/petersontylerd/prettierplot",
 }
 url = "https://github.com/petersontylerd/prettierplot"
-version = "0.0.34"
+version = "0.1.0"
 
 
 def setup_package():

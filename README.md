@@ -1,4 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/prettierplot.svg)](https://badge.fury.io/py/prettierplot)
+
 # prettierplot
 
-Skip the tedium of fine-tuning matplotlib and seaborn graphics. prettierplot makes it easy to create high-quality, customizable data visualizations with drastically fewer lines of code. 
-
+<i>"prettierplot is a Python library that makes it easy to create high-quality, polished data visualizations with minimal code."</i>

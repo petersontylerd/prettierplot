@@ -18,55 +18,59 @@ def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ti
                         x_rotate=None, ax=None):
     """
     Documentation:
+
+        ---
         Description:
-            create 2_dimensional scatter plot.
+            Create 2-dimensional scatter plot.
+
+        ---
         Parameters:
             x : array or string
-                either 1_dimensional array of values or a column name in a Pandas DataFrame.
+                Either 1-dimensional array of values or a column name in a Pandas DataFrame.
             y : array or string
-                either 1_dimensional array of values or a column name in a Pandas DataFrame.
+                Either 1-dimensional array of values or a column name in a Pandas DataFrame.
             df : Pandas DataFrame, default=None
-                dataset containing data to be plotted. can be any size - plotted columns will be
-                chosen by columns names specified in x, y.
-            x_units : string, default='f'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+                Pandas DataFrame containing data to plot. Can be any size - plotted columns will be
+                chosen by columns names specified in x and y parameters.
+            x_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p' displays
+                percentages, d' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
             x_ticks : array, default=None
-                specify custom x_tick labels.
-            y_units : string, default='f'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+                Custom x-tick labels.
+            y_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p' displays
+                percentages, d' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
             y_ticks : array, default=None
-                specify custom y_tick labels.
+                Custom y-tick labels.
             plot_buffer : bool, default=True
-                switch for determining whether dynamic plot buffer function is executed.
+                Controls whether dynamic plot buffer function is executed.
             size : int or float, default=5
-                determines scatter dot size.
+                Size of scattered dots.
             axis_limits : bool, default=True
-                switch for determining whether dynamic axis limit setting function is executed.
-            color : string (color code of some sort), default=style.style_grey
-                determine color of scatter dots
-            facecolor : string (color code of some sort), default='w'
-                determine face color of scatter dots.
+                Controls whether dynamic axis limit setting function is executed.
+            color : str (color code of some sort), default=style.style_grey
+                Color of scattered dots
+            facecolor : str (color code of some sort), default='w'
+                Face color of scattered dots.
             alpha : float, default=0.8
-                Controlstransparency of objects. accepts value between 0.0 and 1.0.
+                Controls transparency of objects. Accepts value between 0.0 and 1.0.
             x_rotate : int, default=None
-                rotates x_axis tick mark labels x degrees.
+                Rotates x-axis tick mark labels x degrees.
             ax : axes object, default=None
-                axis on which to place visual.
+                Axis object for the visualization.
     """
-    # if a Pandas DataFrame is passed to function, create x, y arrays using columns names passed into function.
+    # if a Pandas DataFrame is passed to function, create x and y arrays using columns names passed into function
     if df is not None:
         x = df[x].values.reshape(-1, 1)
         y = df[y].values.reshape(-1, 1)
-    # else reshape arrays.
+    # else reshape arrays
     else:
         x = x.reshape(-1, 1)
         y = y.reshape(-1, 1)
 
-    # generate color
-
-    # plot 2_d scatter.
+    # plot 2-dimensional scatter
     plt.scatter(
         x=x,
         y=y * 100 if "p" in y_units else y,
@@ -77,19 +81,20 @@ def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ti
         linewidth=0.167 * self.chart_scale,
     )
 
-    # dynamically set axis lower / upper limits.
+    # optionally set axis lower / upper limits
     if axis_limits:
         x_min, x_max, y_min, y_max = util.util_set_axes(x=x, y=y)
         plt.axis([x_min, x_max, y_min, y_max])
 
-    # vreate smaller buffer around plot area to prevent cutting off elements.
+    # optionally create smaller buffer around plot area to prevent cutting off elements
     if plot_buffer:
         util.util_plot_buffer(ax=ax, x=0.02, y=0.02)
 
-    # tick label control
+    # optionally creates custom x-tick labels
     if x_ticks is not None:
         ax.set_xticks(x_ticks)
 
+    # optionally creates custom y-tick labels
     if y_ticks is not None:
         ax.set_yticks(y_ticks)
 
@@ -116,70 +121,76 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
                         bbox=(1.2, 0.9), color_map="viridis", alpha=0.8, x_rotate=None, ax=None):
     """
     Documentation:
+
+        ---
         Description:
-            create 2_dimensional scatter plot with a third dimension represented as a color hue in the
+            Create 2-dimensional scatter plot with a third dimension represented as a color hue in the
             scatter dots.
+
+        ---
         Parameters:
             x : array or string
-                either 1_dimensional array of values or a column name in a Pandas DataFrame.
+                Either 1-dimensional array of values or a column name in a Pandas DataFrame.
             y : array or string
-                either 1_dimensional array of values or a column name in a Pandas DataFrame.
+                Either 1-dimensional array of values or a column name in a Pandas DataFrame.
             target : array or string
-                either 1_dimensional array of values or a column name in a Pandas DataFrame.
+                Either 1-dimensional array of values or a column name in a Pandas DataFrame.
             label : list
-                list of labels describing hue.
+                Labels corresponding to color hue.
             df : Pandas DataFrame, default=None
-                dataset containing data to be plotted. can be any size - plotted columns will be
-                chosen by columns names specified in x, y.
-            x_units : string, default='d'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+                Pandas DataFrame containing data to plot. Can be any size - plotted columns will be
+                chosen by columns names specified in x and y parameters.
+            x_units : str, default='d'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p' displays
+                percentages, d' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
             x_ticks : array, default=None
-                specify custom x_tick labels.
-            y_units : string, default='d'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+                Custom x-tick labels.
+            y_units : str, default='d'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p' displays
+                percentages, d' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
             y_ticks : array, default=None
-                specify custom y_tick labels.
+                Custom y-tick labels.
             plot_buffer : bool, default=True
-                switch for determining whether dynamic plot buffer function is executed.
+                Controls whether dynamic plot buffer function is executed.
             size : int or float, default=10
-                determines scatter dot size.
+                Size of scattered dots.
             axis_limits : bool, default=True
-                switch for determining whether dynamic axis limit setting function is executed.
-            color : string (color code of some sort), default=style.style_grey
-                determine color of scatter dots.
-            facecolor : string (color code of some sort), default='w'
-                determine face color of scatter dots.
+                Controls whether dynamic axis limit setting function is executed.
+            color : str (color code of some sort), default=style.style_grey
+                Color of scattered dots
+            facecolor : str (color code of some sort), default='w'
+                Face color of scattered dots
             bbox : tuple of floats, default=(1.2, 0.9)
-                coordinates for determining legend position.
-            color_map : string specifying built-in matplotlib colormap, default="viridis"
-                colormap from which to draw plot colors.
+                Coordinates for determining legend position.
+            color_map : str specifying built-in matplotlib colormap, default="viridis"
+                Color map applied to plots.
             alpha : float, default=0.8
-                Controlstransparency of objects. accepts value between 0.0 and 1.0.
+                Controls transparency of objects. Accepts value between 0.0 and 1.0.
             x_rotate : int, default=None
-                rotates x_axis tick mark labels x degrees.
+                Rotates x-axis tick mark labels x degrees.
             ax : axes object, default=None
-                axis on which to place visual.
+                Axis object for the visualization.
     """
-    # if a Pandas DataFrame is passed to function, create x, y and target arrays using columns names
-    # passed into function. also create x, which is a matrix containing the x, y and target columns.
+    # if a Pandas DataFrame is passed to function, create x and y and target arrays using columns names
+    # passed into function. Also concatenates columns into single object
     if df is not None:
         x = df[[x, y, target]].values
         x = df[x].values
         y = df[y].values
         target = df[target].values
-    # concatenate the x, y and target arrays.
+    # concatenate the x, y and target arrays
     else:
         x = np.c_[x, y, target]
 
-    # unique target values.
+    # unique target values
     target_ids = np.unique(x[:, 2])
 
     # generate color list
     color_list = style.color_gen(name=color_map, num=len(target_ids))
 
-    # loop through sets of target values, labels and colors to create 2_d scatter with hue.
+    # loop through sets of target values, labels and colors to create 2_d scatter with hue
     for target_id, target_name, color in zip(target_ids, label, color_list):
         plt.scatter(
             x=x[x[:, 2] == target_id][:, 0],
@@ -192,7 +203,7 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
             linewidth=0.234 * self.chart_scale,
         )
 
-    # add legend to figure.
+    # add legend to figure
     if label is not None:
         plt.legend(
             loc="upper right",
@@ -202,19 +213,20 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
             fontsize=1.1 * self.chart_scale,
         )
 
-    # dynamically set axis lower / upper limits.
+    # optionally set axis lower / upper limits
     if axis_limits:
         x_min, x_max, y_min, y_max = util.util_set_axes(x=x, y=y)
         plt.axis([x_min, x_max, y_min, y_max])
 
-    # create smaller buffer around plot area to prevent cutting off elements.
+    # optionally create smaller buffer around plot area to prevent cutting off elements
     if plot_buffer:
         util.util_plot_buffer(ax=ax, x=0.02, y=0.02)
 
-    # tick label control
+    # optionally creates custom x-tick labels
     if x_ticks is not None:
         ax.set_xticks(x_ticks)
 
+    # optionally creates custom y-tick labels
     if y_ticks is not None:
         ax.set_yticks(y_ticks)
 
@@ -240,36 +252,44 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
                     bbox=(1.2, 0.9), legend_labels=None, color_map="viridis", ax=None):
     """
     Documentation:
+
+        ---
         Description:
-            creates distribution plot for number variables, showing counts of a single
-            variable. also overlays a kernel density estimation curve.
+            Creates distribution plot for numeric variable. Optionally overlays a kernel density
+            estimation curve.
+
+        ---
         Parameters:
             x : array
-                data to be plotted.
-            color : string (some sort of color code)
-                determines color of bars, kde lines.
-            x_units : string, default='f'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            y_units : string, default='f'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+                Data for plotting.
+            color : str (some sort of color code)
+                Color of bars and KDE lines.
+            x_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p' displays
+                percentages, d' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
+            y_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
             fit : random variabe object, default=None
-                allows for the addition of another curve. utilizing 'norm' overlays a normal distribution
-                over the distribution bar chart. useful for seeing how well, or not, the distribution tracks
-                with a normal distrbution.
+                Allows for the addition of another curve. utilizing 'norm' overlays a normal distribution
+                over the distribution bar chart. Useful for seeing how well, or not, the distribution tracks
+                with a specified distrbution.
             kde : boolean, default=False
-                plot kernel density over plot.
+                Controls whether kernel density is plotted over distribution.
             x_rotate : int, default=None
-                rotates x_axis tick mark labels x degrees.
+                Rotates x_axis tick mark labels x degrees.
+            alpha : float, default=0.8
+                Controls transparency of objects. Accepts value between 0.0 and 1.0.
             bbox : tuple of floats, default=(1.2, 0.9)
-                coordinates for determining legend position.
+                Coordinates for determining legend position.
             legend_labels : list, default=None
-                custom legend labels.
-            color_map : string specifying built-in matplotlib colormap, default="viridis"
-                colormap from which to draw plot colors.
+                Custom legend labels.
+            color_map : str specifying built-in matplotlib colormap, default="viridis"
+                Color map applied to plots.
             ax : axes object, default=None
-                axis on which to place visual.
+                Axis object for the visualization.
     """
     # create distribution plot with an optional fit curve
     g = sns.distplot(
@@ -306,7 +326,6 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
         ax=ax, x_units=x_units, y_units=y_units, x_rotate=x_rotate
     )
 
-
     ## create custom legend
     if legend_labels is None:
         legend_labels = legend_labels
@@ -320,7 +339,7 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
         for ix, i in enumerate(legend_labels):
             label_color[i] = color_list[ix]
 
-        # create patches
+        # create legend Patches
         patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
         # draw legend
@@ -337,30 +356,36 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
         for text in leg.get_texts():
             plt.setp(text, color="grey")
 
-def kde_plot(self, x, color, y_units="f", x_units="f", shade=False, line_width=0.25, bw=1.0, ax=None):
+def kde_plot(self, x, color, x_units="f", y_units="f", shade=False, line_width=0.25, bw=1.0, ax=None):
     """
     Documentation:
+
+        ---
         Description:
-            create kernel density curve for a feature.
+            Create kernel density curve for a feature.
+
+        ---
         Parameters:
             x : array
-                data to be plotted.
-            color : string (some sort of color code)
-                determines color of kde lines.
-            x_units : string, default='f'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            y_units : string, default='f'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+                Data for plotting.
+            color : str (some sort of color code)
+                Color of KDE lines.
+            x_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p' displays
+                percentages, d' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
+            y_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p' displays
+                percentages, 'd' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
             shade : boolean, default=True
-                shade area under KDe curve
-            line_width : float or int, default= 0.5
+                Controls whether area under KDE curve is shaded.
+            line_width : float or int, default= 0.25
                 Controlsthickness of kde lines
             bw : float, default=1.0
-                scaling factor for the KDE curve
+                Scaling factor for the KDE curve. Smaller values create more detailed curves
             ax : axes object, default=None
-                axis on which to place visual.
+                Axis object for the visualization.
     """
     # create kernel density estimation line
     g = sns.kdeplot(
@@ -393,42 +418,46 @@ def reg_plot(self, x, y, data, dot_color=style.style_grey, dot_size=2.0, line_co
             x_jitter=None, x_units="f", y_units="f", x_rotate=None, alpha=0.3, ax=None):
     """
     Documentation:
+
+        ---
         Description:
             create scatter plot with regression line.
+
+        ---
         Parameters:
-            x : string
-                name of independent variable in dataframe. represents a category
-            y : string
-                name of number target variable.
+            x : str
+                Name of independent variable in dataframe.
+            y : str
+                Name of numeric target variable.
             data : Pandas DataFrame
-                Pandas DataFrame including both indepedent variable and target variable.
-            dot_color : string
-                determines color of dots.
+                Pandas DataFrame including both x and y columns.
+            dot_color : str
+                Color of scattered dots.
             dot_size : float or int
-                determines size of dots
-            line_color : string
-                determines color of regression line.
+                Size of scattered dots.
+            line_color : str
+                Regression line color.
             line_width : float or int
-                determines width of regression line.
+                Regression line width.
             x_jitter : float, default=None
-                optional paramter for randomly displacing dots along the x_axis to enable easier visibility
-                of dots.
-            label_rotate : float or int, default=45
-                degrees by which the xtick labels are rotated.
-            x_units : string, default='f'
-                determines units of x_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
-            y_units : string, default='f'
-                determines units of y_axis tick labels. 'f' displays float. 'p' displays percentages,
-                'd' displays dollars. repeat character (e.g 'ff' or 'ddd') for additional decimal places.
+                optional paramter for randomly displacing dots along the x_axis to enable easier
+                visibility of individual dots.
+            x_units : str, default='f'
+                Determines unit of measurement for x-axis tick labels. 'f' displays float. 'p' displays
+                percentages, d' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
+            y_units : str, default='f'
+                Determines unit of measurement for y-axis tick labels. 'f' displays float. 'p' displays
+                percentages, d' displays dollars. Repeat character (e.g 'ff' or 'ddd') for additional
+                decimal places.
             x_rotate : int, default=None
-                rotates x_axis tick mark labels x degrees.
+                Rotates x_axis tick mark labels x degrees.
             alpha : float, default=0.3
-                Controlstransparency of objects. accepts value between 0.0 and 1.0.
+                Controls transparency of objects. Accepts value between 0.0 and 1.0.
             ax : axes object, default=None
-                axis on which to place visual.
+                Axis object for the visualization.
     """
-    # create regression plot.
+    # create regression plot
     g = sns.regplot(
         x=x,
         y=y,
@@ -469,21 +498,25 @@ def reg_plot(self, x, y, data, dot_color=style.style_grey, dot_size=2.0, line_co
 def pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_col=None):
     """
     Documentation:
+
+        ---
         Description:
-            create pair plot that produces a grid of scatter plots for all unique pairs of
-            number features and a series of kde or histogram plots along the diagonal.
+            Create pair plot that produces a grid of scatter plots for all unique pairs of
+            numeric features and a series of KDE plots along the diagonal.
+
+        ---
         Parameters:
             df : Pandas DataFrame
-                Pandas DataFrame containing data of interest.
+                Pandas DataFrame containing data for plotting.
             columns : list, default=None
-                list of strings describing columns in Pandas DataFrame to be visualized.
-            color : string, default=style.style_blue
-                color to serve as high end of gradient when gradient_col is specified.
-            gradient_col : string, default=None
-                introduce third dimension to scatter plots through a color hue that differentiates
-                dots based on the target's value.
-            diag_kind : string, default='auto.
-                type of plot created along diagonal.
+                List of strings describing columns in Pandas DataFrame to be visualized. If None,
+                all columns are visualized.
+            color : str, default=style.style_blue
+                Color applied to KDE along diagonal. Also used as the  high end of gradient if
+                a gradient_col is specified.
+            gradient_col : str, default=None
+                Introduce third dimension to scatter plots through a color hue that differentiates
+                dots based on the category.
     """
     # custom plot formatting settings for this particular chart.
     with plt.rc_context(
@@ -509,10 +542,11 @@ def pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_co
         }
     ):
 
-        # limit to columns of interest if provided
+        # optionally limit to a subset of columns
         if columns is not None:
             df = df[columns]
 
+        # ensure values are numeric to ensure that scattering works
         df = util.number_coerce(df, columns=columns)
 
         # create figure and axes
@@ -525,13 +559,10 @@ def pair_plot_custom(self, df, columns=None, color=style.style_blue, gradient_co
 
         # unpack axes
         for (i, j), ax in np.ndenumerate(axes):
-            # turn of axes on upper triangle
-            # if i < j:
-            #     plt.setp(ax.get_xticklabels(), visible=False)
-            #     plt.setp(ax.get_yticklabels(), visible=False)
             # set diagonal plots as kde plots
             if i == j:
                 sns.kdeplot(df.iloc[:, i], ax=ax, legend=False, shade=True, color=color)
+
             # set lower triangle plots as scatter plots
             else:
                 sns.scatterplot(
@@ -551,29 +582,34 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
                     bbox=(2.0, 1.0), alpha=0.7, color_map="viridis"):
     """
     Documentation:
+
+        ---
         Description:
-            create pair plot that produces a grid of scatter plots for all unique pairs of
-            number features and a series of kde or histogram plots along the diagonal.
+            Create pair plot that produces a grid of scatter plots for all unique pairs of
+            number features and a series of KDE or histogram plots along the diagonal.
+
+        ---
         Parameters:
             df : Pandas DataFrame
                 Pandas DataFrame containing data of interest.
             columns : list, default=None
-                list of strings describing columns in Pandas DataFrame to be visualized.
+                List of strings describing columns in Pandas DataFrame to be visualized. If None,
+                all columns are visualized.
             target : Pandas Series, default=None
-                introduce third dimension to scatter plots through a color hue that differentiates
-                dots based on the target's value.
-            diag_kind : string, default='auto.
-                type of plot created along diagonal.
+                Introduce third dimension to scatter plots through a color hue that differentiates
+                dots based on the category value.
+            diag_kind : str, default='auto.
+                Type of plot created along diagonal.
             drop_na : boolean, default=True
-                drop rows containing null values.
+                Controls whether rows with null values are dropped.
             legend_labels : list, default=None
-                list containing strings of custom labels to display in legend.
+                List containing strings of custom labels to display in legend.
             bbox : tuple of floats, default=None
-                coordinates for determining legend position.
+                Coordinates for determining legend position.
             alpha : float, default=0.7
-                Controlstransparency of objects. accepts value between 0.0 and 1.0.
-            color_map : string specifying built-in matplotlib colormap, default="viridis"
-                colormap from which to draw plot colors.
+                Controls transparency of objects. Accepts value between 0.0 and 1.0.
+            color_map : str specifying built-in matplotlib colormap, default="viridis"
+                Color map applied to plots.
     """
     # custom plot formatting settings for this particular chart.
     with plt.rc_context(
@@ -596,13 +632,11 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
             "axes.grid": False,
         }
     ):
-        # # remove object columns
-        # df = df.select_dtypes(exclude=[object])
-
+        # optionally drop rows with nulls
         if drop_na:
             df = df.dropna()
 
-        # limit to columns of interest if provided
+        # optionally limit to a subset of columns
         if columns is not None:
             df = df[columns]
 
@@ -610,7 +644,7 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
         if target is not None:
             df = df.merge(target, left_index=True, right_index=True)
 
-        # create pair plot.
+        # create pair plot
         g = sns.pairplot(
             data=df if target is None else df.dropna(),
             vars=df.columns
@@ -649,7 +683,7 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
             _ = ax.xaxis.label.set_color(style.style_grey)
             _ = ax.yaxis.label.set_color(style.style_grey)
 
-
+            # wrap long x-tick labels
             plt.xlabel(
                 # 0,
                 [
@@ -658,6 +692,8 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
                 ],
                 # ha="center",
             )
+
+            # wrap long y-tick labels
             plt.ylabel(
                 # 0,
                 [
@@ -667,8 +703,7 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
                 # va="center_baseline",
             )
 
-
-
+        # adjust subplot relative positioning
         plt.subplots_adjust(hspace=0.0, wspace=0.0)
 
         # add custom legend describing hue labels
@@ -689,7 +724,7 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
             for ix, i in enumerate(legend_labels):
                 label_color[i] = color_list[ix]
 
-            # create patches
+            # create legend Patches
             patches = [Patch(color=v, label=k, alpha=alpha) for k, v in label_color.items()]
 
             # draw legend
@@ -709,21 +744,22 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
 def hist(self, x, color, label, alpha=0.8):
     """
     Documentation:
+
+        ---
         Description:
-            create histogram of number variable. simple function capable of easy
-            iteration through several groupings of a number variable that is
-            separated out based on a object label. this results in several overlapping
-            histograms and can reveal differences in distributions.
+            Create histogram of numeric variable.
+
+        ---
         Parameters:
             x : array
-                1_dimensional array of values to be plotted on x_axis.
-            color : string (some sort of color code)
-                determines color of histogram.
-            label : string
-                category value label.
+                1-dimensional array of values to plot on x_axis.
+            color : str (some sort of color code)
+                Histogram color.
+            label : str
+                Legend label.
             alpha : float, default=0.8
-                Controlstransparency of bars. accepts value between 0.0 and 1.0.
+                Controls transparency of bars. Accepts value between 0.0 and 1.0.
     """
-    # create histogram.
+    # create histogram
     plt.hist(x=x, color=color, label=label, alpha=alpha)
 
