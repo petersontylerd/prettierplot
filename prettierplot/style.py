@@ -15,6 +15,7 @@ def color_gen(name="viridis", num=2):
         Parameters:
             name: str, default="viridis"
                 Name of built-in colormap
+                List of available colormaps: https://matplotlib.org/tutorials/colors/colormaps.html
             num : int, default=2
                 An integer specifying the number of colors to retrieve from colormap.
 
