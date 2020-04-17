@@ -46,6 +46,9 @@ def facet_cat(self, df, feature, label_rotate=0, x_units="s", y_units="f", bbox=
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
+
     ixs = np.arange(df.shape[0])
     bar_width = 0.35
 
@@ -171,6 +174,9 @@ def facet_two_cat_bar(self, df, x, y, split, x_units=None, y_units=None, bbox=No
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
+
     # remove nans from x columns
     if filter_nan:
         df = df.dropna(subset=[x])

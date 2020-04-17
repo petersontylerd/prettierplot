@@ -61,6 +61,9 @@ def scatter_2d(self, x, y, df=None, x_units="f", x_ticks=None, y_units="f", y_ti
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
+
     # if a Pandas DataFrame is passed to function, create x and y arrays using columns names passed into function
     if df is not None:
         x = df[x].values.reshape(-1, 1)
@@ -173,6 +176,9 @@ def scatter_2d_hue(self, x, y, target, label, df=None, x_units="f", x_ticks=None
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
+
     # if a Pandas DataFrame is passed to function, create x and y and target arrays using columns names
     # passed into function. Also concatenates columns into single object
     if df is not None:
@@ -291,6 +297,9 @@ def dist_plot(self, x, color, x_units="f", y_units="f", fit=None, kde=False, x_r
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
+
     # create distribution plot with an optional fit curve
     g = sns.distplot(
         a=x,
@@ -387,6 +396,9 @@ def kde_plot(self, x, color, x_units="f", y_units="f", shade=False, line_width=0
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
+
     # create kernel density estimation line
     g = sns.kdeplot(
         data=x,
@@ -457,6 +469,9 @@ def reg_plot(self, x, y, data, dot_color=style.style_grey, dot_size=2.0, line_co
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
+
     # create regression plot
     g = sns.regplot(
         x=x,

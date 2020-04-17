@@ -44,6 +44,9 @@ def bar_v(self, x, counts, color=style.style_grey, x_labels=None, x_tick_wrap=Fa
             ax : axes object, default=None
                 Axis on which to place visual.
     """
+    if ax is None:
+        ax = self.ax
+
     # custom labels
     labels = x_labels if x_labels is not None else x
 
@@ -119,7 +122,10 @@ def bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f",
             ax : axes object, default=None
                 Axis on which to place visual.
     """
+    if ax is None:
+        ax = self.ax
     # plot horizontal bar plot
+
     plt.barh(y=y, width=counts, color=color, tick_label=y, alpha=alpha)
 
     # rotate x-tick labels
@@ -135,6 +141,7 @@ def bar_h(self, y, counts, color=style.style_grey, label_rotate=45, x_units="f",
 
     # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, x_units=x_units)
+
 
 def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="viridis", bbox=(1.2,0.9),
                     legend_labels=None, ax=None):
@@ -166,6 +173,8 @@ def stacked_bar_h(self, df, label_rotate=0, x_units="p", alpha=0.8, color_map="v
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
 
     # define class label count and bar color list
     y = np.arange(len(df.index))
@@ -294,6 +303,9 @@ def box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
+
     # create vertical box plot.
     g = sns.boxplot(
         x=x,
@@ -338,6 +350,7 @@ def box_plot_v(self, x, y, data, color, label_rotate=0, y_units="f", color_map="
     # use label formatter utility function to customize chart labels
     util.util_label_formatter(ax=ax, y_units=y_units)
 
+
 def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05, 1), color_map="viridis",
                         suppress_outliers=False, alpha=0.8, legend_labels=None, ax=None):
     """
@@ -377,7 +390,10 @@ def box_plot_h(self, x, y, data, color=style.style_grey, x_units="f", bbox=(1.05
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
     # create horizontal box plot
+
     g = sns.boxplot(
         x=x,
         y=y,
@@ -454,6 +470,9 @@ def tree_map(self, counts, labels, colors, alpha=0.8, ax=None):
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
+
     # draw treemap plot
     squarify.plot(
         sizes=counts,
