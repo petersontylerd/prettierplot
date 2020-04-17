@@ -1,4 +1,4 @@
-from m prettierplot.plotter import PrettierPlot
+from prettierplot.plotter import PrettierPlot
 from prettierplot import data
 import numpy as np
 
@@ -21,4 +21,3 @@ p.bar_v(
     label_rotate=45,
     x_tick_wrap=True
 )
-

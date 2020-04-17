@@ -78,11 +78,7 @@ class PrettierPlot:
         self.chart_scale = chart_scale
         self.plot_orientation = plot_orientation
 
-        # force white plot facecolor
-        self.fig = plt.figure(facecolor="white")
-
         # set graphic style
-        # plt.rcParams['figure.facecolor'] = 'white'
         sns.set(rc=style.rc_grey)
 
         # dynamically set chart width and height parameters
@@ -101,6 +97,9 @@ class PrettierPlot:
         else:
             chart_width = self.chart_scale
             chart_height = self.chart_scale * 0.5
+
+        # create figure, force white background, and set dimensions
+        self.fig = plt.figure(facecolor="white")
         self.fig.set_figheight(chart_height)
         self.fig.set_figwidth(chart_width)
 
