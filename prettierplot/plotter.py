@@ -195,4 +195,6 @@ class PrettierPlot:
             horizontalalignment="left",
         )
 
+        self.ax = ax
+
         return ax
