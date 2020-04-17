@@ -55,6 +55,9 @@ def line(self, x, y, label=None, df=None, linecolor=style.style_grey, linestyle=
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
+
     # if a Pandas DataFrame is passed to function, create x and y arrays using columns names passed into function
     if df is not None:
         if isinstance(df.index, pd.core.indexes.base.Index):
@@ -184,6 +187,9 @@ def multi_line(self, x, y, label=None, df=None, linecolor=None, linestyle=None, 
             ax : axes object, default=None
                 Axis object for the visualization.
     """
+    if ax is None:
+        ax = self.ax
+
     # if a Pandas DataFrame is passed to function, create x and y arrays using columns names passed into function
     if df is not None:
         if isinstance(df.index, pd.core.indexes.base.Index):
