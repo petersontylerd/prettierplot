@@ -676,7 +676,11 @@ def pair_plot(self, df, columns=None, target=None, diag_kind="auto", legend_labe
                 "marker": "o",
                 "facecolor": style.style_grey if target is None else None,
             },
-            diag_kws={"facecolor": style.style_grey if target is None else None},
+            diag_kws={
+                "facecolor": style.style_grey if target is None else style.style_white,
+                "linewidth": 2,
+                },
+            # diag_kws={"facecolor": style.style_grey if target is None else None},
             palette=None
             if target is None
             else sns.color_palette(

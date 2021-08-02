@@ -24,7 +24,7 @@ def housing():
         Description:
             Load Kaggle Housing Prices training dataset and validation dataset.
     """
-    train = joblib.load(os.path.join(dir, "datasets/housing/train.pkl"))
+    train = joblib.load(os.path.join(dir, "datasets/housing/machine.pkl"))
     test = joblib.load(os.path.join(dir, "datasets/housing/test.pkl"))
     return train, test
 
@@ -37,7 +37,7 @@ def titanic():
         Description:
             Load Kaggle Titanic Survivorship training dataset and validation dataset.
     """
-    train = joblib.load(os.path.join(dir, "datasets/titanic/train.pkl"))
+    train = joblib.load(os.path.join(dir, "datasets/titanic/machine.pkl"))
     test = joblib.load(os.path.join(dir, "datasets/titanic/test.pkl"))
     return train, test
 
